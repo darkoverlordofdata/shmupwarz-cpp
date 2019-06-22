@@ -1,29 +1,22 @@
 {
   "!": "doran package manager v0.0.5",
-  "name": "startingover",
+  "name": "shmupwarz",
   "template": "c",
   "version": "0.0.1",
   "vala": "0.26",
   "c": "99",
   "cpp": "17",
   "authors": [],
-  "description": "startingover",
+  "description": "shmupwarz",
   "license": "MIT",
   "private": true,
   "dependencies": {},
   "source": "src",
   "files": [
-    "src/ball_object.cpp",
+    "src/entities.cpp",
     "src/game.cpp",
-    "src/game_level.cpp",
-    "src/game_object.cpp",
-    "src/particle_generator.cpp",
-    "src/post_processor.cpp",
-    "src/program.cpp",
-    "src/resource_manager.cpp",
-    "src/shader.cpp",
-    "src/sprite_renderer.cpp",
-    "src/texture.cpp"
+    "src/main.cpp",
+    "src/systems.cpp"
   ],
   "packages": [],
   "includes": [
@@ -41,7 +34,7 @@
   ],
   "options": {
     "VERSION": "0.0.1",
-    "RELEASE_NAME": "startingover"
+    "RELEASE_NAME": "shmupwarz"
   },
   "definitions": [],
   "symbols": [],

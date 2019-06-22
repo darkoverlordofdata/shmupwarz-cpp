@@ -1,83 +1,73 @@
-/*******************************************************************
-** This code is part of Breakout.
-**
-** Breakout is free software: you can redistribute it and/or modify
-** it under the terms of the CC BY 4.0 license as published by
-** Creative Commons, either version 4 of the License, or (at your
-** option) any later version.
-******************************************************************/
 #pragma once
+#include <list>
 #include <vector>
-#include <tuple>
-#define GL3_PROTOTYPES 1
-#include <GLES3/gl3.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_ttf.h>
+#include <cstdio>
+#include <map>
+#include <string>
+#include <iostream>
+#include <ctime>
+#include <chrono>
+#include <list>
+#include <algorithm>
+#include <random>
+#include "components.h"
+#include "entities.h"
+#include "systems.h"
 
-#include "resource_manager.h"
-#include "sprite_renderer.h"
-#include "game_object.h"
-#include "ball_object.h"
-#include "particle_generator.h"
-#include "post_processor.h"
-#include "game_level.h"
-
-// Represents the current state of the game
-enum GameState {
-    GAME_ACTIVE,
-    GAME_MENU,
-    GAME_WIN,
-    GAME_END
+enum {
+    DISPLAY_WIDTH  = 480,
+    DISPLAY_HEIGHT = 320,
+    UPDATE_INTERVAL = 1000/60,
+    HERO_SPEED = 2
 };
 
-// Represents the four possible (collision) directions
-enum Direction {
-    UP,
-    RIGHT,
-    DOWN,
-    LEFT
-};
-// Defines a Collision typedef that represents collision data
-typedef std::tuple<GLboolean, Direction, glm::vec2> Collision; // <collision?, what direction?, difference vector center - closest point>
-
-// Initial size of the player paddle
-const glm::vec2 PLAYER_SIZE(100, 20);
-// Initial velocity of the player paddle
-const GLfloat PLAYER_VELOCITY(500.0f);
-// Initial velocity of the Ball
-const glm::vec2 INITIAL_BALL_VELOCITY(100.0f, -350.0f);
-// Radius of the ball object
-const GLfloat BALL_RADIUS = 12.5f;
-
-// Game holds all game-related state and functionality.
-// Combines all game-related data into a single class for
-// easy access to each of the components and manageability.
-class Game
-{
+class Systems;
+    
+class Game {
+friend class Systems;
 public:
-    // Game state
-    GameState               State;	
-    std::map<int,int>       Keys;
-    // GLboolean               Keys[1024];
-    float                   X;
-    float                   Y;
-    bool                    Touch;
-    bool                    Moving;
-    GLuint                  Width, Height;
-    std::vector<GameLevel>  Levels;
-    GLuint                  Level;
-    bool                    PostProcEnabled;
-
-    // Constructor/Destructor
-    Game(GLuint width, GLuint height);
+    Game(std::string title, int width, int height, SDL_Window* window, SDL_Renderer* renderer);
     ~Game();
-    // Initialize game state (load all shaders/textures/levels)
-    void Init();
-    // GameLoop
-    void ProcessInput(GLfloat dt);
-    void Update(GLfloat dt);
-    void Render();
-    void DoCollisions();
-    // Reset
-    void ResetLevel();
-    void ResetPlayer();
+    void start();
+    void stop();
+    void draw(int fps, SDL_Rect *clip = nullptr);
+    void handleEvents();
+    void update(double delta);
+    void init();
+    void fpsChanged(int fps);
+    void quit();
+    int isRunning();
+    int getKey(int key);
+
+private:
+    int mouseX;
+    int mouseY;
+    int mouseDown = 0;
+    double delta;
+    int width;
+    int height;
+    std::list<Point2d> bullets;
+    std::list<Point2d> enemies1;
+    std::list<Point2d> enemies2;
+    std::list<Point2d> enemies3;
+    std::list<Point2d> explosions;
+    std::list<Point2d> bangs;
+    std::list<Point2d> particles;
+    std::vector<Entity> entities;
+    
+    int running;
+    int fps;
+    std::string title;
+    std::map<int,int> keys;
+    int frameSkip;
+    SDL_Window* window;
+    SDL_Renderer* renderer;
+    SDL_Texture* image;
+    Entity* player;
+    Systems* systems;
 };
 

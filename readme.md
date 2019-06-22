@@ -15,7 +15,7 @@ goals & vision - put the lime in the coconut
     mix of opengl & sdl2 similar to monogame
     run on desktop and emscripten
 
-### step1
+### phase1
 
     replace vala and zerog with c++17. As much as I like vala, valagame must die. I learned about impelemting a monogame style engine using c/cpp.
 
@@ -24,6 +24,11 @@ goals & vision - put the lime in the coconut
         compiles and runs both desktop and emscripten
 
     * replace GLFW & SOIL with SDL2 - done!
-    * replace classes with my doran-xna.framework style classes
+
+### phase2
+
+    remake the classic demo shmupwarz using the bas graphics engine from phase 1
+    
+    base graphics engine: SDL2 + OpenGL
 
 
