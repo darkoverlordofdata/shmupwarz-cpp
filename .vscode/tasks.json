@@ -1,0 +1,62 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "emcc",
+            "args": [
+                "src/ball_object.cpp",
+                "src/game.cpp",
+                "src/game_level.cpp",
+                "src/game_object.cpp",
+                "src/particle_generator.cpp",
+                "src/post_processor.cpp",
+                "src/program.cpp",
+                "src/resource_manager.cpp",
+                "src/shader.cpp",
+                "src/sprite_renderer.cpp",
+                "src/texture.cpp",
+                "-std=c++17",
+                "-I./include",
+                "-O3",
+                "-s", "WASM=1",
+                "-s", "USE_WEBGL2=1",
+                "-s", "USE_SDL=2",
+                "-s", "USE_SDL_IMAGE=2",
+                "-s", "USE_SDL_MIXER=2",
+                "-s", "USE_SDL_TTF=2",
+                "-s", "SDL2_IMAGE_FORMATS=\'[\"png\"]\'",
+                "-o", "docs/index.html",
+                "--preload-file", "levels",
+                "--preload-file", "shaders",
+                "--preload-file", "textures"
+            ],
+
+            "problemMatcher": {
+                "owner": "emcc",
+                "fileLocation": ["relative", "${workspaceFolder}"],
+                "pattern": {
+                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "severity": 4,
+                    "message": 5
+                }
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+
+            },
+            "dependsOn":["prebuild"]
+        },
+        {
+            "label": "prebuild",
+            "type": "shell",
+            "command": "${workspaceFolder}/prebuild",
+            "args": [ "${workspaceFolder}" ],
+            "group": "build"
+        }
+    ]
+}

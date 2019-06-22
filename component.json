@@ -1,0 +1,51 @@
+{
+  "!": "doran package manager v0.0.5",
+  "name": "startingover",
+  "template": "c",
+  "version": "0.0.1",
+  "vala": "0.26",
+  "c": "99",
+  "cpp": "17",
+  "authors": [],
+  "description": "startingover",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {},
+  "source": "src",
+  "files": [
+    "src/ball_object.cpp",
+    "src/game.cpp",
+    "src/game_level.cpp",
+    "src/game_object.cpp",
+    "src/particle_generator.cpp",
+    "src/post_processor.cpp",
+    "src/program.cpp",
+    "src/resource_manager.cpp",
+    "src/shader.cpp",
+    "src/sprite_renderer.cpp",
+    "src/texture.cpp"
+  ],
+  "packages": [],
+  "includes": [
+    "./include",
+    "/usr/include"
+  ],
+  "libraries": [
+    "m",
+    "SDL2",
+    "SDL2_image",
+    "SDL2_mixer",
+    "SDL2_ttf",
+    "GLEW",
+    "GL"
+  ],
+  "options": {
+    "VERSION": "0.0.1",
+    "RELEASE_NAME": "startingover"
+  },
+  "definitions": [],
+  "symbols": [],
+  "copy": "..",
+  "vapidir": "/src/vapis",
+  "console": false
+}
