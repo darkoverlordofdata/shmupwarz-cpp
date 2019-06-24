@@ -16,23 +16,15 @@
     "src/demo.cpp",
     "src/entities.cpp",
     "src/main.cpp",
-    "src/program.cpp",
+    "src/resource_manager.cpp",
+    "src/shader.cpp",
+    "src/sprite_renderer.cpp",
     "src/systems.cpp",
-    "src/engine/ball_object.cpp",
-    "src/engine/game.cpp",
-    "src/engine/game_level.cpp",
-    "src/engine/game_object.cpp",
-    "src/engine/particle_generator.cpp",
-    "src/engine/post_processor.cpp",
-    "src/engine/resource_manager.cpp",
-    "src/engine/shader.cpp",
-    "src/engine/sprite_renderer.cpp",
-    "src/engine/texture.cpp"
+    "src/texture.cpp"
   ],
   "packages": [],
   "includes": [
     "./include",
-    "./include/engine",
     "/usr/include"
   ],
   "libraries": [
