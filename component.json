@@ -13,14 +13,26 @@
   "dependencies": {},
   "source": "src",
   "files": [
+    "src/demo.cpp",
     "src/entities.cpp",
-    "src/game.cpp",
     "src/main.cpp",
-    "src/systems.cpp"
+    "src/program.cpp",
+    "src/systems.cpp",
+    "src/engine/ball_object.cpp",
+    "src/engine/game.cpp",
+    "src/engine/game_level.cpp",
+    "src/engine/game_object.cpp",
+    "src/engine/particle_generator.cpp",
+    "src/engine/post_processor.cpp",
+    "src/engine/resource_manager.cpp",
+    "src/engine/shader.cpp",
+    "src/engine/sprite_renderer.cpp",
+    "src/engine/texture.cpp"
   ],
   "packages": [],
   "includes": [
     "./include",
+    "./include/engine",
     "/usr/include"
   ],
   "libraries": [

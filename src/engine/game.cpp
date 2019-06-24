@@ -50,11 +50,11 @@ void Game::Init()
     #endif
 
     // Load shaders
-    ResourceManager::LoadShader("shaders/sprite.vs", "shaders/sprite.frag", nullptr, "sprite");
-    ResourceManager::LoadShader("shaders/particle.vs", "shaders/particle.frag", nullptr, "particle");
+    ResourceManager::LoadShader("assets/shaders/sprite.vs", "assets/shaders/sprite.frag", nullptr, "sprite");
+    ResourceManager::LoadShader("assets/shaders/particle.vs", "assets/shaders/particle.frag", nullptr, "particle");
     if (PostProcEnabled)
     {
-        ResourceManager::LoadShader("shaders/post_processing.vs", "shaders/post_processing.frag", nullptr, "postprocessing");
+        ResourceManager::LoadShader("assets/shaders/post_processing.vs", "assets/shaders/post_processing.frag", nullptr, "postprocessing");
     }
     // Configure shaders
     glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(this->Width), static_cast<GLfloat>(this->Height), 0.0f, -1.0f, 1.0f);
@@ -64,15 +64,15 @@ void Game::Init()
     ResourceManager::GetShader("particle").SetMatrix4("projection", projection);
     // Load textures
     #ifdef __EMSCRIPTEN__
-    ResourceManager::LoadTexture("textures/background.png", GL_FALSE, "background");
+    ResourceManager::LoadTexture("assets/textures/background.png", GL_FALSE, "background");
     #else
-    ResourceManager::LoadTexture("textures/background.jpg", GL_FALSE, "background");
+    ResourceManager::LoadTexture("assets/textures/background.jpg", GL_FALSE, "background");
     #endif
-    ResourceManager::LoadTexture("textures/awesomeface.png", GL_TRUE, "face");
-    ResourceManager::LoadTexture("textures/block.png", GL_FALSE, "block");
-    ResourceManager::LoadTexture("textures/block_solid.png", GL_FALSE, "block_solid");
-    ResourceManager::LoadTexture("textures/paddle.png", GL_TRUE, "paddle");
-    ResourceManager::LoadTexture("textures/particle.png", GL_TRUE, "particle");
+    ResourceManager::LoadTexture("assets/textures/awesomeface.png", GL_TRUE, "face");
+    ResourceManager::LoadTexture("assets/textures/block.png", GL_FALSE, "block");
+    ResourceManager::LoadTexture("assets/textures/block_solid.png", GL_FALSE, "block_solid");
+    ResourceManager::LoadTexture("assets/textures/paddle.png", GL_TRUE, "paddle");
+    ResourceManager::LoadTexture("assets/textures/particle.png", GL_TRUE, "particle");
     // Set render-specific controls
     Renderer = new SpriteRenderer(ResourceManager::GetShader("sprite"));
     Particles = new ParticleGenerator(ResourceManager::GetShader("particle"), ResourceManager::GetTexture("particle"), 500);
@@ -82,10 +82,10 @@ void Game::Init()
     }
     // Load levels
 
-    GameLevel one; one.Load("levels/one.lvl", this->Width, this->Height * 0.5);
-    GameLevel two; two.Load("levels/two.lvl", this->Width, this->Height * 0.5);
-    GameLevel three; three.Load("levels/three.lvl", this->Width, this->Height * 0.5);
-    GameLevel four; four.Load("levels/four.lvl", this->Width, this->Height * 0.5);
+    GameLevel one; one.Load("assets/levels/one.lvl", this->Width, this->Height * 0.5);
+    GameLevel two; two.Load("assets/levels/two.lvl", this->Width, this->Height * 0.5);
+    GameLevel three; three.Load("assets/levels/three.lvl", this->Width, this->Height * 0.5);
+    GameLevel four; four.Load("assets/levels/four.lvl", this->Width, this->Height * 0.5);
     this->Levels.push_back(one);
     this->Levels.push_back(two);
     this->Levels.push_back(three);
@@ -241,13 +241,13 @@ void Game::Render()
 
 void Game::ResetLevel()
 {
-    if (this->Level == 0)this->Levels[0].Load("levels/one.lvl", this->Width, this->Height * 0.5f);
+    if (this->Level == 0)this->Levels[0].Load("assets/levels/one.lvl", this->Width, this->Height * 0.5f);
     else if (this->Level == 1)
-        this->Levels[1].Load("levels/two.lvl", this->Width, this->Height * 0.5f);
+        this->Levels[1].Load("assets/levels/two.lvl", this->Width, this->Height * 0.5f);
     else if (this->Level == 2)
-        this->Levels[2].Load("levels/three.lvl", this->Width, this->Height * 0.5f);
+        this->Levels[2].Load("assets/levels/three.lvl", this->Width, this->Height * 0.5f);
     else if (this->Level == 3)
-        this->Levels[3].Load("levels/four.lvl", this->Width, this->Height * 0.5f);
+        this->Levels[3].Load("assets/levels/four.lvl", this->Width, this->Height * 0.5f);
 }
 
 void Game::ResetPlayer()

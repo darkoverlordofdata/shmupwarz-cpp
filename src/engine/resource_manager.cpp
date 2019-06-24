@@ -97,7 +97,7 @@ Shader ResourceManager::loadShaderFromFile(const GLchar *vShaderFile, const GLch
 Texture2D ResourceManager::loadTextureFromFile(const GLchar *file, GLboolean alpha)
 {
     // Create Texture object
-    Texture2D texture;
+    Texture2D texture((char*)file);
     if (alpha)
     {
         texture.Internal_Format = GL_RGBA;
@@ -110,6 +110,7 @@ Texture2D ResourceManager::loadTextureFromFile(const GLchar *file, GLboolean alp
     if (SDL_MUSTLOCK(surface)) 
         SDL_LockSurface(surface);
     // Now generate texture
+    printf("%s: (%d,%d)\n", file, surface->w, surface->h);
     texture.Generate(surface->w, surface->h, (unsigned char*)surface->pixels);
     if (SDL_MUSTLOCK(surface)) 
         SDL_UnlockSurface(surface);

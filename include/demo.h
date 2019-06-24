@@ -1,10 +1,12 @@
 #pragma once
-#include <list>
-#include <vector>
+#define GL3_PROTOTYPES 1
+#include <GLES3/gl3.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_ttf.h>
+#include <list>
+#include <vector>
 #include <cstdio>
 #include <map>
 #include <string>
@@ -27,11 +29,11 @@ enum {
 
 class Systems;
     
-class Game {
+class Demo {
 friend class Systems;
 public:
-    Game(std::string title, int width, int height, SDL_Window* window, SDL_Renderer* renderer);
-    ~Game();
+    Demo(std::string title, int width, int height, SDL_Window* window);
+    ~Demo();
     void start();
     void stop();
     void draw(int fps, SDL_Rect *clip = nullptr);

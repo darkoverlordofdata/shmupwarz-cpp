@@ -21,6 +21,7 @@ SpriteRenderer::~SpriteRenderer()
 
 void SpriteRenderer::DrawSprite(Texture2D &texture, glm::vec2 position, glm::vec2 size, GLfloat rotate, glm::vec3 color)
 {
+    // printf("%s (%d,%d)\n", texture.Path, texture.Width, texture.Height);
     // Prepare transformations
     this->shader.Use();
     glm::mat4 model= {

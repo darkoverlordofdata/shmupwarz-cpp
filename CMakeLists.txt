@@ -27,14 +27,26 @@ endif ()
 #   application source
 #
 
+list ( APPEND C_SOURCES src/demo.cpp )
 list ( APPEND C_SOURCES src/entities.cpp )
-list ( APPEND C_SOURCES src/game.cpp )
 list ( APPEND C_SOURCES src/main.cpp )
+list ( APPEND C_SOURCES src/program.cpp )
 list ( APPEND C_SOURCES src/systems.cpp )
+list ( APPEND C_SOURCES src/engine/ball_object.cpp )
+list ( APPEND C_SOURCES src/engine/game.cpp )
+list ( APPEND C_SOURCES src/engine/game_level.cpp )
+list ( APPEND C_SOURCES src/engine/game_object.cpp )
+list ( APPEND C_SOURCES src/engine/particle_generator.cpp )
+list ( APPEND C_SOURCES src/engine/post_processor.cpp )
+list ( APPEND C_SOURCES src/engine/resource_manager.cpp )
+list ( APPEND C_SOURCES src/engine/shader.cpp )
+list ( APPEND C_SOURCES src/engine/sprite_renderer.cpp )
+list ( APPEND C_SOURCES src/engine/texture.cpp )
 #
 #   application includes
 #
 set ( INCLUDES "${INCLUDES};./include" )
+set ( INCLUDES "${INCLUDES};./include/engine" )
 set ( INCLUDES "${INCLUDES};/usr/include" )
 
 

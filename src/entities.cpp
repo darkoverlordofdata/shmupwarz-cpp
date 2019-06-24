@@ -2,6 +2,7 @@
  * Entity Factory
  */
 #include "entities.h"
+#include "resource_manager.h"
 
 int uniqueId = 0;
 
@@ -18,67 +19,63 @@ SDL_Surface* getResource(std::string name) {
     return IMG_Load(path.c_str());
 }
 
-void createBackground(SDL_Renderer* renderer, std::vector<Entity>* entities, std::string path){
+void createBackground(std::vector<Entity>* entities){
     entities->emplace_back(uniqueId++, "background", true);
-    initBackground(renderer, &entities->back(), path);
+    initBackground(&entities->back());
 }
 
-void initBackground(SDL_Renderer* renderer, Entity* entity, std::string path) {
+void initBackground(Entity* entity) {
+    const auto scale = 2.0;
     entity->actor = Actor::BACKGROUND;
     entity->category = Category::BACKGROUND;
-    auto surface = getResource("background.png");
-    entity->sprite.texture = SDL_CreateTextureFromSurface(renderer, surface);
-    const auto scale = 2.0;
-    entity->sprite.width = surface->w*scale;
-    entity->sprite.height = surface->h*scale;
-    entity->bounds.w = surface->w*scale; 
-    entity->bounds.h = surface->h*scale; 
+    entity->sprite.texture = ResourceManager::GetTexture("background");
+    entity->sprite.width = entity->sprite.texture.Width*scale;
+    entity->sprite.height = entity->sprite.texture.Height*scale;
+    
+
+    entity->bounds.w = entity->sprite.texture.Width*scale; 
+    entity->bounds.h = entity->sprite.texture.Height*scale; 
     entity->scale.x = scale;
     entity->scale.y = scale;
-    SDL_FreeSurface(surface);
-
+    // SDL_FreeSurface(surface);
 }
 
-Entity* createPlayer(SDL_Renderer* renderer, std::vector<Entity>* entities, std::string path) {
+Entity* createPlayer(std::vector<Entity>* entities) {
     entities->emplace_back(uniqueId++, "player", true);
-    initPlayer(renderer, &entities->back(), path);
+    initPlayer(&entities->back());
     return &entities->back();
 }
 
-void initPlayer(SDL_Renderer* renderer, Entity* entity, std::string path) {
+void initPlayer(Entity* entity) {
+    auto scale = 1.0;
     entity->actor = Actor::PLAYER;
     entity->category = Category::PLAYER;
-    auto surface = getResource("spaceshipspr.png");
-    entity->sprite.texture = SDL_CreateTextureFromSurface(renderer, surface);
-
-    auto scale = 1.0;
-    entity->sprite.width = surface->w*scale;
-    entity->sprite.height = surface->h*scale;
-    entity->bounds.w = surface->w*scale; 
-    entity->bounds.h = surface->h*scale; 
+    entity->sprite.texture = ResourceManager::GetTexture("spaceshipspr");
+    entity->sprite.width = entity->sprite.texture.Width*scale;
+    entity->sprite.height = entity->sprite.texture.Height*scale;
+    entity->bounds.w = entity->sprite.texture.Width*scale; 
+    entity->bounds.h = entity->sprite.texture.Height*scale; 
     entity->scale.x = scale;
     entity->scale.y = scale;
-    SDL_FreeSurface(surface);
+    // SDL_FreeSurface(surface);
 }
 
-void createBullet(SDL_Renderer* renderer, std::vector<Entity>* entities, std::string path) {
+void createBullet(std::vector<Entity>* entities) {
     entities->emplace_back(uniqueId++, "bullet", false);
-    initBullet(renderer, &entities->back(), path);
+    initBullet(&entities->back());
 }
-void initBullet(SDL_Renderer* renderer, Entity* entity, std::string path) {
+void initBullet(Entity* entity) {
+    auto scale = 1.0;
     entity->actor = Actor::BULLET;
     entity->category = Category::BULLET;
-    auto surface = getResource("bullet.png");
-    entity->sprite.texture = SDL_CreateTextureFromSurface(renderer, surface);
-
-    auto scale = 1.0;
-    entity->sprite.width = surface->w*scale;
-    entity->sprite.height = surface->h*scale;
-    entity->bounds.w = surface->w*scale; 
-    entity->bounds.h = surface->h*scale; 
+    entity->sprite.texture = ResourceManager::GetTexture("bullet");
+    entity->sprite.width = entity->sprite.texture.Width*scale;
+    entity->sprite.height = entity->sprite.texture.Height*scale;
+    entity->bounds.w = entity->sprite.texture.Width*scale; 
+    entity->bounds.h = entity->sprite.texture.Height*scale; 
     entity->scale.x = scale;
     entity->scale.y = scale;
-    SDL_FreeSurface(surface);
+    // SDL_FreeSurface(surface);
 }
 
 void refreshBullet(Entity* entity, int x, int y) {
@@ -92,24 +89,22 @@ void refreshBullet(Entity* entity, int x, int y) {
     entity->active = true;
 }
 
-void createEnemy1(SDL_Renderer* renderer, std::vector<Entity>* entities, std::string path){
+void createEnemy1(std::vector<Entity>* entities){
     entities->emplace_back(uniqueId++, "enemy1", false);
-    initEnemy1(renderer, &entities->back(), path);
+    initEnemy1(&entities->back());
 }
-void initEnemy1(SDL_Renderer* renderer, Entity* entity, std::string path) {
+void initEnemy1(Entity* entity) {
+    auto scale = 1.0;
     entity->actor = Actor::ENEMY1;
     entity->category = Category::ENEMY;
-    auto surface = getResource("enemy1.png");
-    entity->sprite.texture = SDL_CreateTextureFromSurface(renderer, surface);
-
-    auto scale = 1.0;
-    entity->sprite.width = surface->w*scale;
-    entity->sprite.height = surface->h*scale;
-    entity->bounds.w = surface->w*scale; 
-    entity->bounds.h = surface->h*scale; 
+    entity->sprite.texture = ResourceManager::GetTexture("enemy1");
+    entity->sprite.width = entity->sprite.texture.Width*scale;
+    entity->sprite.height = entity->sprite.texture.Height*scale;
+    entity->bounds.w = entity->sprite.texture.Width*scale; 
+    entity->bounds.h = entity->sprite.texture.Height*scale; 
     entity->scale.x = scale;
     entity->scale.y = scale;
-    SDL_FreeSurface(surface);
+    // SDL_FreeSurface(surface);
 }
 void refreshEnemy1(Entity* entity, int x, int y) {
     entity->position.x = x;
@@ -119,24 +114,22 @@ void refreshEnemy1(Entity* entity, int x, int y) {
     entity->active = true;
 }
 
-void createEnemy2(SDL_Renderer* renderer, std::vector<Entity>* entities, std::string path){
+void createEnemy2(std::vector<Entity>* entities){
     entities->emplace_back(uniqueId++, "enemy2", false);
-    initEnemy2(renderer, &entities->back(), path);
+    initEnemy2(&entities->back());
 }
-void initEnemy2(SDL_Renderer* renderer, Entity* entity, std::string path) {
+void initEnemy2(Entity* entity) {
+    auto scale = 1.0;
     entity->actor = Actor::ENEMY2;
     entity->category = Category::ENEMY;
-    auto surface = getResource("enemy2.png");
-    entity->sprite.texture = SDL_CreateTextureFromSurface(renderer, surface);
-
-    auto scale = 1.0;
-    entity->sprite.width = surface->w*scale;
-    entity->sprite.height = surface->h*scale;
-    entity->bounds.w = surface->w*scale; 
-    entity->bounds.h = surface->h*scale; 
+    entity->sprite.texture = ResourceManager::GetTexture("enemy2");
+    entity->sprite.width = entity->sprite.texture.Width*scale;
+    entity->sprite.height = entity->sprite.texture.Height*scale;
+    entity->bounds.w = entity->sprite.texture.Width*scale; 
+    entity->bounds.h = entity->sprite.texture.Height*scale; 
     entity->scale.x = scale;
     entity->scale.y = scale;
-    SDL_FreeSurface(surface);
+    // SDL_FreeSurface(surface);
 }
 void refreshEnemy2(Entity* entity, int x, int y){
     entity->position.x = x;
@@ -145,24 +138,22 @@ void refreshEnemy2(Entity* entity, int x, int y){
     entity->velocity = new Vector2d(0, 30);
     entity->active = true;
 }
-void createEnemy3(SDL_Renderer* renderer, std::vector<Entity>* entities, std::string path){
+void createEnemy3(std::vector<Entity>* entities){
     entities->emplace_back(uniqueId++, "enemy3", false);
-    initEnemy3(renderer, &entities->back(), path);
+    initEnemy3(&entities->back());
 }
-void initEnemy3(SDL_Renderer* renderer, Entity* entity, std::string path) {
+void initEnemy3(Entity* entity) {
+    auto scale = 1.0;
     entity->actor = Actor::ENEMY3;
     entity->category = Category::ENEMY;
-    auto surface = getResource("enemy3.png");
-    entity->sprite.texture = SDL_CreateTextureFromSurface(renderer, surface);
-
-    auto scale = 1.0;
-    entity->sprite.width = surface->w*scale;
-    entity->sprite.height = surface->h*scale;
-    entity->bounds.w = surface->w*scale; 
-    entity->bounds.h = surface->h*scale; 
+    entity->sprite.texture = ResourceManager::GetTexture("enemy3");
+    entity->sprite.width = entity->sprite.texture.Width*scale;
+    entity->sprite.height = entity->sprite.texture.Height*scale;
+    entity->bounds.w = entity->sprite.texture.Width*scale; 
+    entity->bounds.h = entity->sprite.texture.Height*scale; 
     entity->scale.x = scale;
     entity->scale.y = scale;
-    SDL_FreeSurface(surface);
+    // SDL_FreeSurface(surface);
 }
 void refreshEnemy3(Entity* entity, int x, int y){
     entity->position.x = x;
@@ -172,24 +163,22 @@ void refreshEnemy3(Entity* entity, int x, int y){
     entity->active = true;
 }
 
-void createExplosion(SDL_Renderer* renderer, std::vector<Entity>* entities, std::string path){
+void createExplosion(std::vector<Entity>* entities){
     entities->emplace_back(uniqueId++, "explosion", false);
-    initExplosion(renderer, &entities->back(), path);
+    initExplosion(&entities->back());
 }
-void initExplosion(SDL_Renderer* renderer, Entity* entity, std::string path) {
+void initExplosion(Entity* entity) {
+    auto scale = 0.6;
     entity->actor = Actor::EXPLOSION;
     entity->category = Category::EXPLOSION;
-    auto surface = getResource("explosion.png");
-    entity->sprite.texture = SDL_CreateTextureFromSurface(renderer, surface);
-
-    auto scale = 0.6;
-    entity->sprite.width = surface->w*scale;
-    entity->sprite.height = surface->h*scale;
-    entity->bounds.w = surface->w*scale; 
-    entity->bounds.h = surface->h*scale; 
+    entity->sprite.texture = ResourceManager::GetTexture("explosion");
+    entity->sprite.width = entity->sprite.texture.Width*scale;
+    entity->sprite.height = entity->sprite.texture.Height*scale;
+    entity->bounds.w = entity->sprite.texture.Width*scale; 
+    entity->bounds.h = entity->sprite.texture.Height*scale; 
     entity->scale.x = scale;
     entity->scale.y = scale;
-    SDL_FreeSurface(surface);
+    // SDL_FreeSurface(surface);
 }
 void refreshExplosion(Entity* entity, int x, int y){
     auto scale = 0.6;
@@ -205,24 +194,22 @@ void refreshExplosion(Entity* entity, int x, int y){
     entity->expires = 0.2;
     entity->active = true;
 }
-void createBang(SDL_Renderer* renderer, std::vector<Entity>* entities, std::string path){
+void createBang(std::vector<Entity>* entities){
     entities->emplace_back(uniqueId++, "bang", false);
-    initBang(renderer, &entities->back(), path);
+    initBang(&entities->back());
 }
-void initBang(SDL_Renderer* renderer, Entity* entity, std::string path) {
+void initBang(Entity* entity) {
+    auto scale = 0.4;
     entity->actor = Actor::BANG;
     entity->category = Category::EXPLOSION;
-    auto surface = getResource("explosion.png");
-    entity->sprite.texture = SDL_CreateTextureFromSurface(renderer, surface);
-
-    auto scale = 0.4;
-    entity->sprite.width = surface->w*scale;
-    entity->sprite.height = surface->h*scale;
-    entity->bounds.w = surface->w*scale; 
-    entity->bounds.h = surface->h*scale; 
+    entity->sprite.texture = ResourceManager::GetTexture("explosion");
+    entity->sprite.width = entity->sprite.texture.Width*scale;
+    entity->sprite.height = entity->sprite.texture.Height*scale;
+    entity->bounds.w = entity->sprite.texture.Width*scale; 
+    entity->bounds.h = entity->sprite.texture.Height*scale; 
     entity->scale.x = scale;
     entity->scale.y = scale;
-    SDL_FreeSurface(surface);
+    // SDL_FreeSurface(surface);
 }
 void refreshBang(Entity* entity, int x, int y){
     auto scale = 0.4;
@@ -238,24 +225,22 @@ void refreshBang(Entity* entity, int x, int y){
     entity->expires = 0.2;
     entity->active = true;
 }
-void createParticle(SDL_Renderer* renderer, std::vector<Entity>* entities, std::string path){
+void createParticle(std::vector<Entity>* entities){
     entities->emplace_back(uniqueId++, "particle", false);
-    initParticle(renderer, &entities->back(), path);
+    initParticle(&entities->back());
 }
-void initParticle(SDL_Renderer* renderer, Entity* entity, std::string path) {
+void initParticle(Entity* entity) {
+    auto scale = 1.0;
     entity->actor = Actor::PARTICLE;
     entity->category = Category::PARTICLE;
-    auto surface = getResource("star.png");
-    entity->sprite.texture = SDL_CreateTextureFromSurface(renderer, surface);
-
-    auto scale = 1.0;
-    entity->sprite.width = surface->w*scale;
-    entity->sprite.height = surface->h*scale;
-    entity->bounds.w = surface->w*scale; 
-    entity->bounds.h = surface->h*scale; 
+    entity->sprite.texture = ResourceManager::GetTexture("star");
+    entity->sprite.width = entity->sprite.texture.Width*scale;
+    entity->sprite.height = entity->sprite.texture.Height*scale;
+    entity->bounds.w = entity->sprite.texture.Width*scale; 
+    entity->bounds.h = entity->sprite.texture.Height*scale; 
     entity->scale.x = scale;
     entity->scale.y = scale;
-    SDL_FreeSurface(surface);
+    // SDL_FreeSurface(surface);
 }
 
 // var radians:number = Math.random()*Tau

@@ -1,3 +1,11 @@
+/*******************************************************************
+** This code is part of Breakout.
+**
+** Breakout is free software: you can redistribute it and/or modify
+** it under the terms of the CC BY 4.0 license as published by
+** Creative Commons, either version 4 of the License, or (at your
+** option) any later version.
+******************************************************************/
 #define GL3_PROTOTYPES 1
 #include <GLES3/gl3.h>
 #include <SDL2/SDL.h>
@@ -12,12 +20,17 @@ void main_loop() { loop(); }
 #define GLEW_STATIC
 #include <GL/glew.h>
 #endif
-#include "demo.h"
-using namespace std::chrono;
 
+#include "game.h"
+#include "resource_manager.h"
 
-/**
- */
+// The Width of the screen
+const GLuint SCREEN_WIDTH = 800;
+// The height of the screen
+const GLuint SCREEN_HEIGHT = 600;
+
+Game Breakout(SCREEN_WIDTH, SCREEN_HEIGHT);
+
 inline void logSDLError(std::ostream &os, const std::string &msg){
 	os << msg << " error: " << SDL_GetError() << std::endl;
 }
@@ -36,16 +49,8 @@ static inline void checkSDLError(int line = -1)
 #endif
 }
 
-// The Width of the screen
-const GLuint SCREEN_WIDTH = 900;
-// The height of the screen
-const GLuint SCREEN_HEIGHT = 600;
-
-auto TITLE = "Shmupwarz";
-
-int main(int argc, char** argv){
-    std::srand(std::time(0));    
-
+int mainzz(int argc, char *argv[])
+{
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS | SDL_INIT_TIMER | SDL_INIT_AUDIO)) {
         logSDLError(std::cout, "Init SDL");
         return 0;
@@ -66,8 +71,8 @@ int main(int argc, char** argv){
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
-    auto window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
-    auto maincontext = SDL_GL_CreateContext(window);
+    auto window = SDL_CreateWindow("Breakout", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+    SDL_GLContext maincontext = SDL_GL_CreateContext(window);
     checkSDLError(__LINE__);
 
     #ifdef __EMSCRIPTEN__
@@ -79,19 +84,6 @@ int main(int argc, char** argv){
     if (IMG_Init(img_flags) != img_flags) {
         logSDLError(std::cout, "Init image");
     }
-    TTF_Init();
-    if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 2048) == -1) {
-        logSDLError(std::cout, "Init mixer");
-    }
-
-    auto renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC);
-
-    auto delta = 0.0;
-    auto d = 0.0;
-    auto fps = 60;
-    auto k = 0;
-    auto t = 0.0;
-    auto k2 = 0;
 
     #ifndef __EMSCRIPTEN__
     // Load OpenGL EntryPoints for desktop
@@ -106,49 +98,54 @@ int main(int argc, char** argv){
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    // auto demo = new Demo(TITLE, SCREEN_WIDTH, SCREEN_HEIGHT, window, renderer);
-    Demo Shmupwarz(TITLE, SCREEN_WIDTH, SCREEN_HEIGHT, window);
+    using namespace std::chrono;
+    std::srand(std::time(0));    
 
+    // Initialize game
+    Breakout.Init();
+
+    // DeltaTime variables
+    GLfloat deltaTime = 0.0f;
+    GLfloat lastFrame = 0.0f;
+
+    // Start Game within Menu State
+    Breakout.State = GAME_ACTIVE;
     auto mark1 = high_resolution_clock::now();
-
-    Shmupwarz.start();
 
 #ifdef __EMSCRIPTEN__
     loop = [&] 
     {
 #else
-    while (Shmupwarz.isRunning()) {
+    while (Breakout.State == GAME_ACTIVE) 
+    {
 #endif
-        auto mark2 = high_resolution_clock::now();
-        delta = ((double) duration_cast<microseconds>(mark2 - mark1).count()) / 1000000.0;
-        mark1 = mark2;
-        k += 1;
-        d += delta;
-        if (d >= 1.0) {
-            fps = k;
-            k = 0;
-            d = 0;
-        }
-        Shmupwarz.handleEvents();
-        if (Shmupwarz.getKey(SDLK_ESCAPE)) Shmupwarz.quit();
-        
-        auto m1 = high_resolution_clock::now();
-        Shmupwarz.update(delta);
-        auto m2 = high_resolution_clock::now();
-        k2 = k2 +1;
-        t += ((double) duration_cast<microseconds>(m2 - m1).count()) / 1000000.0;
 
-        if (k2 >= 1000) {
-	        std::cout << t/1000 << "\n" << std::flush;
-            k2 = 0;
-            t = 0.0;
-        }
-        Shmupwarz.draw(fps);
+        // Calculate delta time
+        auto mark2 = high_resolution_clock::now();
+        GLfloat deltaTime = ((double) duration_cast<microseconds>(mark2 - mark1).count()) / 1000000.0;
+        mark1 = mark2;
+
+        // Manage user input
+        Breakout.ProcessInput(deltaTime);
+
+        // Update Game state
+        Breakout.Update(deltaTime);
+
+        // Render
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+        Breakout.Render();
+
+        SDL_GL_SwapWindow(window);
     }
 #ifdef __EMSCRIPTEN__
     ;
     emscripten_set_main_loop(main_loop, 0, true);
 #endif
+
+    // Delete all resources as loaded using the resource manager
+    ResourceManager::Clear();
+
     SDL_DestroyWindow(window);
 	IMG_Quit();
     SDL_Quit();

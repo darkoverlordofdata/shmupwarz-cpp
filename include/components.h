@@ -1,4 +1,5 @@
-#pragma once
+#pragma once#define GL3_PROTOTYPES 1
+#include <GLES3/gl3.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_mixer.h>
@@ -13,6 +14,8 @@
 #include <random>
 
 #include <experimental/optional>
+
+#include "texture.h"
 
 using namespace std::experimental;
 
@@ -101,7 +104,7 @@ public:
 
 class Sprite {
 public:
-    SDL_Texture* texture;
+    Texture2D texture;
     int width;
     int height;
 };

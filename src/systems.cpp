@@ -1,8 +1,8 @@
 #include "systems.h"
-#include "game.h"
+#include "demo.h"
 
 
-Systems::Systems(Game* g): game(g) {
+Systems::Systems(Demo* g): demo(g) {
     pew = Mix_LoadWAV("assets/sounds/pew.wav");
     asplode = Mix_LoadWAV("assets/sounds/asplode.wav");
     smallasplode = Mix_LoadWAV("assets/sounds/smallasplode.wav");
@@ -10,13 +10,13 @@ Systems::Systems(Game* g): game(g) {
 Systems::~Systems(){}
 
 void Systems::inputSystem(Entity* entity){
-    entity->position.x = game->mouseX;
-    entity->position.y = game->mouseY;
-    if (game->getKey(122) || game->mouseDown) {
-        timeToFire -= game->delta;
+    entity->position.x = demo->mouseX;
+    entity->position.y = demo->mouseY;
+    if (demo->getKey(122) || demo->mouseDown) {
+        timeToFire -= demo->delta;
         if (timeToFire < 0.0) {
-            game->bullets.emplace_back(entity->position.x - 27, entity->position.y + 2);
-            game->bullets.emplace_back(entity->position.x + 27, entity->position.y + 2);
+            demo->bullets.emplace_back(entity->position.x - 27, entity->position.y + 2);
+            demo->bullets.emplace_back(entity->position.x + 27, entity->position.y + 2);
             timeToFire = FireRate;
         }
     }
@@ -41,15 +41,34 @@ void Systems::soundSystem(Entity* entity){
 }
 
 void Systems::physicsSystem(Entity* entity){
-    if (entity->active && entity->velocity) {
-        entity->position.x += entity->velocity.value()->x * game->delta;
-        entity->position.y += entity->velocity.value()->y * game->delta;
+    if (entity->active)
+    {
+        // Move entity?
+        if (entity->velocity) {
+            entity->position.x += entity->velocity.value()->x * demo->delta;
+            entity->position.y += entity->velocity.value()->y * demo->delta;
+        }
+        // Set new bounding box
+        if (entity->category == Category::BACKGROUND) 
+        {
+            // entity->bounds.w = entity->sprite.width * entity->scale.x;
+            // entity->bounds.h = entity->sprite.height * entity->scale.y;
+            entity->bounds.w = demo->width;
+            entity->bounds.h = demo->height;
+            entity->bounds.x = 0; 
+            entity->bounds.y = 0; 
+        } else {
+            entity->bounds.w = entity->sprite.width * entity->scale.x;
+            entity->bounds.h = entity->sprite.height * entity->scale.y;
+            entity->bounds.x = entity->position.x - entity->bounds.w / 2;
+            entity->bounds.y = entity->position.y - entity->bounds.h / 2;
+        }
     }
 }
 
 void Systems::expireSystem(Entity* entity){
     if (entity->active && entity->expires) {
-        auto exp = entity->expires.value() - game->delta;
+        auto exp = entity->expires.value() - demo->delta;
         entity->expires = exp;
         if (entity->expires.value() < 0) {
             entity->active = false;
@@ -60,8 +79,8 @@ void Systems::expireSystem(Entity* entity){
 void Systems::tweenSystem(Entity* entity){
     if (entity->active && entity->tween) {
 
-        auto x = entity->scale.x + (entity->tween.value()->speed * game->delta);
-        auto y = entity->scale.y + (entity->tween.value()->speed * game->delta);
+        auto x = entity->scale.x + (entity->tween.value()->speed * demo->delta);
+        auto y = entity->scale.y + (entity->tween.value()->speed * demo->delta);
         auto active = entity->tween.value()->active;
 
 
@@ -87,7 +106,7 @@ void Systems::removeSystem(Entity* entity){
     if (entity->active) {
         switch(entity->category) {
             case Category::ENEMY:
-                if (entity->position.y > game->height) {
+                if (entity->position.y > demo->height) {
                     entity->active = false;
                 }
                 break;
@@ -107,13 +126,13 @@ double Systems::spawnEnemy(double delta, double t, int enemy) {
     if (d1 < 0.0) {
         switch(enemy) {
             case 1:
-                game->enemies1.emplace_back((std::rand() % (game->width-70))+35, 35);
+                demo->enemies1.emplace_back((std::rand() % (demo->width-70))+35, 35);
                 return 1.0;
             case 2:
-                game->enemies2.emplace_back((std::rand() % (game->width-170))+85, 85);
+                demo->enemies2.emplace_back((std::rand() % (demo->width-170))+85, 85);
                 return 4.0;
             case 3:
-                game->enemies3.emplace_back((std::rand() % (game->width-320))+160, 160);
+                demo->enemies3.emplace_back((std::rand() % (demo->width-320))+160, 160);
                 return 6.0;
             default:
                 return 0;
@@ -122,9 +141,9 @@ double Systems::spawnEnemy(double delta, double t, int enemy) {
 }
 
 void Systems::spawnSystem(Entity* entity){
-    enemyT1 = spawnEnemy(game->delta, enemyT1, 1);
-    enemyT2 = spawnEnemy(game->delta, enemyT2, 2);
-    enemyT3 = spawnEnemy(game->delta, enemyT3, 3);
+    enemyT1 = spawnEnemy(demo->delta, enemyT1, 1);
+    enemyT2 = spawnEnemy(demo->delta, enemyT2, 2);
+    enemyT3 = spawnEnemy(demo->delta, enemyT3, 3);
 
 }
 
@@ -133,45 +152,45 @@ void Systems::entitySystem(Entity* entity){
         switch(entity->actor) {
 
             case Actor::BULLET: 
-                if (game->bullets.empty()) break;
-                refreshBullet(entity, game->bullets.back().x, game->bullets.back().y);
-                game->bullets.pop_back();
+                if (demo->bullets.empty()) break;
+                refreshBullet(entity, demo->bullets.back().x, demo->bullets.back().y);
+                demo->bullets.pop_back();
                 break;
 
             case Actor::ENEMY1:
-                if (game->enemies1.empty()) break;
-                refreshEnemy1(entity, game->enemies1.back().x, game->enemies1.back().y);
-                game->enemies1.pop_back();
+                if (demo->enemies1.empty()) break;
+                refreshEnemy1(entity, demo->enemies1.back().x, demo->enemies1.back().y);
+                demo->enemies1.pop_back();
                 break;
 
             case Actor::ENEMY2:
-                if (game->enemies2.empty()) break;
-                refreshEnemy2(entity, game->enemies2.back().x, game->enemies2.back().y);
-                game->enemies2.pop_back();
+                if (demo->enemies2.empty()) break;
+                refreshEnemy2(entity, demo->enemies2.back().x, demo->enemies2.back().y);
+                demo->enemies2.pop_back();
                 break;
 
             case Actor::ENEMY3:
-                if (game->enemies3.empty()) break;
-                refreshEnemy3(entity, game->enemies3.back().x, game->enemies3.back().y);
-                game->enemies3.pop_back();
+                if (demo->enemies3.empty()) break;
+                refreshEnemy3(entity, demo->enemies3.back().x, demo->enemies3.back().y);
+                demo->enemies3.pop_back();
                 break;
 
             case Actor::EXPLOSION:  
-                if (game->explosions.empty()) break;
-                refreshExplosion(entity, game->explosions.back().x, game->explosions.back().y);
-                game->explosions.pop_back();
+                if (demo->explosions.empty()) break;
+                refreshExplosion(entity, demo->explosions.back().x, demo->explosions.back().y);
+                demo->explosions.pop_back();
                 break;
 
             case Actor::BANG:
-                if (game->bangs.empty()) break;
-                refreshBang(entity, game->bangs.back().x, game->bangs.back().y);
-                game->bangs.pop_back();
+                if (demo->bangs.empty()) break;
+                refreshBang(entity, demo->bangs.back().x, demo->bangs.back().y);
+                demo->bangs.pop_back();
                 break;
 
             case Actor::PARTICLE:
-                if (game->particles.empty()) break;
-                refreshParticle(entity, game->particles.back().x, game->particles.back().y);
-                game->particles.pop_back();
+                if (demo->particles.empty()) break;
+                refreshParticle(entity, demo->particles.back().x, demo->particles.back().y);
+                demo->particles.pop_back();
                 break;
 
             default:
@@ -182,13 +201,13 @@ void Systems::entitySystem(Entity* entity){
 }
 
 void Systems::handleCollision(Entity* a, Entity* b){
-    game->bangs.emplace_back(b->bounds.x, b->bounds.y);
+    demo->bangs.emplace_back(b->bounds.x, b->bounds.y);
     b->active = false;
-    for (int i=0; i<3; i++) game->particles.emplace_back(b->bounds.x, b->bounds.y);
+    for (int i=0; i<3; i++) demo->particles.emplace_back(b->bounds.x, b->bounds.y);
     if (a->health) {
         auto h = a->health.value()->current - 2;
         if (h < 0) {
-            game->explosions.emplace_back(a->position.x, a->position.y);
+            demo->explosions.emplace_back(a->position.x, a->position.y);
             a->active = false;
         } else {
             a->health = new Health(h, a->health.value()->maximum);
@@ -205,8 +224,8 @@ void Systems::handleCollision(Entity* a, Entity* b){
 
 void Systems::collisionSystem(Entity* entity){
     if (entity->active && entity->category == Category::ENEMY) {
-        for (int i=0; i<game->entities.size(); i++) {
-            auto bullet = &game->entities[i];
+        for (int i=0; i<demo->entities.size(); i++) {
+            auto bullet = &demo->entities[i];
             if (bullet->active && bullet->category == Category::BULLET) {
                 if (SDL_HasIntersection(&entity->bounds, &bullet->bounds)) {
                     if (entity->active && bullet->active) handleCollision(entity, bullet);

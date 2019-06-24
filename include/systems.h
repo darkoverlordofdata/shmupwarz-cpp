@@ -1,11 +1,11 @@
 #pragma once
 #include "entities.h"
 
-class Game;
+class Demo;
 
 class Systems {
 public:
-    Systems(Game* game);
+    Systems(Demo* demo);
     ~Systems();
 
     void inputSystem(Entity* entity);
@@ -23,7 +23,7 @@ public:
     void handleCollision(Entity* a, Entity* b);
 
 private:
-    Game* game;
+    Demo* demo;
     double FireRate = 0.1;
     double timeToFire = 0.0;
     double enemyT1 = 1.0;
