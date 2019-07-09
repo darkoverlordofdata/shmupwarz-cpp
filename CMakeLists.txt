@@ -26,15 +26,16 @@ endif ()
 #
 #   application source
 #
+list ( APPEND C_SOURCES src/xna/Game.cpp )
 
-list ( APPEND C_SOURCES src/demo.cpp )
-list ( APPEND C_SOURCES src/entities.cpp )
+list ( APPEND C_SOURCES src/Shmupwarz.cpp )
+list ( APPEND C_SOURCES src/Entities.cpp )
+list ( APPEND C_SOURCES src/ResourceManager.cpp )
+list ( APPEND C_SOURCES src/Shader.cpp )
+list ( APPEND C_SOURCES src/SpriteRenderer.cpp )
+list ( APPEND C_SOURCES src/Systems.cpp )
+list ( APPEND C_SOURCES src/Texture2D.cpp )
 list ( APPEND C_SOURCES src/main.cpp )
-list ( APPEND C_SOURCES src/resource_manager.cpp )
-list ( APPEND C_SOURCES src/shader.cpp )
-list ( APPEND C_SOURCES src/sprite_renderer.cpp )
-list ( APPEND C_SOURCES src/systems.cpp )
-list ( APPEND C_SOURCES src/texture.cpp )
 #
 #   application includes
 #
@@ -55,7 +56,7 @@ set ( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -lGLEW" )
 set ( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -lGL" )
 
 
-set ( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -w -std=c99 -O3" )
+set ( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -w -std=c11 -O3" )
 set ( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w -std=c++17 -O3" )
 
 

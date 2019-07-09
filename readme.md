@@ -30,3 +30,8 @@ goals & vision - put the lime in the coconut
     
     * replace SDL2 with OpenGL where applicable
 
+.016
+==========
+.000039975
+.00004579
+.000044173

@@ -4,7 +4,7 @@
   "template": "c",
   "version": "0.0.1",
   "vala": "0.26",
-  "c": "99",
+  "c": "11",
   "cpp": "17",
   "authors": [],
   "description": "shmupwarz",
@@ -13,14 +13,14 @@
   "dependencies": {},
   "source": "src",
   "files": [
-    "src/demo.cpp",
-    "src/entities.cpp",
-    "src/main.cpp",
-    "src/resource_manager.cpp",
-    "src/shader.cpp",
-    "src/sprite_renderer.cpp",
-    "src/systems.cpp",
-    "src/texture.cpp"
+    "src/Demo.cpp",
+    "src/Entities.cpp",
+    "src/ResourceManager.cpp",
+    "src/Shader.cpp",
+    "src/SpriteRenderer.cpp",
+    "src/Systems.cpp",
+    "src/Texture2D.cpp",
+    "src/main.cpp"
   ],
   "packages": [],
   "includes": [

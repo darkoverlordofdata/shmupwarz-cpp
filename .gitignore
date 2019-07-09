@@ -4,8 +4,7 @@
 
 .vscode/ipch
 include/glm
-include/engine/glm
-startingover
+shmupwarz
 
 ## Build generated
 build/

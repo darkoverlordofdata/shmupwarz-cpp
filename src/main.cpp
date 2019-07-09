@@ -12,7 +12,7 @@ void main_loop() { loop(); }
 #define GLEW_STATIC
 #include <GL/glew.h>
 #endif
-#include "demo.h"
+#include "Shmupwarz.h"
 using namespace std::chrono;
 
 
@@ -84,15 +84,6 @@ int main(int argc, char** argv){
         logSDLError(std::cout, "Init mixer");
     }
 
-    auto renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC);
-
-    auto delta = 0.0;
-    auto d = 0.0;
-    auto fps = 60;
-    auto k = 0;
-    auto t = 0.0;
-    auto k2 = 0;
-
     #ifndef __EMSCRIPTEN__
     // Load OpenGL EntryPoints for desktop
     glewExperimental = GL_TRUE;
@@ -106,44 +97,20 @@ int main(int argc, char** argv){
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    // auto demo = new Demo(TITLE, SCREEN_WIDTH, SCREEN_HEIGHT, window, renderer);
-    Demo Shmupwarz(TITLE, SCREEN_WIDTH, SCREEN_HEIGHT, window);
+    // auto game = new Shmupwarz(TITLE, SCREEN_WIDTH, SCREEN_HEIGHT, window, renderer);
+    Shmupwarz game(TITLE, SCREEN_WIDTH, SCREEN_HEIGHT, window);
 
-    auto mark1 = high_resolution_clock::now();
-
-    Shmupwarz.start();
+    game.start();
 
 #ifdef __EMSCRIPTEN__
     loop = [&] 
     {
 #else
-    while (Shmupwarz.isRunning()) {
+    while (game.isRunning()) {
 #endif
-        auto mark2 = high_resolution_clock::now();
-        delta = ((double) duration_cast<microseconds>(mark2 - mark1).count()) / 1000000.0;
-        mark1 = mark2;
-        k += 1;
-        d += delta;
-        if (d >= 1.0) {
-            fps = k;
-            k = 0;
-            d = 0;
-        }
-        Shmupwarz.handleEvents();
-        if (Shmupwarz.getKey(SDLK_ESCAPE)) Shmupwarz.quit();
-        
-        auto m1 = high_resolution_clock::now();
-        Shmupwarz.update(delta);
-        auto m2 = high_resolution_clock::now();
-        k2 = k2 +1;
-        t += ((double) duration_cast<microseconds>(m2 - m1).count()) / 1000000.0;
-
-        if (k2 >= 1000) {
-	        std::cout << t/1000 << "\n" << std::flush;
-            k2 = 0;
-            t = 0.0;
-        }
-        Shmupwarz.draw(fps);
+        game.handleEvents();
+        game.tick();
+        if (game.getKey(SDLK_ESCAPE)) game.quit();
     }
 #ifdef __EMSCRIPTEN__
     ;
@@ -152,6 +119,7 @@ int main(int argc, char** argv){
     SDL_DestroyWindow(window);
 	IMG_Quit();
     SDL_Quit();
+    printf("That's all folks!\n");
     return 0;
 }
 
