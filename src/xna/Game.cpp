@@ -1,12 +1,25 @@
 #include "xna/Game.h"
 namespace xna {
+
     
     using namespace std::chrono;
+
+    #ifdef __EMSCRIPTEN__
+    #include <functional>
+    #include <emscripten.h>
+    std::function<void()> loop;
+    void main_loop() { 
+        auto game = (Game*)arg;
+        game->runLoop();
+    }
+    #endif
 
     Game::Game() { }
 
     Game::Game(std::string t, int width, int height, SDL_Window* w)
-        : title(t), width(width), height(height), window(w), frameSkip(0), running(0) {}
+        : title(t), width(width), height(height), window(w), frameSkip(0), running(0) {
+            Platform = GamePlatform::PlatformCreate(this);
+        }
 
     Game::~Game() {
         stop();
@@ -21,7 +34,6 @@ namespace xna {
     }
 
     void Game::start() {
-        init();
         running = 1;
         auto num = high_resolution_clock::period::num;
         auto den = high_resolution_clock::period::den;
@@ -44,6 +56,26 @@ namespace xna {
 
     void Game::quit() {
         running = 0;
+    }
+
+
+    void Game::run() {
+        init();
+        loadContent();
+        start();
+    #ifdef __EMSCRIPTEN__
+        loop = [&] 
+        {
+    #else
+        while (isRunning()) {
+    #endif
+            runLoop();
+            if (getKey(SDLK_ESCAPE)) quit();
+        }
+    #ifdef __EMSCRIPTEN__
+        ;
+        emscripten_set_main_loop_arg(main_loop, this, 0, true);
+    #endif
     }
 
     void Game::runLoop() {
@@ -96,9 +128,8 @@ namespace xna {
         }
 
     }
-
-    void Game::init() {}
-    void Game::update() {}
     void Game::draw() {}
-
+    void Game::init() {}
+    void Game::loadContent() {}
+    void Game::update() {}
 }

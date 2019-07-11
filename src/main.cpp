@@ -100,22 +100,8 @@ int main(int argc, char** argv){
     // auto game = new Shmupwarz(TITLE, SCREEN_WIDTH, SCREEN_HEIGHT, window, renderer);
     Shmupwarz game(TITLE, SCREEN_WIDTH, SCREEN_HEIGHT, window);
 
-    game.start();
+    game.run();
 
-#ifdef __EMSCRIPTEN__
-    loop = [&] 
-    {
-#else
-    while (game.isRunning()) {
-#endif
-        game.handleEvents();
-        game.tick();
-        if (game.getKey(SDLK_ESCAPE)) game.quit();
-    }
-#ifdef __EMSCRIPTEN__
-    ;
-    emscripten_set_main_loop(main_loop, 0, true);
-#endif
     SDL_DestroyWindow(window);
 	IMG_Quit();
     SDL_Quit();

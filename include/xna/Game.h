@@ -17,6 +17,10 @@
 #include <algorithm>
 #include <random>
 #include <chrono>
+#include "GamePlatform.h"
+#include "Rectangle.h"
+#include "Point.h"
+#include "DisplayOrientation.h"
 
 namespace xna {
 
@@ -27,27 +31,33 @@ namespace xna {
         HERO_SPEED = 2
     };
 
+    class GamePlatform;
+    
     class Game {
+    friend class GamePlatform;
         
     public:
         Game();
         Game(std::string title, int width, int height, SDL_Window* window);
         ~Game();
-        virtual void start();
+        void fpsChanged(int fps);
+        int getKey(int key);
+        void handleEvents();
+        int isRunning();
         void run();
         void runLoop();
-        void tick();
+        void start();
         void stop();
-        void handleEvents();
-        void fpsChanged(int fps);
+        void tick();
         void quit();
-        int isRunning();
-        int getKey(int key);
         virtual void draw() = 0;
-        virtual void update() = 0;
         virtual void init() = 0;
+        virtual void loadContent() = 0;
+        virtual void update() = 0;
 
+        GamePlatform * Platform;
     
+        int sdlVersion;
         int mouseX;
         int mouseY;
         int mouseDown = 0;

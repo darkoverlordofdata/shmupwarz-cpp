@@ -4,16 +4,17 @@ using namespace std::chrono;
 
 Shmupwarz::Shmupwarz(std::string t, int width, int height, SDL_Window* w)
     : Game(t, width, height, w) {
-
-    }
-
-Shmupwarz::~Shmupwarz() {}
-
-void Shmupwarz::start() {
-    Game::start();
-    systems = new Systems(this);
+    // systems = new Systems(this);
 }
 
+Shmupwarz::~Shmupwarz() {
+    // systems->dispose();
+    Game::stop();
+}
+
+/**
+ * Draw the frame
+ */
 void Shmupwarz::draw() {
     // Render
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -43,6 +44,9 @@ void Shmupwarz::draw() {
     SDL_GL_SwapWindow(window);
 }
 
+/**
+ * Update game logic
+ */
 void Shmupwarz::update() {
     this->delta = delta;
 
@@ -57,7 +61,17 @@ void Shmupwarz::update() {
 
 }
 
+/**
+ * Initialize the game
+ */
 void Shmupwarz::init() {
+    systems = new Systems(this);
+}
+
+/**
+ * load game resources
+ */
+void Shmupwarz::loadContent() {
     // Load shaders
     ResourceManager::LoadShader("assets/shaders/sprite.vs", "assets/shaders/sprite.frag", nullptr, "sprite");
     ResourceManager::LoadShader("assets/shaders/particle.vs", "assets/shaders/particle.frag", nullptr, "particle");

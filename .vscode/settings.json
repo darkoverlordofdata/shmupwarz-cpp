@@ -1,6 +1,7 @@
 {
     "cmake.configureOnOpen": true,
     "C_Cpp.configurationWarnings": "Disabled",
+    "C_Cpp.intelliSenseCacheSize": 0,
     "files.associations": {
         "iosfwd": "cpp",
         "array": "cpp",

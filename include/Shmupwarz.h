@@ -40,10 +40,10 @@ friend class Systems;
 public:
     Shmupwarz(std::string title, int width, int height, SDL_Window* window);
     ~Shmupwarz();
-    void start() override;
     void draw() override;
     void update() override;
     void init() override;
+    void loadContent() override;
 
     std::list<Point2d> bullets;
     std::list<Point2d> enemies1;
