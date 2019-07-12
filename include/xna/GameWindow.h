@@ -1,8 +1,9 @@
 #pragma once
-#include "Game.h"
+#include "GameBase.h"
 #include "Rectangle.h"
 #include "Point.h"
 #include "DisplayOrientation.h"
+#include "Input/Keys.h"
 
 namespace xna {
 
@@ -14,8 +15,6 @@ namespace xna {
 
         virtual bool getAllowResizing() = 0;
         virtual bool setAllowResizing(bool) = 0;
-        virtual bool getBorderless() = 0;
-        virtual bool setBorderless(bool) = 0;
         virtual Rectangle* getClientBounds() = 0;
         virtual Point* getPosition() = 0;
         virtual void setPosition(Point*) = 0;
@@ -27,10 +26,17 @@ namespace xna {
         virtual char* getScreenDeviceName() = 0;
 
         char* getTitle();
-        void setTitle(char*);
-        
+        virtual void setTitle(char*);
+        virtual bool getBorderless();
+        virtual bool setBorderless(bool);
+        virtual void setSupportedOrientation(DisplayOrientation) = 0;
+        virtual void BeginScreenDeviceChange(bool) = 0;
+        virtual void EndScreenDeviceChange(char*, int, int, int, int) = 0;\
 
+        void OnClientSizeChanged();
+        void OnTextInput(char, Keys);
 
+    private:
         bool allowAltF4 = true;
         char* title;
         char* screenDeviceName;

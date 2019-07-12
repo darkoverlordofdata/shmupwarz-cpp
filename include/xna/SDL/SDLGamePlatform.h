@@ -4,16 +4,17 @@
 
 namespace xna {
 
-    class Game;
+    class GameBase;
     class SDLGameWindow;
     class SDLGamePlatform : public GamePlatform {
-    friend class Game;
+    friend class GameBase;
         
     public:
         SDLGamePlatform();
-        SDLGamePlatform(Game* game);
+        SDLGamePlatform(GameBase* game);
         ~SDLGamePlatform();
 
-        Game* game;
+        GameBase* game;
+        
     };
 }

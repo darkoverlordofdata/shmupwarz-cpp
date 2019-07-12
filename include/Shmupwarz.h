@@ -19,12 +19,12 @@
 #include <chrono>
 #include "Components.h"
 #include "Entities.h"
-#include "Systems.h"
-#include "Texture2D.h"
-#include "Shader.h"
-#include "ResourceManager.h"
-#include "SpriteRenderer.h"
-#include "xna/Game.h"
+#include "GameSystems.h"
+#include "xna/Content/ResourceManager.h"
+#include "xna/Graphics/Texture2D.h"
+#include "xna/Graphics/GLShader.h"
+#include "xna/Graphics/SpriteRenderer.h"
+#include "xna/GameBase.h"
 
 enum {
     DISPLAY_WIDTH  = 480,
@@ -33,29 +33,29 @@ enum {
     HERO_SPEED = 2
 };
 
-class Systems;
+class GameSystems;
     
-class Shmupwarz : public xna::Game {
-friend class Systems;
+class Shmupwarz : public xna::GameBase {
+friend class GameSystems;
 public:
     Shmupwarz(std::string title, int width, int height, SDL_Window* window);
     ~Shmupwarz();
-    void draw() override;
-    void update() override;
-    void init() override;
-    void loadContent() override;
+    void Draw() override;
+    void Update() override;
+    void Init() override;
+    void LoadContent() override;
 
-    std::list<Point2d> bullets;
-    std::list<Point2d> enemies1;
-    std::list<Point2d> enemies2;
-    std::list<Point2d> enemies3;
-    std::list<Point2d> explosions;
-    std::list<Point2d> bangs;
-    std::list<Point2d> particles;
-    std::vector<Entity> entities;
+    std::list<Point2d> Bullets;
+    std::list<Point2d> Enemies1;
+    std::list<Point2d> Enemies2;
+    std::list<Point2d> Enemies3;
+    std::list<Point2d> Explosions;
+    std::list<Point2d> Bangs;
+    std::list<Point2d> Particles;
+    std::vector<Entity> Entities;
     
-    Entity* player;
-    Systems* systems;
-    SpriteRenderer* Renderer;
+    Entity* Player;
+    GameSystems* Systems;
+    xna::SpriteRenderer* Renderer;
 };
 

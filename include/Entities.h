@@ -1,33 +1,33 @@
 #pragma once
 #include "Components.h"
-#include "ResourceManager.h"
+#include "xna/Content/ResourceManager.h"
 
-void createBackground(std::vector<Entity>* entities);
-Entity* createPlayer(std::vector<Entity>* entities);
-void createBullet(std::vector<Entity>* entities);
-void createEnemy1(std::vector<Entity>* entities);
-void createEnemy2(std::vector<Entity>* entities);
-void createEnemy3(std::vector<Entity>* entities);
-void createExplosion(std::vector<Entity>* entities);
-void createBang(std::vector<Entity>* entities);
-void createParticle(std::vector<Entity>* entities);
+void CreateBackground(std::vector<Entity>* entities);
+Entity* CreatePlayer(std::vector<Entity>* entities);
+void CreateBullet(std::vector<Entity>* entities);
+void CreateEnemy1(std::vector<Entity>* entities);
+void CreateEnemy2(std::vector<Entity>* entities);
+void CreateEnemy3(std::vector<Entity>* entities);
+void CreateExplosion(std::vector<Entity>* entities);
+void CreateBang(std::vector<Entity>* entities);
+void CreateParticle(std::vector<Entity>* entities);
 
 
-void initBackground(Entity* entity);
-void initPlayer(Entity* entity);
-void initBullet(Entity* entity);
-void initEnemy1(Entity* entity);
-void initEnemy2(Entity* entity);
-void initEnemy3(Entity* entity);
-void initExplosion(Entity* entity);
-void initBang(Entity* entity);
-void initParticle(Entity* entity);
+void InitBackground(Entity* entity);
+void InitPlayer(Entity* entity);
+void InitBullet(Entity* entity);
+void InitEnemy1(Entity* entity);
+void InitEnemy2(Entity* entity);
+void InitEnemy3(Entity* entity);
+void InitExplosion(Entity* entity);
+void InitBang(Entity* entity);
+void InitParticle(Entity* entity);
 
-void refreshBullet(Entity* entity, int x, int y);
-void refreshEnemy1(Entity* entity, int x, int y);
-void refreshEnemy2(Entity* entity, int x, int y);
-void refreshEnemy3(Entity* entity, int x, int y);
-void refreshExplosion(Entity* entity, int x, int y);
-void refreshBang(Entity* entity, int x, int y);
-void refreshParticle(Entity* entity, int x, int y);
+void RefreshBullet(Entity* entity, int x, int y);
+void RefreshEnemy1(Entity* entity, int x, int y);
+void RefreshEnemy2(Entity* entity, int x, int y);
+void RefreshEnemy3(Entity* entity, int x, int y);
+void RefreshExplosion(Entity* entity, int x, int y);
+void RefreshBang(Entity* entity, int x, int y);
+void RefreshParticle(Entity* entity, int x, int y);
 

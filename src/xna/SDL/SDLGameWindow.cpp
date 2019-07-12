@@ -4,7 +4,7 @@
 namespace xna {
 
     SDLGameWindow::SDLGameWindow() { }
-    SDLGameWindow::SDLGameWindow(Game* game) : GameWindow() {
+    SDLGameWindow::SDLGameWindow(GameBase* game) : GameWindow() {
         this->game = game;
         width = GraphicsDeviceManager::DefaultBackBufferWidth;
         height = GraphicsDeviceManager::DefaultBackBufferHeight;
@@ -24,12 +24,17 @@ namespace xna {
 
     }
 
+    SDL_Window* SDLGameWindow::getHandle()  {
+        return handle; 
+
+    }
+
     bool SDLGameWindow::getAllowResizing() {
         return !borderless && resizable;
     }
 
     bool SDLGameWindow::setAllowResizing(bool resizable) {
-        if (game->sdlVersion > 204) {
+        if (game->SdlVersion > 204) {
             SDL_SetWindowResizable(handle, (SDL_bool)resizable);
         } else {
             printf("SDL 2.0.4 does not support changing resizable parameter of the window after it's already been created, please use a newer version of it.");
@@ -52,6 +57,10 @@ namespace xna {
         return new Rectangle(x, y, width, height);
     }
 
+    DisplayOrientation SDLGameWindow::getCurentOrientation() { 
+        return DisplayOrientation::Default; 
+    }
+
     Point* SDLGameWindow::getSize() { 
         return new Point(width, height);
     }
@@ -63,20 +72,68 @@ namespace xna {
 
     }
     void SDLGameWindow::setPosition(Point* pos) { 
-        SDL_SetWindowPosition(handle, pos->x, pos->y);
+        SDL_SetWindowPosition(handle, pos->X, pos->Y);
+        wasMoved = true;
+    }
+    
+    void SDLGameWindow::Moved() {
+        if (supressMove) {
+            supressMove = false;
+            return;
+        }
         wasMoved = true;
     }
 
-    DisplayOrientation SDLGameWindow::getCurentOrientation() { 
-        return DisplayOrientation::Default; 
+    void SDLGameWindow::ClientResize(int, int)  {   
+        SDL_GetWindowSize(handle, &width, &height);
+        GameWindow::OnClientSizeChanged();
     }
-    SDL_Window* SDLGameWindow::getHandle()  {
-        return handle; 
+
+    void SDLGameWindow::CallTextInput(char c, Keys key) {
+        GameWindow::OnTextInput(c, key);
+    }
+
+    void SDLGameWindow::setSupportedOrientation(DisplayOrientation) {
 
     }
+
+    void SDLGameWindow::setTitle(char* title) {
+        GameWindow::setTitle(title);
+        SDL_SetWindowTitle(handle, title);
+    }
+
     char* SDLGameWindow::getScreenDeviceName()  { 
         return screenDeviceName;
     }
+
+    void SDLGameWindow::setCursorVisible(bool visible) {
+        mouseVisible = visible;
+        SDL_ShowCursor(visible);
+    }
+
+    void SDLGameWindow::BeginScreenDeviceChange(bool willBeFullScreen) {
+        this->willBeFullScreen = willBeFullScreen; 
+    }
+    
+    void SDLGameWindow::EndScreenDeviceChange(
+        char* screenDeviceName, 
+        int clientX, 
+        int clientY, 
+        int clientWidth, 
+        int clientHeight
+    ) {
+        this->screenDeviceName = screenDeviceName;
+        if (!willBeFullScreen) {
+            SDL_SetWindowPosition(handle, clientX, clientY);
+            SDL_SetWindowSize(handle, clientWidth, clientHeight);
+            width = clientWidth;
+            height = clientHeight;
+            x = clientX;
+            y = clientY;
+        }
+    }
+
+    
 
 
 }

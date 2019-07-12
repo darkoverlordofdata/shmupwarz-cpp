@@ -5,30 +5,40 @@
 
 namespace xna {
 
-    class Game;
+    class GameBase;
     class SDLGameWindow : public GameWindow {
-    friend class Game;
+    friend class GameBase;
         
     public:
         SDLGameWindow();
-        SDLGameWindow(Game* game);
+        SDLGameWindow(GameBase* game);
         ~SDLGameWindow();
+
+        virtual SDL_Window* getHandle() override;
 
         void CreateWindow();
         bool getAllowResizing() override;
         bool setAllowResizing(bool) override;
+        virtual void setTitle(char*);
         bool getBorderless() override;
         bool setBorderless(bool) override;
         Rectangle* getClientBounds() override;
+        virtual DisplayOrientation getCurentOrientation() override;
+        virtual Point* getSize() override;
         virtual Point* getPosition() override;
         virtual void setPosition(Point*) override;
-        virtual Point* getSize() override;
 
-        virtual DisplayOrientation getCurentOrientation() override;
-        virtual SDL_Window* getHandle() override;
+        void Moved();
+        void ClientResize(int, int);
+        void CallTextInput(char, Keys);
+        virtual void setSupportedOrientation(DisplayOrientation) override;
+
         virtual char* getScreenDeviceName() override;
+        void setCursorVisible(bool);
+        virtual void BeginScreenDeviceChange(bool) override;
+        virtual void EndScreenDeviceChange(char*, int, int, int, int) override;
 
-        Game* game;
+        GameBase* game;
         SDL_Window* handle;
         char* title;
         int x;

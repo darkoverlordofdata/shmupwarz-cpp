@@ -4,8 +4,8 @@ namespace xna {
 
     Point::Point() { }
     Point::Point(int x, int y) { 
-        this->x = x;
-        this->y = y;
+        X = x;
+        Y = y;
     }
     Point::~Point() { }
 

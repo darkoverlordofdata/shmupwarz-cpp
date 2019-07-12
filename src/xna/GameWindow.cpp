@@ -10,8 +10,6 @@ namespace xna {
 
     bool GameWindow::getAllowResizing() { }
     bool GameWindow::setAllowResizing(bool) { }
-    bool GameWindow::getBorderless() { }
-    bool GameWindow::setBorderless(bool) { }
     Rectangle* GameWindow::getClientBounds() { }
     Point* GameWindow::getPosition() { }
     void GameWindow::setPosition(Point*) { }
@@ -37,4 +35,21 @@ namespace xna {
         this->title = strdup(title);
     }
 
+    bool GameWindow::getBorderless() { 
+        return false;
+    }
+    bool GameWindow::setBorderless(bool) { 
+        printf("GameWindow.IsBorderless");
+    }
+
+    void GameWindow::BeginScreenDeviceChange(bool) {}
+    void GameWindow::EndScreenDeviceChange(char*, int, int, int, int) {}
+
+    void GameWindow::OnClientSizeChanged() {
+        // EventHelpers::Raise(this, ClientSizeChanged);
+    }
+
+    void GameWindow::OnTextInput(char c, Keys key) {
+        // EventHelpers::Raise(this, TextInput);
+    }
 }

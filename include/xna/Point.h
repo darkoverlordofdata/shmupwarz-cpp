@@ -9,7 +9,7 @@ namespace xna {
         Point(int x, int y);
         ~Point();    
 
-        int x;
-        int y;
+        int X;
+        int Y;
     };
 }

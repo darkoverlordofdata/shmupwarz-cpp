@@ -1,9 +1,9 @@
 /** 
- * Entity Factory
+ * Entity FTypey
  */
 #include "Entities.h"
 
-int uniqueId = 0;
+int UniqueId = 0;
 
 /**
  * getResource
@@ -13,232 +13,232 @@ int uniqueId = 0;
  * @param name
  * @return surface
  */
-SDL_Surface* getResource(std::string name) {
+SDL_Surface* GetResource(std::string name) {
     const std::string path = "assets/images/"+name;
     return IMG_Load(path.c_str());
 }
 
-void createBackground(std::vector<Entity>* entities){
-    entities->emplace_back(uniqueId++, "background", true);
-    initBackground(&entities->back());
+void CreateBackground(std::vector<Entity>* entities){
+    entities->emplace_back(UniqueId++, "background", true);
+    InitBackground(&entities->back());
 }
 
-void initBackground(Entity* entity) {
+void InitBackground(Entity* entity) {
     const auto scale = 2.0;
-    entity->actor = Actor::BACKGROUND;
-    entity->category = Category::BACKGROUND;
-    entity->sprite.texture = ResourceManager::GetTexture("background");
-    entity->sprite.width = entity->sprite.texture.Width*scale;
-    entity->sprite.height = entity->sprite.texture.Height*scale;
+    entity->Type = TypeOf::BACKGROUND;
+    entity->Category = CategoryOf::BACKGROUND;
+    entity->Sprite.Texture = xna::ResourceManager::GetTexture("background");
+    entity->Sprite.Width = entity->Sprite.Texture.Width*scale;
+    entity->Sprite.Height = entity->Sprite.Texture.Height*scale;
     
 
-    entity->bounds.w = entity->sprite.texture.Width*scale; 
-    entity->bounds.h = entity->sprite.texture.Height*scale; 
-    entity->scale.x = scale;
-    entity->scale.y = scale;
+    entity->Bounds.w = entity->Sprite.Texture.Width*scale; 
+    entity->Bounds.h = entity->Sprite.Texture.Height*scale; 
+    entity->Scale.X = scale;
+    entity->Scale.Y = scale;
     // SDL_FreeSurface(surface);
 }
 
-Entity* createPlayer(std::vector<Entity>* entities) {
-    entities->emplace_back(uniqueId++, "player", true);
-    initPlayer(&entities->back());
+Entity* CreatePlayer(std::vector<Entity>* entities) {
+    entities->emplace_back(UniqueId++, "player", true);
+    InitPlayer(&entities->back());
     return &entities->back();
 }
 
-void initPlayer(Entity* entity) {
+void InitPlayer(Entity* entity) {
     auto scale = 1.0;
-    entity->actor = Actor::PLAYER;
-    entity->category = Category::PLAYER;
-    entity->sprite.texture = ResourceManager::GetTexture("spaceshipspr");
-    entity->sprite.width = entity->sprite.texture.Width*scale;
-    entity->sprite.height = entity->sprite.texture.Height*scale;
-    entity->bounds.w = entity->sprite.texture.Width*scale; 
-    entity->bounds.h = entity->sprite.texture.Height*scale; 
-    entity->scale.x = scale;
-    entity->scale.y = scale;
+    entity->Type = TypeOf::PLAYER;
+    entity->Category = CategoryOf::PLAYER;
+    entity->Sprite.Texture = xna::ResourceManager::GetTexture("spaceshipspr");
+    entity->Sprite.Width = entity->Sprite.Texture.Width*scale;
+    entity->Sprite.Height = entity->Sprite.Texture.Height*scale;
+    entity->Bounds.w = entity->Sprite.Texture.Width*scale; 
+    entity->Bounds.h = entity->Sprite.Texture.Height*scale; 
+    entity->Scale.X = scale;
+    entity->Scale.Y = scale;
     // SDL_FreeSurface(surface);
 }
 
-void createBullet(std::vector<Entity>* entities) {
-    entities->emplace_back(uniqueId++, "bullet", false);
-    initBullet(&entities->back());
+void CreateBullet(std::vector<Entity>* entities) {
+    entities->emplace_back(UniqueId++, "bullet", false);
+    InitBullet(&entities->back());
 }
-void initBullet(Entity* entity) {
+void InitBullet(Entity* entity) {
     auto scale = 1.0;
-    entity->actor = Actor::BULLET;
-    entity->category = Category::BULLET;
-    entity->sprite.texture = ResourceManager::GetTexture("bullet");
-    entity->sprite.width = entity->sprite.texture.Width*scale;
-    entity->sprite.height = entity->sprite.texture.Height*scale;
-    entity->bounds.w = entity->sprite.texture.Width*scale; 
-    entity->bounds.h = entity->sprite.texture.Height*scale; 
-    entity->scale.x = scale;
-    entity->scale.y = scale;
+    entity->Type = TypeOf::BULLET;
+    entity->Category = CategoryOf::BULLET;
+    entity->Sprite.Texture = xna::ResourceManager::GetTexture("bullet");
+    entity->Sprite.Width = entity->Sprite.Texture.Width*scale;
+    entity->Sprite.Height = entity->Sprite.Texture.Height*scale;
+    entity->Bounds.w = entity->Sprite.Texture.Width*scale; 
+    entity->Bounds.h = entity->Sprite.Texture.Height*scale; 
+    entity->Scale.X = scale;
+    entity->Scale.Y = scale;
     // SDL_FreeSurface(surface);
 }
 
-void refreshBullet(Entity* entity, int x, int y) {
-    entity->position.x = x;
-    entity->position.y = y;
-    entity->expires = 1.0;
-    entity->sound = Effect::PEW;
-    entity->health = new Health(2, 2);
-    entity->tint = new Color(0xd2, 0xfa, 0x00, 0xffa);
-    entity->velocity = new Vector2d(0, -800);
-    entity->active = true;
+void RefreshBullet(Entity* entity, int x, int y) {
+    entity->Position.X = x;
+    entity->Position.Y = y;
+    entity->Expires = 1.0;
+    entity->Sound = Effect::PEW;
+    entity->Health = new Health(2, 2);
+    entity->Tint = new Color(0xd2, 0xfa, 0x00, 0xffa);
+    entity->Velocity = new Vector2d(0, -800);
+    entity->Active = true;
 }
 
-void createEnemy1(std::vector<Entity>* entities){
-    entities->emplace_back(uniqueId++, "enemy1", false);
-    initEnemy1(&entities->back());
+void CreateEnemy1(std::vector<Entity>* entities){
+    entities->emplace_back(UniqueId++, "enemy1", false);
+    InitEnemy1(&entities->back());
 }
-void initEnemy1(Entity* entity) {
+void InitEnemy1(Entity* entity) {
     auto scale = 1.0;
-    entity->actor = Actor::ENEMY1;
-    entity->category = Category::ENEMY;
-    entity->sprite.texture = ResourceManager::GetTexture("enemy1");
-    entity->sprite.width = entity->sprite.texture.Width*scale;
-    entity->sprite.height = entity->sprite.texture.Height*scale;
-    entity->bounds.w = entity->sprite.texture.Width*scale; 
-    entity->bounds.h = entity->sprite.texture.Height*scale; 
-    entity->scale.x = scale;
-    entity->scale.y = scale;
+    entity->Type = TypeOf::ENEMY1;
+    entity->Category = CategoryOf::ENEMY;
+    entity->Sprite.Texture = xna::ResourceManager::GetTexture("enemy1");
+    entity->Sprite.Width = entity->Sprite.Texture.Width*scale;
+    entity->Sprite.Height = entity->Sprite.Texture.Height*scale;
+    entity->Bounds.w = entity->Sprite.Texture.Width*scale; 
+    entity->Bounds.h = entity->Sprite.Texture.Height*scale; 
+    entity->Scale.X = scale;
+    entity->Scale.Y = scale;
     // SDL_FreeSurface(surface);
 }
-void refreshEnemy1(Entity* entity, int x, int y) {
-    entity->position.x = x;
-    entity->position.y = y;
-    entity->health = new Health(10, 10);
-    entity->velocity = new Vector2d(0, 40);
-    entity->active = true;
+void RefreshEnemy1(Entity* entity, int x, int y) {
+    entity->Position.X = x;
+    entity->Position.Y = y;
+    entity->Health = new Health(10, 10);
+    entity->Velocity = new Vector2d(0, 40);
+    entity->Active = true;
 }
 
-void createEnemy2(std::vector<Entity>* entities){
-    entities->emplace_back(uniqueId++, "enemy2", false);
-    initEnemy2(&entities->back());
+void CreateEnemy2(std::vector<Entity>* entities){
+    entities->emplace_back(UniqueId++, "enemy2", false);
+    InitEnemy2(&entities->back());
 }
-void initEnemy2(Entity* entity) {
+void InitEnemy2(Entity* entity) {
     auto scale = 1.0;
-    entity->actor = Actor::ENEMY2;
-    entity->category = Category::ENEMY;
-    entity->sprite.texture = ResourceManager::GetTexture("enemy2");
-    entity->sprite.width = entity->sprite.texture.Width*scale;
-    entity->sprite.height = entity->sprite.texture.Height*scale;
-    entity->bounds.w = entity->sprite.texture.Width*scale; 
-    entity->bounds.h = entity->sprite.texture.Height*scale; 
-    entity->scale.x = scale;
-    entity->scale.y = scale;
+    entity->Type = TypeOf::ENEMY2;
+    entity->Category = CategoryOf::ENEMY;
+    entity->Sprite.Texture = xna::ResourceManager::GetTexture("enemy2");
+    entity->Sprite.Width = entity->Sprite.Texture.Width*scale;
+    entity->Sprite.Height = entity->Sprite.Texture.Height*scale;
+    entity->Bounds.w = entity->Sprite.Texture.Width*scale; 
+    entity->Bounds.h = entity->Sprite.Texture.Height*scale; 
+    entity->Scale.X = scale;
+    entity->Scale.Y = scale;
     // SDL_FreeSurface(surface);
 }
-void refreshEnemy2(Entity* entity, int x, int y){
-    entity->position.x = x;
-    entity->position.y = y;
-    entity->health = new Health(20, 20);
-    entity->velocity = new Vector2d(0, 30);
-    entity->active = true;
+void RefreshEnemy2(Entity* entity, int x, int y){
+    entity->Position.X = x;
+    entity->Position.Y = y;
+    entity->Health = new Health(20, 20);
+    entity->Velocity = new Vector2d(0, 30);
+    entity->Active = true;
 }
-void createEnemy3(std::vector<Entity>* entities){
-    entities->emplace_back(uniqueId++, "enemy3", false);
-    initEnemy3(&entities->back());
+void CreateEnemy3(std::vector<Entity>* entities){
+    entities->emplace_back(UniqueId++, "enemy3", false);
+    InitEnemy3(&entities->back());
 }
-void initEnemy3(Entity* entity) {
+void InitEnemy3(Entity* entity) {
     auto scale = 1.0;
-    entity->actor = Actor::ENEMY3;
-    entity->category = Category::ENEMY;
-    entity->sprite.texture = ResourceManager::GetTexture("enemy3");
-    entity->sprite.width = entity->sprite.texture.Width*scale;
-    entity->sprite.height = entity->sprite.texture.Height*scale;
-    entity->bounds.w = entity->sprite.texture.Width*scale; 
-    entity->bounds.h = entity->sprite.texture.Height*scale; 
-    entity->scale.x = scale;
-    entity->scale.y = scale;
+    entity->Type = TypeOf::ENEMY3;
+    entity->Category = CategoryOf::ENEMY;
+    entity->Sprite.Texture = xna::ResourceManager::GetTexture("enemy3");
+    entity->Sprite.Width = entity->Sprite.Texture.Width*scale;
+    entity->Sprite.Height = entity->Sprite.Texture.Height*scale;
+    entity->Bounds.w = entity->Sprite.Texture.Width*scale; 
+    entity->Bounds.h = entity->Sprite.Texture.Height*scale; 
+    entity->Scale.X = scale;
+    entity->Scale.Y = scale;
     // SDL_FreeSurface(surface);
 }
-void refreshEnemy3(Entity* entity, int x, int y){
-    entity->position.x = x;
-    entity->position.y = y;
-    entity->health = new Health(60, 60);
-    entity->velocity = new Vector2d(0, 20);
-    entity->active = true;
+void RefreshEnemy3(Entity* entity, int x, int y){
+    entity->Position.X = x;
+    entity->Position.Y = y;
+    entity->Health = new Health(60, 60);
+    entity->Velocity = new Vector2d(0, 20);
+    entity->Active = true;
 }
 
-void createExplosion(std::vector<Entity>* entities){
-    entities->emplace_back(uniqueId++, "explosion", false);
-    initExplosion(&entities->back());
+void CreateExplosion(std::vector<Entity>* entities){
+    entities->emplace_back(UniqueId++, "explosion", false);
+    InitExplosion(&entities->back());
 }
-void initExplosion(Entity* entity) {
+void InitExplosion(Entity* entity) {
     auto scale = 0.6;
-    entity->actor = Actor::EXPLOSION;
-    entity->category = Category::EXPLOSION;
-    entity->sprite.texture = ResourceManager::GetTexture("explosion");
-    entity->sprite.width = entity->sprite.texture.Width*scale;
-    entity->sprite.height = entity->sprite.texture.Height*scale;
-    entity->bounds.w = entity->sprite.texture.Width*scale; 
-    entity->bounds.h = entity->sprite.texture.Height*scale; 
-    entity->scale.x = scale;
-    entity->scale.y = scale;
+    entity->Type = TypeOf::EXPLOSION;
+    entity->Category = CategoryOf::EXPLOSION;
+    entity->Sprite.Texture = xna::ResourceManager::GetTexture("explosion");
+    entity->Sprite.Width = entity->Sprite.Texture.Width*scale;
+    entity->Sprite.Height = entity->Sprite.Texture.Height*scale;
+    entity->Bounds.w = entity->Sprite.Texture.Width*scale; 
+    entity->Bounds.h = entity->Sprite.Texture.Height*scale; 
+    entity->Scale.X = scale;
+    entity->Scale.Y = scale;
     // SDL_FreeSurface(surface);
 }
-void refreshExplosion(Entity* entity, int x, int y){
+void RefreshExplosion(Entity* entity, int x, int y){
     auto scale = 0.6;
-    entity->position.x = x;
-    entity->position.y = y;
-    entity->bounds.x = x; 
-    entity->bounds.y = y; 
-    entity->scale.x = scale;
-    entity->scale.y = scale;
-    entity->sound = Effect::ASPLODE;
-    entity->tween = new Tween(scale/100.0, scale, -3, false, true);
-    entity->tint = new Color(0xd2, 0xfa, 0xd2, 0xfa);
-    entity->expires = 0.2;
-    entity->active = true;
+    entity->Position.X = x;
+    entity->Position.Y = y;
+    entity->Bounds.x = x; 
+    entity->Bounds.y = y; 
+    entity->Scale.X = scale;
+    entity->Scale.Y = scale;
+    entity->Sound = Effect::ASPLODE;
+    entity->Tween = new Tween(scale/100.0, scale, -3, false, true);
+    entity->Tint = new Color(0xd2, 0xfa, 0xd2, 0xfa);
+    entity->Expires = 0.2;
+    entity->Active = true;
 }
-void createBang(std::vector<Entity>* entities){
-    entities->emplace_back(uniqueId++, "bang", false);
-    initBang(&entities->back());
+void CreateBang(std::vector<Entity>* entities){
+    entities->emplace_back(UniqueId++, "bang", false);
+    InitBang(&entities->back());
 }
-void initBang(Entity* entity) {
+void InitBang(Entity* entity) {
     auto scale = 0.4;
-    entity->actor = Actor::BANG;
-    entity->category = Category::EXPLOSION;
-    entity->sprite.texture = ResourceManager::GetTexture("explosion");
-    entity->sprite.width = entity->sprite.texture.Width*scale;
-    entity->sprite.height = entity->sprite.texture.Height*scale;
-    entity->bounds.w = entity->sprite.texture.Width*scale; 
-    entity->bounds.h = entity->sprite.texture.Height*scale; 
-    entity->scale.x = scale;
-    entity->scale.y = scale;
+    entity->Type = TypeOf::BANG;
+    entity->Category = CategoryOf::EXPLOSION;
+    entity->Sprite.Texture = xna::ResourceManager::GetTexture("explosion");
+    entity->Sprite.Width = entity->Sprite.Texture.Width*scale;
+    entity->Sprite.Height = entity->Sprite.Texture.Height*scale;
+    entity->Bounds.w = entity->Sprite.Texture.Width*scale; 
+    entity->Bounds.h = entity->Sprite.Texture.Height*scale; 
+    entity->Scale.X = scale;
+    entity->Scale.Y = scale;
     // SDL_FreeSurface(surface);
 }
-void refreshBang(Entity* entity, int x, int y){
+void RefreshBang(Entity* entity, int x, int y){
     auto scale = 0.4;
-    entity->position.x = x;
-    entity->position.y = y;
-    entity->bounds.x = x; 
-    entity->bounds.y = y; 
-    entity->scale.x = scale;
-    entity->scale.y = scale;
-    entity->sound = Effect::SMALLASPLODE;
-    entity->tween = new Tween(scale/100.0, scale, -3, false, true);
-    entity->tint = new Color(0xd2, 0xfa, 0xd2, 0xfa);
-    entity->expires = 0.2;
-    entity->active = true;
+    entity->Position.X = x;
+    entity->Position.Y = y;
+    entity->Bounds.x = x; 
+    entity->Bounds.y = y; 
+    entity->Scale.X = scale;
+    entity->Scale.Y = scale;
+    entity->Sound = Effect::SMALLASPLODE;
+    entity->Tween = new Tween(scale/100.0, scale, -3, false, true);
+    entity->Tint = new Color(0xd2, 0xfa, 0xd2, 0xfa);
+    entity->Expires = 0.2;
+    entity->Active = true;
 }
-void createParticle(std::vector<Entity>* entities){
-    entities->emplace_back(uniqueId++, "particle", false);
-    initParticle(&entities->back());
+void CreateParticle(std::vector<Entity>* entities){
+    entities->emplace_back(UniqueId++, "particle", false);
+    InitParticle(&entities->back());
 }
-void initParticle(Entity* entity) {
+void InitParticle(Entity* entity) {
     auto scale = 1.0;
-    entity->actor = Actor::PARTICLE;
-    entity->category = Category::PARTICLE;
-    entity->sprite.texture = ResourceManager::GetTexture("star");
-    entity->sprite.width = entity->sprite.texture.Width*scale;
-    entity->sprite.height = entity->sprite.texture.Height*scale;
-    entity->bounds.w = entity->sprite.texture.Width*scale; 
-    entity->bounds.h = entity->sprite.texture.Height*scale; 
-    entity->scale.x = scale;
-    entity->scale.y = scale;
+    entity->Type = TypeOf::PARTICLE;
+    entity->Category = CategoryOf::PARTICLE;
+    entity->Sprite.Texture = xna::ResourceManager::GetTexture("star");
+    entity->Sprite.Width = entity->Sprite.Texture.Width*scale;
+    entity->Sprite.Height = entity->Sprite.Texture.Height*scale;
+    entity->Bounds.w = entity->Sprite.Texture.Width*scale; 
+    entity->Bounds.h = entity->Sprite.Texture.Height*scale; 
+    entity->Scale.X = scale;
+    entity->Scale.Y = scale;
     // SDL_FreeSurface(surface);
 }
 
@@ -247,7 +247,7 @@ void initParticle(Entity* entity) {
 // var velocityX = magnitude * Math.cos(radians)
 // var velocityY = magnitude * Math.sin(radians)
 
-void refreshParticle(Entity* entity, int x, int y){
+void RefreshParticle(Entity* entity, int x, int y){
     auto Tau = 6.28318;
     // auto radians = ((double)std::rand()/1.0) * Tau;
     // auto magnitude = std::rand() % 100 + 50;
@@ -259,15 +259,15 @@ void refreshParticle(Entity* entity, int x, int y){
     auto velocityY = magnitude * sin(radians);
     auto scale = (double)(std::rand() % 10) / 10.0;
     // std::cout << velocityX << ", " << velocityY << "\n" << std::flush;
-    entity->position.x = x;
-    entity->position.y = y;
-    entity->bounds.x = x; 
-    entity->bounds.y = y; 
-    entity->scale.x = scale;
-    entity->scale.y = scale;
-    entity->velocity = new Vector2d(velocityX, velocityY);
-    entity->tint = new Color(0xfa, 0xfa, 0xd2, 0xff);
-    entity->expires = 0.75;
-    entity->active = true;
+    entity->Position.X = x;
+    entity->Position.Y = y;
+    entity->Bounds.x = x; 
+    entity->Bounds.y = y; 
+    entity->Scale.X = scale;
+    entity->Scale.Y = scale;
+    entity->Velocity = new Vector2d(velocityX, velocityY);
+    entity->Tint = new Color(0xfa, 0xfa, 0xd2, 0xff);
+    entity->Expires = 0.75;
+    entity->Active = true;
 }
 

@@ -3,111 +3,110 @@
 using namespace std::chrono;
 
 Shmupwarz::Shmupwarz(std::string t, int width, int height, SDL_Window* w)
-    : Game(t, width, height, w) {
-    // systems = new Systems(this);
+    : GameBase(t, width, height, w) {
+    // Systems = new Systems(this);
 }
 
 Shmupwarz::~Shmupwarz() {
-    // systems->dispose();
-    Game::stop();
+    // Systems->dispose();
+    GameBase::Stop();
 }
 
 /**
  * Draw the frame
  */
-void Shmupwarz::draw() {
+void Shmupwarz::Draw() {
     // Render
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    for (int i=0; i<entities.size(); i++) {
-        if (!entities[i].active) continue;
+    for (int i=0; i<Entities.size(); i++) {
+        if (!Entities[i].Active) continue;
 
         glm::vec3 color(1, 1, 1);
 
-        auto texture = entities[i].sprite.texture;
-        if (entities[i].tint) {
-            color[0] = (float)entities[i].tint.value()->r/255.0;
-            color[1] = (float)entities[i].tint.value()->g/255.0;
-            color[2] = (float)entities[i].tint.value()->b/255.0;
+        auto texture = Entities[i].Sprite.Texture;
+        if (Entities[i].Tint) {
+            color[0] = (float)Entities[i].Tint.value()->R/255.0;
+            color[1] = (float)Entities[i].Tint.value()->G/255.0;
+            color[2] = (float)Entities[i].Tint.value()->B/255.0;
         }
 
         Renderer->DrawSprite(texture, 
-            {   entities[i].bounds.x, 
-                entities[i].bounds.y },
-            {   entities[i].bounds.w, 
-                entities[i].bounds.h }, 
+            {   Entities[i].Bounds.x, 
+                Entities[i].Bounds.y },
+            {   Entities[i].Bounds.w, 
+                Entities[i].Bounds.h }, 
             0.0f, color);
 
     }
     // fpsChanged(fps);
-    SDL_GL_SwapWindow(window);
+    SDL_GL_SwapWindow(Window);
 }
 
 /**
  * Update game logic
  */
-void Shmupwarz::update() {
-    this->delta = delta;
+void Shmupwarz::Update() {
 
-    systems->spawnSystem(player);
-    for (int i=0; i<entities.size(); i++) systems->collisionSystem(&entities[i]);
-    for (int i=0; i<entities.size(); i++) systems->entitySystem(&entities[i]);
-    systems->inputSystem(player);
-    for (int i=0; i<entities.size(); i++) systems->physicsSystem(&entities[i]);
-    for (int i=0; i<entities.size(); i++) systems->expireSystem(&entities[i]);
-    for (int i=0; i<entities.size(); i++) systems->tweenSystem(&entities[i]);
-    for (int i=0; i<entities.size(); i++) systems->removeSystem(&entities[i]);
+    Systems->SpawnSystem(Player);
+    for (int i=0; i<Entities.size(); i++) Systems->CollisionSystem(&Entities[i]);
+    for (int i=0; i<Entities.size(); i++) Systems->EntitySystem(&Entities[i]);
+    Systems->InputSystem(Player);
+    for (int i=0; i<Entities.size(); i++) Systems->PhysicsSystem(&Entities[i]);
+    for (int i=0; i<Entities.size(); i++) Systems->ExpireSystem(&Entities[i]);
+    for (int i=0; i<Entities.size(); i++) Systems->TweenSystem(&Entities[i]);
+    for (int i=0; i<Entities.size(); i++) Systems->RemoveSystem(&Entities[i]);
 
 }
 
 /**
  * Initialize the game
  */
-void Shmupwarz::init() {
-    systems = new Systems(this);
+void Shmupwarz::Init() {
+    Systems = new GameSystems(this);
 }
 
 /**
  * load game resources
  */
-void Shmupwarz::loadContent() {
+void Shmupwarz::LoadContent() {
     // Load shaders
-    ResourceManager::LoadShader("assets/shaders/sprite.vs", "assets/shaders/sprite.frag", nullptr, "sprite");
-    ResourceManager::LoadShader("assets/shaders/particle.vs", "assets/shaders/particle.frag", nullptr, "particle");
+    xna::ResourceManager::LoadShader("assets/shaders/sprite.vs", "assets/shaders/sprite.frag", nullptr, "sprite");
+    xna::ResourceManager::LoadShader("assets/shaders/particle.vs", "assets/shaders/particle.frag", nullptr, "particle");
 
     // Configure shaders
-    glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(this->width), static_cast<GLfloat>(this->height), 0.0f, -1.0f, 1.0f);
-    ResourceManager::GetShader("sprite").Use().SetInteger("sprite", 0);
-    ResourceManager::GetShader("sprite").SetMatrix4("projection", projection);
-    ResourceManager::GetShader("particle").Use().SetInteger("sprite", 0);
-    ResourceManager::GetShader("particle").SetMatrix4("projection", projection);
+    glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(this->Width), static_cast<GLfloat>(this->Height), 0.0f, -1.0f, 1.0f);
+    xna::ResourceManager::GetShader("sprite").Use().SetInteger("sprite", 0);
+    xna::ResourceManager::GetShader("sprite").SetMatrix4("projection", projection);
+    xna::ResourceManager::GetShader("particle").Use().SetInteger("sprite", 0);
+    xna::ResourceManager::GetShader("particle").SetMatrix4("projection", projection);
 
     // Load textures
-    ResourceManager::LoadTexture("assets/images/background.png", GL_TRUE, "background");
-    ResourceManager::LoadTexture("assets/images/bang.png", GL_TRUE, "bang");
-    ResourceManager::LoadTexture("assets/images/bullet.png", GL_TRUE, "bullet");
-    ResourceManager::LoadTexture("assets/images/enemy1.png", GL_TRUE, "enemy1");
-    ResourceManager::LoadTexture("assets/images/enemy2.png", GL_TRUE, "enemy2");
-    ResourceManager::LoadTexture("assets/images/enemy3.png", GL_TRUE, "enemy3");
-    ResourceManager::LoadTexture("assets/images/explosion.png", GL_TRUE, "explosion");
-    ResourceManager::LoadTexture("assets/images/particle.png", GL_TRUE, "particle");
-    ResourceManager::LoadTexture("assets/images/spaceshipspr.png", GL_TRUE, "spaceshipspr");
-    ResourceManager::LoadTexture("assets/images/star.png", GL_TRUE, "star");
+    xna::ResourceManager::LoadTexture("assets/images/background.png", GL_TRUE, "background");
+    xna::ResourceManager::LoadTexture("assets/images/bang.png", GL_TRUE, "bang");
+    xna::ResourceManager::LoadTexture("assets/images/bullet.png", GL_TRUE, "bullet");
+    xna::ResourceManager::LoadTexture("assets/images/enemy1.png", GL_TRUE, "enemy1");
+    xna::ResourceManager::LoadTexture("assets/images/enemy2.png", GL_TRUE, "enemy2");
+    xna::ResourceManager::LoadTexture("assets/images/enemy3.png", GL_TRUE, "enemy3");
+    xna::ResourceManager::LoadTexture("assets/images/explosion.png", GL_TRUE, "explosion");
+    xna::ResourceManager::LoadTexture("assets/images/particle.png", GL_TRUE, "particle");
+    xna::ResourceManager::LoadTexture("assets/images/spaceshipspr.png", GL_TRUE, "spaceshipspr");
+    xna::ResourceManager::LoadTexture("assets/images/star.png", GL_TRUE, "star");
 
-    entities.reserve(141);
-    createBackground(&entities);
-    for (int i=0; i<12; i++)    createBullet(&entities);
-    for (int i=0; i<15; i++)    createEnemy1(&entities);
-    for (int i=0; i<5; i++)     createEnemy2(&entities);
-    for (int i=0; i<4; i++)     createEnemy3(&entities);
-    for (int i=0; i<10; i++)    createExplosion(&entities);
-    for (int i=0; i<12; i++)    createBang(&entities);
-    for (int i=0; i<100; i++)   createParticle(&entities);
-    player = createPlayer(&entities);
+    Entities.reserve(141);
+    CreateBackground(&Entities);
+    for (int i=0; i<12; i++)    CreateBullet(&Entities);
+    for (int i=0; i<15; i++)    CreateEnemy1(&Entities);
+    for (int i=0; i<5; i++)     CreateEnemy2(&Entities);
+    for (int i=0; i<4; i++)     CreateEnemy3(&Entities);
+    for (int i=0; i<10; i++)    CreateExplosion(&Entities);
+    for (int i=0; i<12; i++)    CreateBang(&Entities);
+    for (int i=0; i<100; i++)   CreateParticle(&Entities);
+    Player = CreatePlayer(&Entities);
 
     // Set render-specific controls
-    Renderer = new SpriteRenderer(ResourceManager::GetShader("sprite"));
+    Renderer = new xna::SpriteRenderer(xna::ResourceManager::GetShader("sprite"));
 
 }
 

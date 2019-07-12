@@ -100,7 +100,7 @@ int main(int argc, char** argv){
     // auto game = new Shmupwarz(TITLE, SCREEN_WIDTH, SCREEN_HEIGHT, window, renderer);
     Shmupwarz game(TITLE, SCREEN_WIDTH, SCREEN_HEIGHT, window);
 
-    game.run();
+    game.Run();
 
     SDL_DestroyWindow(window);
 	IMG_Quit();

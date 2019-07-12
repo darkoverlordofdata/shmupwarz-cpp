@@ -16,12 +16,12 @@
 
 #include <experimental/optional>
 
-#include "Texture2D.h"
+#include "xna/Graphics/Texture2D.h"
 
 using namespace std::experimental;
 
 
-enum class Actor {
+enum class TypeOf {
     BACKGROUND,
     TEXT,
     LIVES,
@@ -35,7 +35,7 @@ enum class Actor {
     PARTICLE,
     HUD
 };
-enum class Category {
+enum class CategoryOf {
     BACKGROUND,
     BULLET,
     ENEMY,
@@ -52,85 +52,85 @@ enum class Effect {
 
 class Point2d {
 public:
-    Point2d(): x(0), y(0) {}
-    Point2d(double x, double y): x(x), y(y) {}
-    double x;
-    double y;
+    Point2d(): X(0), Y(0) {}
+    Point2d(double x, double y): X(x), Y(y) {}
+    double X;
+    double Y;
 };
 
 class Vector2d {
 public:
-    Vector2d(): x(0), y(0) {}
-    Vector2d(double x, double y): x(x), y(y) {}
-    double x;
-    double y;
+    Vector2d(): X(0), Y(0) {}
+    Vector2d(double x, double y): X(x), Y(y) {}
+    double X;
+    double Y;
 };
 
 class Scale {
 public:
-    Scale(): x(0), y(0) {}
-    Scale(double x, double y): x(x), y(y) {}
-    double x;
-    double y;
+    Scale(): X(0), Y(0) {}
+    Scale(double x, double y): X(x), Y(y) {}
+    double X;
+    double Y;
 };
 
 class Color {
 public:
-    Color(): r(0), g(0), b(0), a(0) {}
-    Color(int r, int g, int b, int a): r(r), g(g), b(b), a(a) {}
-    int r;
-    int g;
-    int b;
-    int a;
+    Color(): R(0), G(0), B(0), A(0) {}
+    Color(int r, int g, int b, int a): R(r), G(g), B(b), A(a) {}
+    int R;
+    int G;
+    int B;
+    int A;
 };
 
 class Health {
 public:
-    Health(): current(0), maximum(0) {}
-    Health(int c, int m): current(c), maximum(m) {}
-    int current;
-    int maximum;
+    Health(): Current(0), Maximum(0) {}
+    Health(int c, int m): Current(c), Maximum(m) {}
+    int Current;
+    int Maximum;
 };
 
 class Tween {
 public:
-    Tween(): min(0), max(0), speed(0), repeat(false), active(false) {}
-    Tween(double m, double x, double s, bool r, bool a): min(m), max(x), speed(s), repeat(r), active(a) {}
-    double min;
-    double max;
-    double speed;
-    bool repeat;
-    bool active;
+    Tween(): Min(0), Max(0), Speed(0), Repeat(false), Active(false) {}
+    Tween(double m, double x, double s, bool r, bool a): Min(m), Max(x), Speed(s), Repeat(r), Active(a) {}
+    double Min;
+    double Max;
+    double Speed;
+    bool Repeat;
+    bool Active;
 };
 
 class Sprite {
 public:
-    Texture2D texture;
-    int width;
-    int height;
+    xna::graphics::Texture2D Texture;
+    int Width;
+    int Height;
 };
 
 
 class Entity {
 public:
-    Entity(int id, std::string name, bool active): id(id), name(name), active(active) {}
+    Entity(int id, std::string name, bool active): Id(id), Name(name), Active(active) {}
     
-    int id;
-    std::string name;
-    bool active;
-    Actor actor;
-    Category category;
-    Point2d position;
-    SDL_Rect bounds;
-    Vector2d scale;
-    Sprite sprite;
+    int Id;
+    std::string Name;
+    bool Active;
+    TypeOf Type;
+    CategoryOf Category;
+    Point2d Position;
+    SDL_Rect Bounds;
+    Vector2d Scale;
+    Sprite Sprite;
 
-    optional<Effect> sound;
-    optional<Color*> tint;
-    optional<double> expires;
-    optional<Health*> health;
-    optional<Tween*> tween;
-    optional<Vector2d*> velocity;
+    optional<Effect> Sound;
+    optional<Color*> Tint;
+    optional<double> Expires;
+    optional<Health*> Health;
+    optional<Tween*> Tween;
+    optional<Vector2d*> Velocity;
 
 
 };

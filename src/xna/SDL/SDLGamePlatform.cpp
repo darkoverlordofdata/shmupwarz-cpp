@@ -2,13 +2,13 @@
 namespace xna {
 
     SDLGamePlatform::SDLGamePlatform() { }
-    SDLGamePlatform::SDLGamePlatform(Game* game) :GamePlatform(game) {
+    SDLGamePlatform::SDLGamePlatform(GameBase* game) :GamePlatform(game) {
         
         SDL_version sversion;
         SDL_GetVersion(&sversion);
 
-        game->sdlVersion = 100 * sversion.major + 10 * sversion.minor + sversion.patch;
-        if (game->sdlVersion <= 204) {
+        game->SdlVersion = 100 * sversion.major + 10 * sversion.minor + sversion.patch;
+        if (game->SdlVersion <= 204) {
             printf("Please use SDL 2.0.5 or higher.\n");
 
         }
