@@ -8,10 +8,10 @@ GameSystems::GameSystems(Shmupwarz* g): Game(g) {
 GameSystems::~GameSystems(){}
 
 void GameSystems::InputSystem(Entity* entity){
-    entity->Position.X = Game->MouseX;
-    entity->Position.Y = Game->MouseY;
-    if (Game->GetKey(122) || Game->MouseDown) {
-        TimeToFire -= Game->Delta;
+    entity->Position.X = Game->MouseX();
+    entity->Position.Y = Game->MouseY();
+    if (Game->GetKey(122) || Game->MouseDown()) {
+        TimeToFire -= Game->Delta();
         if (TimeToFire < 0.0) {
             Game->Bullets.emplace_back(entity->Position.X - 27, entity->Position.Y + 2);
             Game->Bullets.emplace_back(entity->Position.X + 27, entity->Position.Y + 2);
@@ -43,16 +43,16 @@ void GameSystems::PhysicsSystem(Entity* entity){
     {
         // Move entity?
         if (entity->Velocity) {
-            entity->Position.X += entity->Velocity.value()->X * Game->Delta;
-            entity->Position.Y += entity->Velocity.value()->Y * Game->Delta;
+            entity->Position.X += entity->Velocity.value()->X * Game->Delta();
+            entity->Position.Y += entity->Velocity.value()->Y * Game->Delta();
         }
         // Set new bounding box
         if (entity->Category == CategoryOf::BACKGROUND) 
         {
             // entity->Bounds.w = entity->Sprite.width * entity->Scale.X;
             // entity->Bounds.h = entity->Sprite.height * entity->Scale.Y;
-            entity->Bounds.w = Game->Width;
-            entity->Bounds.h = Game->Height;
+            entity->Bounds.w = Game->Width();
+            entity->Bounds.h = Game->Height();
             entity->Bounds.x = 0; 
             entity->Bounds.y = 0; 
         } else {
@@ -66,7 +66,7 @@ void GameSystems::PhysicsSystem(Entity* entity){
 
 void GameSystems::ExpireSystem(Entity* entity){
     if (entity->Active && entity->Expires) {
-        auto exp = entity->Expires.value() - Game->Delta;
+        auto exp = entity->Expires.value() - Game->Delta();
         entity->Expires = exp;
         if (entity->Expires.value() < 0) {
             entity->Active = false;
@@ -77,8 +77,8 @@ void GameSystems::ExpireSystem(Entity* entity){
 void GameSystems::TweenSystem(Entity* entity){
     if (entity->Active && entity->Tween) {
 
-        auto x = entity->Scale.X + (entity->Tween.value()->Speed * Game->Delta);
-        auto y = entity->Scale.Y + (entity->Tween.value()->Speed * Game->Delta);
+        auto x = entity->Scale.X + (entity->Tween.value()->Speed * Game->Delta());
+        auto y = entity->Scale.Y + (entity->Tween.value()->Speed * Game->Delta());
         auto Active = entity->Tween.value()->Active;
 
 
@@ -104,7 +104,7 @@ void GameSystems::RemoveSystem(Entity* entity){
     if (entity->Active) {
         switch(entity->Category) {
             case CategoryOf::ENEMY:
-                if (entity->Position.Y > Game->Height) {
+                if (entity->Position.Y > Game->Height()) {
                     entity->Active = false;
                 }
                 break;
@@ -124,13 +124,13 @@ double GameSystems::SpawnEnemy(double delta, double t, int enemy) {
     if (d1 < 0.0) {
         switch(enemy) {
             case 1:
-                Game->Enemies1.emplace_back((std::rand() % (Game->Width-70))+35, 35);
+                Game->Enemies1.emplace_back((std::rand() % (Game->Width()-70))+35, 35);
                 return 1.0;
             case 2:
-                Game->Enemies2.emplace_back((std::rand() % (Game->Width-170))+85, 85);
+                Game->Enemies2.emplace_back((std::rand() % (Game->Width()-170))+85, 85);
                 return 4.0;
             case 3:
-                Game->Enemies3.emplace_back((std::rand() % (Game->Width-320))+160, 160);
+                Game->Enemies3.emplace_back((std::rand() % (Game->Width()-320))+160, 160);
                 return 6.0;
             default:
                 return 0;
@@ -139,9 +139,9 @@ double GameSystems::SpawnEnemy(double delta, double t, int enemy) {
 }
 
 void GameSystems::SpawnSystem(Entity* entity){
-    EnemyT1 = SpawnEnemy(Game->Delta, EnemyT1, 1);
-    EnemyT2 = SpawnEnemy(Game->Delta, EnemyT2, 2);
-    EnemyT3 = SpawnEnemy(Game->Delta, EnemyT3, 3);
+    EnemyT1 = SpawnEnemy(Game->Delta(), EnemyT1, 1);
+    EnemyT2 = SpawnEnemy(Game->Delta(), EnemyT2, 2);
+    EnemyT3 = SpawnEnemy(Game->Delta(), EnemyT3, 3);
 
 }
 
@@ -213,12 +213,6 @@ void GameSystems::HandleCollision(Entity* a, Entity* b){
     }
 }
 
-// bool GameSystems::intersects(SDL_Rect* r1, SDL_Rect* r2) {
-//     return ((r1->x < r2->x + r2->w) && 
-//             (r1->x + r1->w > r2->x) && 
-//             (r1->y < r2->y + r2->h) && 
-//             (r1->y + r1->h > r2->y));
-// }
 
 void GameSystems::CollisionSystem(Entity* entity){
     if (entity->Active && entity->Category == CategoryOf::ENEMY) {

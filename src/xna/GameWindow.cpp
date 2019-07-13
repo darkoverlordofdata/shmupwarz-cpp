@@ -8,37 +8,37 @@ namespace xna {
     }
 
 
-    bool GameWindow::getAllowResizing() { }
-    bool GameWindow::setAllowResizing(bool) { }
-    Rectangle* GameWindow::getClientBounds() { }
-    Point* GameWindow::getPosition() { }
-    void GameWindow::setPosition(Point*) { }
-    Point* GameWindow::getSize() { }
+    bool GameWindow::AllowUserResizing() { }
+    bool GameWindow::AllowUserResizing(bool) { }
+    Rectangle* GameWindow::ClientBounds() { }
+    Point* GameWindow::Position() { }
+    void GameWindow::Position(Point*) { }
+    Point* GameWindow::Size() { }
 
-    bool GameWindow::getAllowAltF4() { 
-        return allowAltF4;
+    bool GameWindow::AllowAltF4() { 
+        return mAllowAltF4;
     }
-    void GameWindow::setAllowAltF4(bool allowAltF4) { 
-        this->allowAltF4 = allowAltF4;
-    }
-
-    DisplayOrientation GameWindow::getCurentOrientation() { }
-    SDL_Window* GameWindow::getHandle()  { }
-    char* GameWindow::getScreenDeviceName()  { }
-
-    char* GameWindow::getTitle() {
-        return title;
-
+    void GameWindow::AllowAltF4(bool allowAltF4) { 
+        mAllowAltF4 = allowAltF4;
     }
 
-    void GameWindow::setTitle(char* title) {
-        this->title = strdup(title);
+    DisplayOrientation GameWindow::CurentOrientation() { }
+    SDL_Window* GameWindow::Handle()  { }
+    char* GameWindow::ScreenDeviceName()  { }
+
+    char* GameWindow::Title() {
+        return mTitle;
+
     }
 
-    bool GameWindow::getBorderless() { 
+    void GameWindow::Title(char* title) {
+        mTitle = strdup(title);
+    }
+
+    bool GameWindow::Borderless() { 
         return false;
     }
-    bool GameWindow::setBorderless(bool) { 
+    bool GameWindow::Borderless(bool) { 
         printf("GameWindow.IsBorderless");
     }
 

@@ -1,20 +1,20 @@
 #pragma once
-#include "GameBase.h"
+#include "Game.h"
 #include "GameWindow.h"
 #include "GameRunBehavior.h"
 
 namespace xna {
 
-    class GameBase;
+    class Game;
     class GameWindow;
     class GamePlatform {
         
     public:
         GamePlatform();
-        GamePlatform(GameBase* game);
+        GamePlatform(Game* game);
         ~GamePlatform();    
 
-        static GamePlatform* PlatformCreate(GameBase*);
+        static GamePlatform* PlatformCreate(Game*);
         // virtual GameRunBehavior getDefaultRunBehavior() = 0;
         // bool getActive();
         // void setActive(bool);
@@ -23,13 +23,13 @@ namespace xna {
         // void RaiseAsyncRunLoopEnded();
 
 
-    // private:
-        GameBase* game;
-        bool needsToResetElapsedTime = false;
-        bool disposed;
-        bool inFullScreenMode = false;
-        bool isActive;
-        bool isMouseActive;
-        GameWindow* window;
+    protected:
+        GameWindow* mWindow;
+        Game* mGame;
+        bool mNeedsToResetElapsedTime = false;
+        bool mDisposed;
+        bool mInFullScreenMode = false;
+        bool mIsActive;
+        bool mIsMouseActive;
     };
 }

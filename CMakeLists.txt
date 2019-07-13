@@ -26,7 +26,7 @@ endif ()
 #
 #   application source
 #
-list ( APPEND C_SOURCES src/xna/GameBase.cpp )
+list ( APPEND C_SOURCES src/xna/Game.cpp )
 list ( APPEND C_SOURCES src/xna/GamePlatform.cpp )
 list ( APPEND C_SOURCES src/xna/GameWindow.cpp )
 list ( APPEND C_SOURCES src/xna/Point.cpp )
@@ -35,7 +35,7 @@ list ( APPEND C_SOURCES src/xna/GraphicsDeviceManager.cpp )
 list ( APPEND C_SOURCES src/xna/SDL/SDLGamePlatform.cpp )
 list ( APPEND C_SOURCES src/xna/SDL/SDLGameWindow.cpp )
 list ( APPEND C_SOURCES src/xna/Content/ResourceManager.cpp )
-list ( APPEND C_SOURCES src/xna/Graphics/GLShader.cpp )
+list ( APPEND C_SOURCES src/xna/Graphics/Shader.cpp )
 list ( APPEND C_SOURCES src/xna/Graphics/SpriteRenderer.cpp )
 list ( APPEND C_SOURCES src/xna/Graphics/Texture2D.cpp )
 

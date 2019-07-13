@@ -16,7 +16,7 @@
 namespace xna
 {
     /// <summary>
-    /// Defines how <see cref="GameBase"/> should be runned.
+    /// Defines how <see cref="Game"/> should be runned.
     /// </summary>
     enum class GameRunBehavior
     {

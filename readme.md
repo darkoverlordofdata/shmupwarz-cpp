@@ -15,23 +15,10 @@ goals & vision - put the lime in the coconut
     mix of opengl & sdl2 similar to monogame
     run on desktop and emscripten
 
-### step1
+
 
     replace vala and zerog with c++17. As much as I like vala, valagame must die. I learned about impelemting a monogame style engine using c/cpp.
 
-    * implement the Breakout game from LearnOpenGL - [Breakout](https://learnopengl.com/In-Practice/2D-Game/Breakout)
+### coding convention
 
-        compiles and runs both desktop and emscripten
-
-    * replace GLFW & SOIL with SDL2 - done!
-
-### step2 
-    do it with the shmupwarz base
-    
-    * replace SDL2 with OpenGL where applicable
-
-.016
-==========
-.000039975
-.00004579
-.000044173
+    Follows the MSDN convention - all public clases and members are PascalCase, parameters and locals are camelCase, member fields may be private mPascalCase

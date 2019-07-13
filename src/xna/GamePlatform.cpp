@@ -4,14 +4,15 @@
 namespace xna {
 
     GamePlatform::GamePlatform() { }
-    GamePlatform::GamePlatform(GameBase* game) { 
-        this->game = game;
+    GamePlatform::GamePlatform(Game* game) { 
+        mGame = game;
     }
 
     GamePlatform::~GamePlatform() {
     }
 
-    GamePlatform* GamePlatform::PlatformCreate(GameBase* game) {
+    GamePlatform* GamePlatform::PlatformCreate(Game* game) {
+        
         return new SDLGamePlatform(game);
     }
 

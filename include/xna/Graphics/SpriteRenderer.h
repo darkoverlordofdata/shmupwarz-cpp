@@ -13,7 +13,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "Texture2D.h"
-#include "GLShader.h"
+#include "Shader.h"
 
 namespace xna::graphics {
 
@@ -21,15 +21,15 @@ namespace xna::graphics {
     {
     public:
         // Constructor (inits shaders/shapes)
-        SpriteRenderer(GLShader &shader);
+        SpriteRenderer(Shader &shader);
         // Destructor
         ~SpriteRenderer();
         // Renders a defined quad textured with given sprite
         void DrawSprite(Texture2D &texture, glm::vec2 position, glm::vec2 size = glm::vec2(10, 10), GLfloat rotate = 0.0f, glm::vec3 color = glm::vec3(1.0f));
     private:
         // Render state
-        GLShader Shader; 
-        GLuint QuadVAO;
+        Shader mShader; 
+        GLuint mQuadVAO;
         // Initializes and configures the quad's buffer and vertex attributes
         void InitRenderData();
     };

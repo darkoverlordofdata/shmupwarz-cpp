@@ -33,15 +33,26 @@ namespace xna {
 
     class GamePlatform;
     
-    class GameBase {
+    class Game {
     friend class GamePlatform;
         
     public:
-        GameBase();
-        GameBase(std::string title, int width, int height, SDL_Window* window);
-        ~GameBase();
+        Game();
+        Game(std::string title, int width, int height, SDL_Window* window);
+        ~Game();
         void FpsChanged(int fps);
         int GetKey(int key);
+        int SdlVersion();
+        void SetSdlVersion(int);
+        int MouseX();
+        int MouseY();
+        int MouseDown();
+        int Width();
+        int Height();
+        double Delta();
+        SDL_Window* Window();
+
+
         void HandleEvents();
         int IsRunning();
         void Run();
@@ -57,25 +68,24 @@ namespace xna {
 
         GamePlatform * Platform;
     
-        int SdlVersion;
-        int MouseX;
-        int MouseY;
-        int MouseDown = 0;
-        int Width;
-        int Height;
-        double Delta;
-        int Ticks;
-        int Fps;
-        double Factor;
-        std::chrono::time_point<std::chrono::high_resolution_clock>  Mark1;
-        std::chrono::time_point<std::chrono::high_resolution_clock>  Mark2;
-        int Running;
-        int FrameSkip;
-        std::string Title;
-        std::map<int,int> Keys;
-        SDL_Window* Window;
-        SDL_Renderer* Renderer;
-        SDL_Texture* Image;
+    private:
+        SDL_Window* mWindow;
+        std::string mTitle;
+        int mWidth;
+        int mHeight;
+        int mMouseX;
+        int mMouseY;
+        int mMouseDown;
+        double mDelta;
+        int mSdlVersion;
+        int mFrameSkip;
+        int mIsRunning;
+        int mTicks;
+        int mFps;
+        double mFactor;
+        std::map<int,int> mKeys;
+        std::chrono::time_point<std::chrono::high_resolution_clock> mMark1;
+        std::chrono::time_point<std::chrono::high_resolution_clock> mMark2;
 
     };
 }

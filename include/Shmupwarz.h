@@ -22,9 +22,9 @@
 #include "GameSystems.h"
 #include "xna/Content/ResourceManager.h"
 #include "xna/Graphics/Texture2D.h"
-#include "xna/Graphics/GLShader.h"
+#include "xna/Graphics/Shader.h"
 #include "xna/Graphics/SpriteRenderer.h"
-#include "xna/GameBase.h"
+#include "xna/Game.h"
 
 enum {
     DISPLAY_WIDTH  = 480,
@@ -35,7 +35,7 @@ enum {
 
 class GameSystems;
     
-class Shmupwarz : public xna::GameBase {
+class Shmupwarz : public xna::Game {
 friend class GameSystems;
 public:
     Shmupwarz(std::string title, int width, int height, SDL_Window* window);
@@ -56,6 +56,6 @@ public:
     
     Entity* Player;
     GameSystems* Systems;
-    xna::SpriteRenderer* Renderer;
+    xna::graphics::SpriteRenderer* Renderer;
 };
 

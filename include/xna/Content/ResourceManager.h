@@ -18,7 +18,7 @@
 #include <fstream>
 
 #include "../Graphics/Texture2D.h"
-#include "../Graphics/GLShader.h"
+#include "../Graphics/Shader.h"
 namespace xna {
 
     using namespace graphics;
@@ -31,12 +31,12 @@ namespace xna {
     {
     public:
         // Resource storage
-        static std::map<std::string, GLShader>    Shaders;
+        static std::map<std::string, Shader>    Shaders;
         static std::map<std::string, Texture2D>   Textures;
         // Loads (and generates) a shader program from file loading vertex, fragment (and geometry) shader's source code. If gShaderFile is not nullptr, it also loads a geometry shader
-        static GLShader   LoadShader(const GLchar *vShaderFile, const GLchar *fShaderFile, const GLchar *gShaderFile, std::string name);
+        static Shader   LoadShader(const GLchar *vShaderFile, const GLchar *fShaderFile, const GLchar *gShaderFile, std::string name);
         // Retrieves a stored sader
-        static GLShader&   GetShader(std::string name);
+        static Shader&   GetShader(std::string name);
         // Loads (and generates) a texture from file
         static Texture2D LoadTexture(const GLchar *file, GLboolean alpha, std::string name);
         // Retrieves a stored texture
@@ -47,8 +47,8 @@ namespace xna {
         // Private constructor, that is we do not want any actual resource manager objects. Its members and functions should be publicly available (static).
         ResourceManager() { }
         // Loads and generates a shader from file
-        static GLShader    loadShaderFromFile(const GLchar *vShaderFile, const GLchar *fShaderFile, const GLchar *gShaderFile = nullptr);
+        static Shader    LoadShaderFromFile(const GLchar *vShaderFile, const GLchar *fShaderFile, const GLchar *gShaderFile = nullptr);
         // Loads a single texture from file
-        static Texture2D loadTextureFromFile(const GLchar *file, GLboolean alpha);
+        static Texture2D LoadTextureFromFile(const GLchar *file, GLboolean alpha);
     };
 }

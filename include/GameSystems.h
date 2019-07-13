@@ -24,6 +24,7 @@ public:
     void HandleCollision(Entity* a, Entity* b);
 
 private:
+    Shmupwarz* mGame;
     Shmupwarz* Game;
     double FireRate = 0.1;
     double TimeToFire = 0.0;

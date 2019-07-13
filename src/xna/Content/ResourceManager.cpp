@@ -12,23 +12,23 @@ namespace xna {
 
     // Instantiate static variables
     std::map<std::string, Texture2D>    ResourceManager::Textures;
-    std::map<std::string, GLShader>       ResourceManager::Shaders;
+    std::map<std::string, Shader>       ResourceManager::Shaders;
 
 
-    GLShader ResourceManager::LoadShader(const GLchar *vShaderFile, const GLchar *fShaderFile, const GLchar *gShaderFile, std::string name)
+    Shader ResourceManager::LoadShader(const GLchar *vShaderFile, const GLchar *fShaderFile, const GLchar *gShaderFile, std::string name)
     {
-        Shaders[name] = loadShaderFromFile(vShaderFile, fShaderFile, gShaderFile);
+        Shaders[name] = LoadShaderFromFile(vShaderFile, fShaderFile, gShaderFile);
         return Shaders[name];
     }
 
-    GLShader& ResourceManager::GetShader(std::string name)
+    Shader& ResourceManager::GetShader(std::string name)
     {
         return Shaders[name];
     }
 
     Texture2D ResourceManager::LoadTexture(const GLchar *file, GLboolean alpha, std::string name)
     {
-        Textures[name] = loadTextureFromFile(file, alpha);
+        Textures[name] = LoadTextureFromFile(file, alpha);
         return Textures[name];
     }
 
@@ -41,13 +41,13 @@ namespace xna {
     {
         // (Properly) delete all shaders	
         for (auto iter : Shaders)
-            glDeleteProgram(iter.second.ID);
+            glDeleteProgram(iter.second.Id);
         // (Properly) delete all textures
         for (auto iter : Textures)
-            glDeleteTextures(1, &iter.second.ID);
+            glDeleteTextures(1, &iter.second.Id);
     }
 
-    GLShader ResourceManager::loadShaderFromFile(const GLchar *vShaderFile, const GLchar *fShaderFile, const GLchar *gShaderFile)
+    Shader ResourceManager::LoadShaderFromFile(const GLchar *vShaderFile, const GLchar *fShaderFile, const GLchar *gShaderFile)
     {
         printf("vertex %s\n", vShaderFile);
         printf("fragment %s\n", fShaderFile);
@@ -88,12 +88,12 @@ namespace xna {
         const GLchar *fShaderCode = fragmentCode.c_str();
         const GLchar *gShaderCode = geometryCode.c_str();
         // 2. Now create shader object from source code
-        GLShader shader;
+        Shader shader;
         shader.Compile(vShaderCode, fShaderCode, gShaderFile != nullptr ? gShaderCode : nullptr);
         return shader;
     }
 
-    Texture2D ResourceManager::loadTextureFromFile(const GLchar *file, GLboolean alpha)
+    Texture2D ResourceManager::LoadTextureFromFile(const GLchar *file, GLboolean alpha)
     {
         // Create Texture object
         Texture2D texture((char*)file);

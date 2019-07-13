@@ -5,55 +5,56 @@
 
 namespace xna {
 
-    class GameBase;
+    class Game;
     class SDLGameWindow : public GameWindow {
-    friend class GameBase;
+    friend class Game;
         
     public:
         SDLGameWindow();
-        SDLGameWindow(GameBase* game);
+        SDLGameWindow(Game* game);
         ~SDLGameWindow();
 
-        virtual SDL_Window* getHandle() override;
+        virtual SDL_Window* Handle() override;
 
         void CreateWindow();
-        bool getAllowResizing() override;
-        bool setAllowResizing(bool) override;
-        virtual void setTitle(char*);
-        bool getBorderless() override;
-        bool setBorderless(bool) override;
-        Rectangle* getClientBounds() override;
-        virtual DisplayOrientation getCurentOrientation() override;
-        virtual Point* getSize() override;
-        virtual Point* getPosition() override;
-        virtual void setPosition(Point*) override;
+        bool AllowUserResizing() override;
+        bool AllowUserResizing(bool) override;
+        virtual void Title(char*);
+        bool Borderless() override;
+        bool Borderless(bool) override;
+        Rectangle* ClientBounds() override;
+        virtual DisplayOrientation CurentOrientation() override;
+        virtual Point* Size() override;
+        virtual Point* Position() override;
+        virtual void Position(Point*) override;
 
         void Moved();
         void ClientResize(int, int);
         void CallTextInput(char, Keys);
-        virtual void setSupportedOrientation(DisplayOrientation) override;
+        virtual void SupportedOrientation(DisplayOrientation) override;
 
-        virtual char* getScreenDeviceName() override;
-        void setCursorVisible(bool);
+        virtual char* ScreenDeviceName() override;
+        void CursorVisible(bool);
         virtual void BeginScreenDeviceChange(bool) override;
         virtual void EndScreenDeviceChange(char*, int, int, int, int) override;
 
-        GameBase* game;
-        SDL_Window* handle;
-        char* title;
-        int x;
-        int y;
-        int width;
-        int height;
-        bool wasMoved;
-        bool supressMove;
-        SDL_Surface* icon;
-        bool resizable;
-        bool borderless;
-        bool willBeFullScreen;
-        bool mouseVisible;
-        bool hardwareSwitch;
-        char* screenDeviceName;
+    protected:
+        Game* mGame;
+        SDL_Window* mHandle;
+        char* mTitle;
+        int mX;
+        int mY;
+        int mWidth;
+        int mHeight;
+        bool mWasMoved;
+        bool mSupressMove;
+        SDL_Surface* mIcon;
+        bool mResizable;
+        bool mBorderless;
+        bool mWillBeFullScreen;
+        bool mMouseVisible;
+        bool mHardwareSwitch;
+        char* mScreenDeviceName;
         
     };
 }

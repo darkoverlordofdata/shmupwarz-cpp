@@ -3,13 +3,13 @@
 using namespace std::chrono;
 
 Shmupwarz::Shmupwarz(std::string t, int width, int height, SDL_Window* w)
-    : GameBase(t, width, height, w) {
+    : Game(t, width, height, w) {
     // Systems = new Systems(this);
 }
 
 Shmupwarz::~Shmupwarz() {
     // Systems->dispose();
-    GameBase::Stop();
+    Game::Stop();
 }
 
 /**
@@ -41,7 +41,7 @@ void Shmupwarz::Draw() {
 
     }
     // fpsChanged(fps);
-    SDL_GL_SwapWindow(Window);
+    SDL_GL_SwapWindow(Window());
 }
 
 /**
@@ -76,7 +76,7 @@ void Shmupwarz::LoadContent() {
     xna::ResourceManager::LoadShader("assets/shaders/particle.vs", "assets/shaders/particle.frag", nullptr, "particle");
 
     // Configure shaders
-    glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(this->Width), static_cast<GLfloat>(this->Height), 0.0f, -1.0f, 1.0f);
+    glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(Width()), static_cast<GLfloat>(Height()), 0.0f, -1.0f, 1.0f);
     xna::ResourceManager::GetShader("sprite").Use().SetInteger("sprite", 0);
     xna::ResourceManager::GetShader("sprite").SetMatrix4("projection", projection);
     xna::ResourceManager::GetShader("particle").Use().SetInteger("sprite", 0);
