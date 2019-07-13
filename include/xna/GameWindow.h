@@ -31,7 +31,7 @@ namespace xna {
         virtual bool Borderless(bool);
         virtual void SupportedOrientation(DisplayOrientation) = 0;
         virtual void BeginScreenDeviceChange(bool) = 0;
-        virtual void EndScreenDeviceChange(char*, int, int, int, int) = 0;\
+        virtual void EndScreenDeviceChange(char*, int, int, int, int) = 0;
 
         void OnClientSizeChanged();
         void OnTextInput(char, Keys);
