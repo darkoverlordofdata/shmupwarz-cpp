@@ -1,5 +1,7 @@
 # startingover -- shmupwarz-cpp
 
+A sort of a port of a port of a sort.
+
 Why? Because after reinstalling windows10 and MSys2, my opengl projects no longer cmpile due to an unresolved symbol 'typedef ptrddif_t' in glew. I'm running out of inspriation. Then retire, move, and hard drive fail. 6 months later.
 
 "It'll be just like starting over" -- John Lennon

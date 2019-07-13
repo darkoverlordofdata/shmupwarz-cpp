@@ -26,6 +26,7 @@ endif ()
 #
 #   application source
 #
+list ( APPEND C_SOURCES src/system/TimeSpan.cpp )
 list ( APPEND C_SOURCES src/xna/Game.cpp )
 list ( APPEND C_SOURCES src/xna/GamePlatform.cpp )
 list ( APPEND C_SOURCES src/xna/GameWindow.cpp )
