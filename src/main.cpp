@@ -13,6 +13,8 @@ void main_loop() { loop(); }
 #include <GL/glew.h>
 #endif
 #include "Shmupwarz.h"
+#include "GameSystems.h"
+#include "Entities.h"
 using namespace std::chrono;
 
 

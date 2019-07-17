@@ -1,6 +1,6 @@
 #pragma once
-#include "Entities.h"
 #include "Shmupwarz.h"
+#include "Entities.h"
 
 class Shmupwarz;
 

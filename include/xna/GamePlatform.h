@@ -7,40 +7,192 @@ namespace xna {
 
     class Game;
     class GameWindow;
+    class SDLGamePlatform;
     class GamePlatform {
         
     public:
-        GamePlatform();
-        GamePlatform(Game* game);
-        ~GamePlatform();    
+        GamePlatform() { }
+        GamePlatform(Game* game) { 
+            mGame = game;
+        }
 
-        bool InFullScreenMode();
-        static GamePlatform* PlatformCreate(Game*);
-        virtual GameRunBehavior DefaultRunBehavior() = 0;
-        bool IsActive();
-        void IsActive(bool);
-        bool IsMouseActive();
-        void IsMouseActive(bool);
-        GameWindow* Window();
-        void Window(GameWindow*);
-        void RaiseAsyncRunLoopEnded();
-        virtual void BeforeInitialize();
-        virtual bool BeforeRun();
-        virtual void Exit() = 0;
-        virtual void RunLoop() = 0;
-        virtual void RunOnce() = 0;
-        virtual void StartRunLoop() = 0;
-        virtual bool BeforeUpdate() = 0;
-        virtual bool BeforeDraw() = 0;
-        virtual void EnterFullScreen() = 0;
-        virtual void ExitFullScreen() = 0;
-        virtual void BeginScreenDeviceChange(bool);
-        virtual void EndScreenDeviceChange(char*, int, int, int, int) = 0;
-        virtual void OnIsMouseVisibleChanged() = 0;
-        virtual void OnPresentationChanged() = 0;
-        virtual void Log(char*) = 0;
-        virtual void Present() = 0;
+        ~GamePlatform() {
+        }
 
+        bool InFullScreenMode() {
+            return mInFullScreenMode;
+        }
+
+        // static GamePlatform* PlatformCreate(Game* game) {
+            
+        //     return nullptr; //new SDLGamePlatform(game);
+        // }
+
+        GameRunBehavior DefaultRunBehavior() {};
+
+        bool IsActive() {
+            return mIsActive;
+        }
+
+        void IsActive(bool value) {
+            if (mIsActive != value) {
+                mIsActive = value;
+                // EventHelpers.Raise()
+            }
+        }
+
+        bool IsMouseActive() {
+            return mIsMouseActive;
+        }
+
+        void IsMouseActive(bool value) {
+            if (mIsMouseActive != value) {
+                mIsMouseActive = value;
+                // OnIsMouseVisibleChanged();
+            }
+        }
+
+        GameWindow* Window() {
+            return mWindow;
+        }
+
+        void Window(GameWindow* value) {
+            if (mWindow != nullptr) {
+                mWindow = value;
+            }
+        }
+
+        /// <summary>
+        /// Raises the AsyncRunLoopEnded event.  This method must be called by
+        /// derived classes when the asynchronous run loop they start has
+        /// stopped running.
+        /// </summary>
+        void RaiseAsyncRunLoopEnded() {
+            // EventHelpers.Raise();
+        }
+
+        /// <summary>
+        /// Gives derived classes an opportunity to do work before any
+        /// components are initialized.  Note that the base implementation sets
+        /// IsActive to true, so derived classes should either call the base
+        /// implementation or set IsActive to true by their own means.
+        /// </summary>
+        void BeforeInitialize() {
+            mIsActive = true;
+        }
+
+        /// <summary>
+        /// Gives derived classes an opportunity to do work just before the
+        /// run loop is begun.  Implementations may also return false to prevent
+        /// the run loop from starting.
+        /// </summary>
+        /// <returns></returns>
+        bool BeforeRun() {
+            return true;
+        }
+
+        /// <summary>
+        /// When implemented in a derived, ends the active run loop.
+        /// </summary>
+        void Exit() {}
+
+        /// <summary>
+        /// When implemented in a derived, starts the run loop and blocks
+        /// until it has ended.
+        /// </summary>
+        void RunLoop() {}
+
+        /// <summary>
+        /// When implemented in a derived, runs the loop one time
+        /// until it has ended.
+        /// </summary>
+        void RunOnce() {}
+
+        /// <summary>
+        /// When implemented in a derived, starts the run loop and returns
+        /// immediately.
+        /// </summary>
+        void StartRunLoop() {}
+
+        /// <summary>
+        /// Gives derived classes an opportunity to do work just before Update
+        /// is called for all IUpdatable components.  Returning false from this
+        /// method will result in this round of Update calls being skipped.
+        /// </summary>
+        /// <param name="gameTime"></param>
+        /// <returns></returns>
+        bool BeforeUpdate() {}
+
+        /// <summary>
+        /// Gives derived classes an opportunity to do work just before Draw
+        /// is called for all IDrawable components.  Returning false from this
+        /// method will result in this round of Draw calls being skipped.
+        /// </summary>
+        /// <param name="gameTime"></param>
+        /// <returns></returns>
+        bool BeforeDraw() {}
+
+        /// <summary>
+        /// When implemented in a derived class, causes the game to enter
+        /// full-screen mode.
+        /// </summary>
+        void EnterFullScreen() {}
+
+        /// <summary>
+        /// When implemented in a derived class, causes the game to exit
+        /// full-screen mode.
+        /// </summary>
+        void ExitFullScreen() {}
+
+        /// <summary>
+        /// Starts a device transition (windowed to full screen or vice versa).
+        /// </summary>
+        /// <param name='willBeFullScreen'>
+        /// Specifies whether the device will be in full-screen mode upon completion of the change.
+        /// </param>
+        void BeginScreenDeviceChange (
+                    bool willBeFullScreen
+        ) {}
+
+        /// <summary>
+        /// Completes a device transition.
+        /// </summary>
+        /// <param name='screenDeviceName'>
+        /// Screen device name.
+        /// </param>
+        /// <param name='clientWidth'>
+        /// The new width of the game's client window.
+        /// </param>
+        /// <param name='clientHeight'>
+        /// The new height of the game's client window.
+        /// </param>
+        void EndScreenDeviceChange (
+                    char* screenDeviceName,
+                    int clientX,
+                    int clientY,
+                    int clientWidth,
+                    int clientHeight
+        ) {}
+
+        void Present() { }
+
+        void OnIsMouseVisibleChanged() {}
+
+        /// <summary>
+        /// Called by the GraphicsDeviceManager to notify the platform
+        /// that the presentation parameters have changed.
+        /// </summary>
+        /// <param name="pp">The new presentation parameters.</param>
+        void OnPresentationChanged() {}
+
+        // /// <summary>
+        // /// Log the specified Message.
+        // /// </summary>
+        // /// <param name='Message'>
+        // /// 
+        // /// </param>
+        // [System.Diagnostics.Conditional("DEBUG")]
+        void Log(char* Message) {}		
 
     protected:
         Game* mGame;

@@ -13,6 +13,14 @@ Shmupwarz::~Shmupwarz() {
 }
 
 /**
+ * Initialize the game
+ */
+void Shmupwarz::Initialize() {
+    Systems = new GameSystems(this);
+}
+
+
+/**
  * Draw the frame
  */
 void Shmupwarz::Draw() {
@@ -58,13 +66,6 @@ void Shmupwarz::Update() {
     for (int i=0; i<Entities.size(); i++) Systems->TweenSystem(&Entities[i]);
     for (int i=0; i<Entities.size(); i++) Systems->RemoveSystem(&Entities[i]);
 
-}
-
-/**
- * Initialize the game
- */
-void Shmupwarz::Init() {
-    Systems = new GameSystems(this);
 }
 
 /**

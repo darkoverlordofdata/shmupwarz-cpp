@@ -3,13 +3,18 @@
 namespace xna {
 
     class Point {
-        
-    public:
-        Point();
-        Point(int x, int y);
-        ~Point();    
 
+        public:
         int X;
         int Y;
+
+        Point() { }
+        Point(int x, int y) { 
+            X = x;
+            Y = y;
+        }
+        ~Point() { }
+
     };
 }
+

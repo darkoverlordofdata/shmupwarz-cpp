@@ -42,7 +42,7 @@ public:
     ~Shmupwarz();
     void Draw() override;
     void Update() override;
-    void Init() override;
+    void Initialize() override;
     void LoadContent() override;
 
     std::list<Point2d> Bullets;
