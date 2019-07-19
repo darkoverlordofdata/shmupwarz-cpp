@@ -26,9 +26,9 @@ endif ()
 #
 #   application source
 #
-list ( APPEND C_SOURCES src/Shmupwarz.cpp )
-list ( APPEND C_SOURCES src/GameSystems.cpp )
+# list ( APPEND C_SOURCES src/Shmupwarz.cpp )
 list ( APPEND C_SOURCES src/main.cpp )
+list ( APPEND C_SOURCES src/GameSystems.cpp )
 #
 #   application includes
 #

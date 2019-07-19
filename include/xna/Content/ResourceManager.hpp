@@ -17,8 +17,8 @@
 #include <sstream>
 #include <fstream>
 
-#include "../Graphics/Texture2D.h"
-#include "../Graphics/Shader.h"
+#include "../Graphics/Texture2D.hpp"
+#include "../Graphics/Shader.hpp"
 namespace xna {
 
     using namespace graphics;

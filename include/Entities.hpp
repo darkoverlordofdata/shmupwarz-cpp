@@ -1,6 +1,6 @@
 #pragma once
-#include "Components.h"
-#include "xna/Content/ResourceManager.h"
+#include "Components.hpp"
+#include "xna/Content/ResourceManager.hpp"
 
 static inline void CreateBackground(std::vector<Entity>* entities);
 static inline Entity* CreatePlayer(std::vector<Entity>* entities);

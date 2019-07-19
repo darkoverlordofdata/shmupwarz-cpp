@@ -16,7 +16,7 @@
 
 #include <experimental/optional>
 
-#include "xna/Graphics/Texture2D.h"
+#include "xna/Graphics/Texture2D.hpp"
 
 using namespace std::experimental;
 

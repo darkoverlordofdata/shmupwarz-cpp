@@ -24,3 +24,5 @@ goals & vision - put the lime in the coconut
 ### coding convention
 
     Follows the MSDN convention - all public clases and members are PascalCase, parameters and locals are camelCase, member fields may be private mPascalCase
+
+    the close coupling beteen GameSystems and Shmupwarz causes cyclic dependencies, which in turn require separation of *.ccp and *.h... I need to implement ArtemisCCP to resolve this typr of thing

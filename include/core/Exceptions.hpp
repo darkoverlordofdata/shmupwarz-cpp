@@ -15,6 +15,7 @@
  ******************************************************************************/
 #pragma once
 #include <exception>
+#include <stdio.h>
 
 namespace core::exceptions {
 
@@ -26,4 +27,22 @@ namespace core::exceptions {
         }
     };
 
+
+
+    class RangeError : public exception {
+        char buffer[1024];
+        const char* msg;
+        int n;
+        public:
+        RangeError(char* msg, int n) {
+            this->msg = msg;
+            this->n  = n;
+        }
+        const char* what() const throw () {
+            snprintf((char*)buffer, sizeof(buffer), msg, n);
+            return buffer;
+        }
+    };
+
 }
+

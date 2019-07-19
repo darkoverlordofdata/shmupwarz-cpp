@@ -1,6 +1,6 @@
 #pragma once
-#include "../GamePlatform.h"
-#include "SDLGameWindow.h"
+#include "../GamePlatform.hpp"
+#include "SDLGameWindow.hpp"
 
 namespace xna {
 

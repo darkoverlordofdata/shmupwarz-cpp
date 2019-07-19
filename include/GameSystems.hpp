@@ -1,6 +1,6 @@
 #pragma once
-#include "Shmupwarz.h"
-#include "Entities.h"
+#include "Shmupwarz.hpp"
+#include "Entities.hpp"
 
 class Shmupwarz;
 
@@ -24,7 +24,6 @@ public:
     void HandleCollision(Entity* a, Entity* b);
 
 private:
-    Shmupwarz* mGame;
     Shmupwarz* Game;
     double FireRate = 0.1;
     double TimeToFire = 0.0;

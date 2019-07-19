@@ -12,9 +12,7 @@ void main_loop() { loop(); }
 #define GLEW_STATIC
 #include <GL/glew.h>
 #endif
-#include "Shmupwarz.h"
-#include "GameSystems.h"
-#include "Entities.h"
+#include "Shmupwarz.hpp"
 using namespace std::chrono;
 
 
@@ -47,6 +45,11 @@ auto TITLE = "Shmupwarz";
 
 int main(int argc, char** argv){
     std::srand(std::time(0));    
+
+    artemis::utils::UUID guid;
+
+    for (auto i=0; i<10; i++)
+        printf("guid = %s\n", guid.RandomUUID().c_str());
 
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS | SDL_INIT_TIMER | SDL_INIT_AUDIO)) {
         logSDLError(std::cout, "Init SDL");

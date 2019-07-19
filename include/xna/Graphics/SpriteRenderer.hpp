@@ -12,8 +12,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "Texture2D.h"
-#include "Shader.h"
+#include "Texture2D.hpp"
+#include "Shader.hpp"
 
 namespace xna::graphics {
 

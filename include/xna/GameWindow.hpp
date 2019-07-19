@@ -1,10 +1,10 @@
 #pragma once
-#include "Game.h"
-#include "Rectangle.h"
-#include "Point.h"
-#include "DisplayOrientation.h"
-#include "Input/Keys.h"
-#include "Core/Core.h"
+#include "Game.hpp"
+#include "Rectangle.hpp"
+#include "Point.hpp"
+#include "DisplayOrientation.hpp"
+#include "Input/Keys.hpp"
+#include "core/Core.hpp"
 
 namespace xna {
 

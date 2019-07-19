@@ -1,4 +1,5 @@
-#include "GameSystems.h"
+#include "Shmupwarz.hpp"
+#include "GameSystems.hpp"
 
 GameSystems::GameSystems(Shmupwarz* g): Game(g) {
     Pew = Mix_LoadWAV("assets/Sounds/pew.wav");

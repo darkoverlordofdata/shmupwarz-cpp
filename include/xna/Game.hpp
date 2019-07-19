@@ -17,11 +17,11 @@
 #include <algorithm>
 #include <random>
 #include <chrono>
-#include "GamePlatform.h"
-#include "Rectangle.h"
-#include "Point.h"
-#include "DisplayOrientation.h"
-#include "Core/Core.h"
+#include "GamePlatform.hpp"
+#include "Rectangle.hpp"
+#include "Point.hpp"
+#include "DisplayOrientation.hpp"
+#include "core/Core.hpp"
 
 namespace xna {
 
