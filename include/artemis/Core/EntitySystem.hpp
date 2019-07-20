@@ -15,7 +15,7 @@
  ******************************************************************************/
 #pragma once;
 #include "World.hpp"
-#include "EntityObserver.hpp"
+#include "IEntityObserver.hpp"
 
 namespace artemis 
 {

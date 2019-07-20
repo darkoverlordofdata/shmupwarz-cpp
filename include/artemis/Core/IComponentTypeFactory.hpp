@@ -14,12 +14,18 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
-#include "IComponent.hpp"
+#include "IComponentType.hpp"
+#include <vector>
 
 namespace artemis 
 {
-    class Component : public IComponent 
-    {
+    using namespace std;
+
+    class IComponentTypeFactory {
+        public:
+        virtual IComponentType* GetTypeFor(type_info& c) = 0;
+        virtual int GetIndexFor(type_info& c) = 0;
+        virtual Taxonomy GetTaxonomy(int index) = 0;
 
     };
 }

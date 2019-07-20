@@ -14,12 +14,17 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
+#include "IEntity.hpp"
 #include "IComponent.hpp"
-
+#include "IType.hpp"
+#include "IWorld.hpp"
 namespace artemis 
 {
-    class Component : public IComponent 
-    {
-
+    class IComponentMapper {
+        public:
+        virtual IComponent* Get(IEntity* e) = 0;
+        virtual IComponent* GetSafe(IEntity* e) = 0;
+        virtual bool Has(IEntity* e) = 0;
+        virtual IComponentMapper* GetFor(IType* type, IWorld world) = 0;
     };
 }

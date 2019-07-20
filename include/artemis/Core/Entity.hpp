@@ -48,6 +48,11 @@ namespace artemis
             mName = name;
         }
 
+        int Id()
+        {
+            return mId;
+        }
+
 
 
     };

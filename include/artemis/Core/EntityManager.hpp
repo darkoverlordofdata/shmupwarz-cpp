@@ -15,33 +15,70 @@
  ******************************************************************************/
 #pragma once;
 #include <string>
+#include <bitset>
 #include "Manager.hpp"
-#include "Entity.hpp"
+#include "IEntity.hpp"
 
 namespace artemis 
 {
     using namespace std;
     class Manager;
-    class Entity;
+    class IEntity;
 
     class EntityManager : public Manager 
     {
         private:
-        vector<Entity*> mEntities;
+        vector<IEntity*> mEntities;
+		bitset<BITSIZE> mDisabled;
 		int mActive;
 		int mAdded;
 		int mCreated;
 		int mDeleted;
         int mId;
-        public:
 
         public:
+		EntityManager() {
+			mActive = 0;
+            mAdded = 0;
+            mCreated = 0;
+            mDeleted = 0;
+		}
 
-        void Initialize(IFactory* factory) 
+		IEntity* CreateEntityInstance(string name = "") 
         {
-            mFactory = factory;
-        }
+			auto e = mFactory->CreateEntity(mWorld, mId++, name);
+			mCreated++;
+			return e;
+		}
 
+		void Added(IEntity* e) {
+			mActive++;
+			mAdded++;
+			mEntities[e->Id()] = e;
+		}
+		
+		
+		void Enabled(IEntity* e) {
+			mDisabled.reset(e->Id());
+		}
+		
+		
+		void Disabled(IEntity* e) {
+			mDisabled.set(e->Id(), true);
+		}
+		
+		
+		void Deleted(IEntity* e) {
+			mEntities[e->Id()] = nullptr;
+			
+			mDisabled.reset(e->Id());
+			
+			// identifierPool.CheckIn(e.Id);
+			
+			mActive--;
+			mDeleted++;
+		}
+	
 
 		/**
 		* Get a entity with this id.
@@ -49,17 +86,11 @@ namespace artemis
 		* @param entityId
 		* @return the entity
 		*/
-		Entity* GetEntity(int entityId) 
+		IEntity* GetEntity(int entityId) 
         {
 			return mEntities[entityId];
 		}
 
-		Entity* CreateEntityInstance(string name = "") 
-        {
-			auto e = mFactory->CreateEntity(mWorld, mId++, name);
-			mCreated++;
-			return e;
-		}
 
 
     };

@@ -14,9 +14,23 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
+#include "Type.hpp"
+#include "World.hpp"
 namespace artemis 
 {
     class ComponentMapper {
+        public:
+
+        ComponentMapper(type_info& type, World* world)
+        {
+
+        }
+        ~ComponentMapper(){}
+
+        static ComponentMapper* GetFor(type_info& type, World* world) 
+        {
+            return new ComponentMapper(type, world);
+        }
 
     };
 }

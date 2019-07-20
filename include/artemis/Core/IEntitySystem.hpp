@@ -14,12 +14,27 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
-#include "IComponent.hpp"
+#include "IWorld.hpp"
+#include "IEntity.hpp"
 
 namespace artemis 
 {
-    class Component : public IComponent 
+    class IWorld;
+    class IEntity;
+
+    class IEntitySystem 
     {
+        public:
+        virtual void Check(IEntity* e) = 0;
+        virtual void Process() = 0;
+        virtual void Added(IEntity* e) = 0;
+        virtual void Changed(IEntity* e) = 0;
+        virtual void Deleted(IEntity* e) = 0;
+        virtual void Disabled(IEntity* e) = 0;
+        virtual void Enabled(IEntity* e) = 0;
+        virtual void SetWorld(IWorld* world) = 0;
+        virtual bool IsPassive() = 0;
+        virtual void SetPassive(bool passive) = 0;
 
     };
 }

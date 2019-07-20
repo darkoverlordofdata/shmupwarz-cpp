@@ -14,39 +14,37 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
-#include "Manager.hpp"
-#include "EntitySystem.hpp"
-#include "EntityManager.hpp"
-#include "ComponentManager.hpp"
-#include "EntityObserver.hpp"
-#include "../Utils/TypeInfo.hpp"
+#include "IManager.hpp"
+#include "IEntitySystem.hpp"
+#include "IEntityManager.hpp"
+#include "IComponentManager.hpp"
+#include "IEntityObserver.hpp"
 #include "IFactory.hpp"
 
 namespace artemis 
 {
-    // delegate void Performer(EntityObserver observer, Entity e);
 
-    typedef void (*Performer) (EntityObserver* observer, Entity* e);
+    typedef void (*Performer) (IEntityObserver* observer, IEntity* e);
 
     using namespace std;
     
     class World {
 
         private:
-        EntityManager mEntityManager;
-        ComponentManager mComponentManager;
+        IEntityManager mEntityManager;
+        IComponentManager mComponentManager;
         float mDelta;
-        vector<Entity*> mAdded;
-        vector<Entity*> mChanged;
-        vector<Entity*> mDeleted;
-        vector<Entity*> mEnable;
-        vector<Entity*> mDisable;
+        vector<IEntity*> mAdded;
+        vector<IEntity*> mChanged;
+        vector<IEntity*> mDeleted;
+        vector<IEntity*> mEnable;
+        vector<IEntity*> mDisable;
 
-        unordered_map<TypeInfoRef, Manager*, Hasher, EqualTo> mManagers;
-        vector<Manager*> mManagersBag;
+        unordered_map<TypeInfoRef, IManager*, Hasher, EqualTo> mManagers;
+        vector<IManager*> mManagersBag;
          
-        unordered_map<TypeInfoRef, EntitySystem*, Hasher, EqualTo> mSystems;
-        vector<EntitySystem*> mSystemsBag;
+        unordered_map<TypeInfoRef, IEntitySystem*, Hasher, EqualTo> mSystems;
+        vector<IEntitySystem*> mSystemsBag;
 
         IFactory* mFactory;
         
@@ -79,7 +77,7 @@ namespace artemis
          * 
          * @return entity manager.
          */
-        EntityManager * GetEntityManager() 
+        IEntityManager * GetEntityManager() 
         {
             return &mEntityManager;
         }
@@ -89,7 +87,7 @@ namespace artemis
          * 
          * @return component manager.
          */
-        ComponentManager * GetComponentManager() 
+        IComponentManager * GetComponentManager() 
         {
             return &mComponentManager;
         }
@@ -100,7 +98,7 @@ namespace artemis
          * 
          * @param manager to be added
          */
-        Manager* SetManager(Manager * manager) 
+        IManager* SetManager(IManager * manager) 
         {
             mManagers[typeid(manager)] = manager;
             mManagersBag.push_back(manager);
@@ -117,7 +115,7 @@ namespace artemis
          */
         // template<typename T>
         // T* GetManager(type_info& managerType)
-        Manager* GetManager(type_info& managerType)
+        IManager* GetManager(type_info& managerType)
         {
             return mManagers[managerType];
         }
@@ -126,7 +124,7 @@ namespace artemis
          * Deletes the manager from this world.
          * @param manager to delete.
          */
-        void DeleteManager(Manager* manager) 
+        void DeleteManager(IManager* manager) 
         {
             mManagers.erase(typeid(manager));
             // mManagersBag.erase(find(mManagersBag.begin(), mManagersBag.end(), manager));
@@ -162,7 +160,7 @@ namespace artemis
          * 
          * @param e entity
          */
-        void AddEntity(Entity * e) 
+        void AddEntity(IEntity * e) 
         {
             mAdded.push_back(e);
         }
@@ -174,7 +172,7 @@ namespace artemis
          * 
          * @param e entity
          */
-        void ChangedEntity(Entity * e) 
+        void ChangedEntity(IEntity * e) 
         {
             mChanged.push_back(e);
         }
@@ -184,7 +182,7 @@ namespace artemis
          * 
          * @param e entity
          */
-        void DeleteEntity(Entity * e) 
+        void DeleteEntity(IEntity * e) 
         {
             if (find(mDeleted.begin(), mDeleted.end(), e) == mDeleted.end())
             {
@@ -196,7 +194,7 @@ namespace artemis
          * (Re)enable the entity in the world, after it having being disabled.
          * Won't do anything unless it was already disabled.
          */ 
-        void Enable(Entity * e) 
+        void Enable(IEntity * e) 
         {
             mEnable.push_back(e);
         }
@@ -205,7 +203,7 @@ namespace artemis
          * Disable the entity from being processed. Won't delete it, it will
          * continue to exist but won't get processed.
          */
-        void Disable(Entity * e) 
+        void Disable(IEntity * e) 
         {
             mDisable.push_back(e);
         }
@@ -217,7 +215,7 @@ namespace artemis
          * @param name optional name for debugging
          * @return entity
          */
-        Entity* CreateEntity(string name="") 
+        IEntity* CreateEntity(string name="") 
         {
             return mEntityManager.CreateEntityInstance(name);
         }
@@ -228,7 +226,7 @@ namespace artemis
         * @param entityId
         * @return entity
         */
-        Entity* GetEntity(int entityId) 
+        IEntity* GetEntity(int entityId) 
         {
             return mEntityManager.GetEntity(entityId);
         }
@@ -238,7 +236,7 @@ namespace artemis
         * 
         * @return all entity systems in world.
         */
-        vector<EntitySystem*>* GetSystems() 
+        vector<IEntitySystem*>* GetSystems() 
         {
             return &mSystemsBag;
         }
@@ -250,7 +248,7 @@ namespace artemis
         * @param passive wether or not this system will be processed by World.process()
         * @return the added system.
         */
-        EntitySystem* SetSystem(EntitySystem* system, bool passive=false)
+        IEntitySystem* SetSystem(IEntitySystem* system, bool passive=false)
         {
             system->SetWorld(this);
             system->SetPassive(passive);
@@ -265,7 +263,7 @@ namespace artemis
          * Removed the specified system from the world.
         * @param system to be deleted from world.
         */
-        void DeleteSystem(EntitySystem* system) 
+        void DeleteSystem(IEntitySystem* system) 
         {
             mSystems.erase(typeid(system));
 
@@ -279,13 +277,13 @@ namespace artemis
         void NotifySystems(Performer perform, Entity* e) 
         {
             for (auto system : mSystemsBag)
-                perform((EntityObserver*)system, e);
+                perform((IEntityObserver*)system, e);
         }
     
         void NotifyManagers(Performer perform, Entity* e) 
         {
             for (auto manager : mManagersBag)
-                perform((EntityObserver*)manager, e);
+                perform((IEntityObserver*)manager, e);
         }
 
         /**
@@ -295,7 +293,7 @@ namespace artemis
         * @return instance of the system in this world.
         */
         public:
-        EntitySystem* GetSystem(type_info& type) 
+        IEntitySystem* GetSystem(type_info& type) 
         {
             return mSystems[type];
         }
@@ -306,7 +304,7 @@ namespace artemis
         * @param performer
         */
         private:
-        void Check(vector<Entity*> entities, Performer perform) 
+        void Check(vector<IEntity*> entities, Performer perform) 
         {
             if (!entities.empty()) 
             {
@@ -325,11 +323,11 @@ namespace artemis
         public:
         void Update() 
         {
-            Check(mAdded,   [](EntityObserver* o, Entity* e) { o->Added(e); });  
-            Check(mChanged, [](EntityObserver* o, Entity* e) { o->Changed(e); });  
-            Check(mDisable, [](EntityObserver* o, Entity* e) { o->Disabled(e); });  
-            Check(mEnable,  [](EntityObserver* o, Entity* e) { o->Enabled(e); });  
-            Check(mDeleted, [](EntityObserver* o, Entity* e) { o->Deleted(e); });  
+            Check(mAdded,   [](IEntityObserver* o, Entity* e) { o->Added(e); });  
+            Check(mChanged, [](IEntityObserver* o, Entity* e) { o->Changed(e); });  
+            Check(mDisable, [](IEntityObserver* o, Entity* e) { o->Disabled(e); });  
+            Check(mEnable,  [](IEntityObserver* o, Entity* e) { o->Enabled(e); });  
+            Check(mDeleted, [](IEntityObserver* o, Entity* e) { o->Deleted(e); });  
             
             mComponentManager.Clean();
 

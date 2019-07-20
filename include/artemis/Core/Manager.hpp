@@ -14,7 +14,7 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
-#include "World.hpp"
+#include "IWorld.hpp"
 #include "IFactory.hpp"
 
 namespace artemis 
@@ -23,17 +23,26 @@ namespace artemis
     
     class Manager {
         protected:
-        World* mWorld;
+        IWorld* mWorld;
         IFactory* mFactory;
         public:
-        Manager(){}
-        ~Manager(){}
+        // Manager(){}
+        // ~Manager(){}
 
-        virtual void Initialize(IFactory* factory) = 0;
+        void Initialize(IFactory* factory) 
+        { 
+            mFactory = factory; 
+        }
 
+        void SetWorld(IWorld * world) 
+        { 
+            mWorld = world; 
+        }
 
-        void SetWorld(World * world) { mWorld = world; }
-
+        IWorld* GetWorld() 
+        { 
+            return mWorld; 
+        }
 
     };
 }

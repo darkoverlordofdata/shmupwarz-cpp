@@ -14,12 +14,19 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
-#include "IComponent.hpp"
+#include <string>
 
 namespace artemis 
 {
-    class Component : public IComponent 
+    enum class Taxonomy 
     {
+        BASIC, POOLED 
+    };
 
+    class IComponentType {
+        public:
+        virtual string GetName() = 0; 
+        virtual int GetIndex() = 0; 
+        virtual Taxonomy GetTaxonomy() = 0;
     };
 }

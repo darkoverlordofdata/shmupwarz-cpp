@@ -14,12 +14,9 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
-#include "IComponent.hpp"
-
 namespace artemis 
 {
-    class Component : public IComponent 
-    {
+    class IComponent {
 
     };
 }

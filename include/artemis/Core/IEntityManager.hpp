@@ -14,12 +14,33 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
-#include "IComponent.hpp"
+#include <string>
+#include "IManager.hpp"
+#include "IEntity.hpp"
+#include "IFactory.hpp"
 
 namespace artemis 
 {
-    class Component : public IComponent 
+    using namespace std;
+    class IManager;
+    class IEntity;
+
+    class IEntityManager : virtual IManager 
     {
+        public:
+        virtual void Initialize(IFactory* factory)  = 0;
+		virtual IEntity* CreateEntityInstance(string name = "") = 0;
+		virtual void Added(IEntity* e) = 0;
+		virtual void Deleted(IEntity* e) = 0;
+		virtual void Disabled(IEntity* e) = 0;
+		virtual void Enabled(IEntity* e) = 0;
+		virtual bool IsActive(int entityId) = 0;
+		virtual bool IsEnabled(int entityId) = 0;
+		virtual IEntity* GetEntity(int entityId) = 0;
+		virtual int GetActiveEntityCount() = 0;
+		virtual int GetTotalCreated() = 0;
+		virtual int GetTotalAdded() = 0;
+		virtual int GetTotalDeleted() = 0;
 
     };
 }

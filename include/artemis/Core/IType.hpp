@@ -14,12 +14,22 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
-#include "IComponent.hpp"
+#include <typeinfo>
+#include <typeindex>
+#include <unordered_map>
+#include <string>
+
+
 
 namespace artemis 
 {
-    class Component : public IComponent 
+    using namespace std;
+    
+    class IType
     {
+        public:
+        virtual string Name() = 0;
+        virtual size_t HashCode() = 0;
 
     };
 }

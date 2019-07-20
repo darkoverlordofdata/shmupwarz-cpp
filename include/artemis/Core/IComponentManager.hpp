@@ -14,22 +14,30 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
-#include <string>
+#include "IFactory.hpp"
 #include "IEntity.hpp"
-#include "IWorld.hpp"
+#include "IComponent.hpp"
+#include "IComponentType.hpp"
+#include "IManager.hpp"
 
-namespace artemis
+namespace artemis 
 {
     using namespace std;
-    
-    class IWorld;
+    class IFactory;
     class IEntity;
-
-    class IFactory 
+    class IComponent;
+    class IComponentType;
+    class IManager;
+    class IComponentManager : public IManager 
     {
         public:
-        virtual IEntity* CreateEntity(IWorld* world, int id, string name) = 0;
-        virtual IWorld* CreateWorld(IFactory* factory) = 0;
+        virtual void Initialize(IFactory* factory) = 0;
+        virtual void AddComponent(IEntity e, IComponentType type, IComponent component) = 0;
+        virtual void RemoveComponent(IEntity e, IComponentType type) = 0;
+        virtual vector<IComponent> GetComponentsByType(IComponentType type) = 0;
+        virtual IComponent* GetComponent(IEntity e, IComponentType type) = 0;
+        virtual vector<IComponent> GetComponentsFor(IEntity e,  vector<IComponent> fillBag) = 0;
+        virtual void Deleted(IEntity e) = 0;
+        virtual void Clean() = 0;
     };
-
 }

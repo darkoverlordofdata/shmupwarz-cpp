@@ -14,24 +14,9 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
-#include "Entity.hpp"
-
 namespace artemis 
 {
-    class Entity;
-    
-    class EntityObserver {
-
-        public:
-        virtual void Added(Entity* e) = 0;
-        
-        virtual void Changed(Entity* e) = 0;
-        
-        virtual void Deleted(Entity* e) = 0;
-        
-        virtual void Enabled(Entity* e) = 0;
-        
-        virtual void Disabled(Entity* e) = 0;
+    class IComponentPool {
 
     };
 }

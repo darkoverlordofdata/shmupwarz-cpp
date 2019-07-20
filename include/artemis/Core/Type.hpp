@@ -15,8 +15,9 @@
  ******************************************************************************/
 #pragma once;
 #include <typeinfo>
+#include <typeindex>
 #include <unordered_map>
-
+#include "IType.hpp"
 
 
 namespace artemis 
@@ -37,5 +38,35 @@ namespace artemis
         {
             return lhs.get() == rhs.get();
         }
+    };
+    
+    class Type : public IType
+    {
+        private:
+        string mName;
+        size_t mHashCode;
+        const type_info& mType;
+        static unordered_map<string, Type*> mTypes;
+
+        public:
+        explicit Type(const type_info& type) : mType(type) 
+        {
+            mName = type.name();
+            mHashCode = type.hash_code();
+
+        };        
+        ~Type(){}
+        
+        string Name() override
+        {
+            return mName;
+        }
+
+        size_t HashCode() override
+        {
+            return mHashCode;
+        }
+
+
     };
 }

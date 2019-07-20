@@ -14,12 +14,18 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
-#include "IComponent.hpp"
+#include "IEntity.hpp"
 
 namespace artemis 
 {
-    class Component : public IComponent 
-    {
-
+    class IEntity;
+    
+    class IEntityObserver {
+        public:
+        virtual void Added(IEntity* e) = 0;
+        virtual void Changed(IEntity* e) = 0;
+        virtual void Deleted(IEntity* e) = 0;
+        virtual void Enabled(IEntity* e) = 0;
+        virtual void Disabled(IEntity* e) = 0;
     };
 }

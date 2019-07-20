@@ -14,9 +14,50 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
+#include "Manager.hpp"
+#include "ComponentManager.hpp"
+#include "Type.hpp"
+#include <string>
+
 namespace artemis 
 {
+    enum class Taxonomy 
+    {
+        BASIC, POOLED 
+    };
+
     class ComponentType {
+        private:
+        inline static int INDEX = 0;
+        int mIndex = 0;
+        const type_info& mType;
+        Taxonomy mTaxonomy;
+
+        public:
+        static ComponentManager componentManager;
+        explicit ComponentType(const type_info& type) : mType(type) 
+        {   
+            mIndex = INDEX++;
+            mTaxonomy = Taxonomy::BASIC;
+        }
+
+        ~ComponentType() {}
+
+        string GetName() 
+        {
+            return mType.name();
+        }
+
+        int GetIndex() 
+        {
+            return mIndex;
+        }
+
+        Taxonomy GetTaxonomy() 
+        {
+            return mTaxonomy;
+        }
+        
 
     };
 }
