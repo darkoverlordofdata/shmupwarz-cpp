@@ -31,13 +31,12 @@ namespace artemis
     class IComponentManager : public IManager 
     {
         public:
-        virtual void Initialize(IFactory* factory) = 0;
-        virtual void AddComponent(IEntity e, IComponentType type, IComponent component) = 0;
-        virtual void RemoveComponent(IEntity e, IComponentType type) = 0;
-        virtual vector<IComponent> GetComponentsByType(IComponentType type) = 0;
-        virtual IComponent* GetComponent(IEntity e, IComponentType type) = 0;
-        virtual vector<IComponent> GetComponentsFor(IEntity e,  vector<IComponent> fillBag) = 0;
-        virtual void Deleted(IEntity e) = 0;
-        virtual void Clean() = 0;
+        ~IComponentManager(){}
+        void AddComponent(IEntity* e, IComponentType* type, IComponent* component){};
+        void RemoveComponent(IEntity* e, IComponentType* type){};
+        vector<IComponent> GetComponentsByType(IComponentType* type){};
+        IComponent* GetComponent(IEntity* e, IComponentType* type){};
+        vector<IComponent> GetComponentsFor(IEntity* e,  vector<IComponent*>* fillBag){};
+        void Clean(){};
     };
 }

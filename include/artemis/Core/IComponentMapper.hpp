@@ -22,6 +22,7 @@ namespace artemis
 {
     class IComponentMapper {
         public:
+        ~IComponentMapper(){}
         virtual IComponent* Get(IEntity* e) = 0;
         virtual IComponent* GetSafe(IEntity* e) = 0;
         virtual bool Has(IEntity* e) = 0;

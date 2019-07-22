@@ -34,6 +34,10 @@ namespace artemis
 
     class IEntity {
         public:
+        ~IEntity(){}
+        std::bitset<BITSIZE> ComponentBits;
+        std::bitset<BITSIZE> SystemBits;
+
         virtual int Id() = 0;
         virtual IComponent* CreateComponent(IType* type) = 0;
         virtual IEntity* AddComponent(IComponent* component) = 0;

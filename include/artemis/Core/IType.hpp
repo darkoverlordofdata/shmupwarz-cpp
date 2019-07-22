@@ -28,6 +28,7 @@ namespace artemis
     class IType
     {
         public:
+        ~IType(){}
         virtual string Name() = 0;
         virtual size_t HashCode() = 0;
 

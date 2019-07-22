@@ -25,6 +25,7 @@ namespace artemis
 
     class IComponentType {
         public:
+        ~IComponentType(){}
         virtual string GetName() = 0; 
         virtual int GetIndex() = 0; 
         virtual Taxonomy GetTaxonomy() = 0;

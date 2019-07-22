@@ -30,17 +30,16 @@ namespace artemis
         private:
         std::string mName;
         int mId;
-        std::bitset<BITSIZE> mComponentBits;
-        std::bitset<BITSIZE> mSystemBits;
+        // std::bitset<BITSIZE> mComponentBits;
+        // std::bitset<BITSIZE> mSystemBits;
         World * mWorld;
         EntityManager mEntityManager;
         ComponentManager mComponentManager;
 
         public:
-        int Id() { return mId; }
         std::string Name() { return mName; }
-        std::bitset<BITSIZE> ComponentBits() { return mComponentBits; }
-        std::bitset<BITSIZE> SystemBits() { return mSystemBits; }
+        // std::bitset<BITSIZE> ComponentBits() { return mComponentBits; }
+        // std::bitset<BITSIZE> SystemBits() { return mSystemBits; }
 
         Entity(World* world, int id, std::string name="") {
             mWorld = world;

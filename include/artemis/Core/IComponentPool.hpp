@@ -17,6 +17,8 @@
 namespace artemis 
 {
     class IComponentPool {
+        public:
+        ~IComponentPool(){}
 
     };
 }

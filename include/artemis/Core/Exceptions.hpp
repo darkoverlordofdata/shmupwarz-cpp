@@ -16,6 +16,7 @@
 #pragma once
 #include <exception>
 #include <stdio.h>
+#include <string>
 
 namespace artemis::exceptions {
 
@@ -44,5 +45,19 @@ namespace artemis::exceptions {
         }
     };
 
+    class InvalidComponent : public exception {
+        char buffer[1024];
+        const char* msg;
+        string name;
+        public:
+        InvalidComponent(char* msg, string name) {
+            this->msg = msg;
+            this->name  = name;
+        }
+        const char* what() const throw () {
+            snprintf((char*)buffer, sizeof(buffer), msg, name.c_str());
+            return buffer;
+        }
+    };
 }
 

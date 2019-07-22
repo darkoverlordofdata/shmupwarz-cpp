@@ -9,6 +9,7 @@ namespace artemis {
     class IType;
     class IAspect {
         public:
+        ~IAspect(){}
         virtual void SetWorld(IWorld world) = 0;
         virtual bitset<BITSIZE> GetAllSet() = 0;
         virtual bitset<BITSIZE> GetExclusionSet() = 0;

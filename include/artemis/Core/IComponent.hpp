@@ -17,6 +17,6 @@
 namespace artemis 
 {
     class IComponent {
-
+        ~IComponent(){}
     };
 }

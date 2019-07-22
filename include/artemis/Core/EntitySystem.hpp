@@ -14,59 +14,183 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
-#include "World.hpp"
+#include <vector>
+#include "IAspect.hpp"
+#include "IWorld.hpp"
 #include "IEntityObserver.hpp"
+#include "IEntitySystem.hpp"
 
 namespace artemis 
 {
-    class World;
+    using namespace std;
 
-    class EntitySystem 
+    class IWorld;
+    class IAspect;
+
+    class EntitySystem : IEntitySystem
     {
         private:
-        World* mWorld;
+
+        int mSystemIndex;
+        IWorld* mWorld;
+        vector<IEntity*> mActives;
+        IAspect* mAspect;
+    
+        bitset<BITSIZE> mAllSet;
+        bitset<BITSIZE> mExclusionSet;
+        bitset<BITSIZE> mOneSet;
         bool mPassive;
+        bool mDummy;
 
         public:
-        void Check(Entity* e)
+        EntitySystem(IAspect* aspect) : mAspect(aspect)
         {
+            // mSystemIndex = SystemIndexManager.GetIndexFor(typeid(this));
+            mAllSet = mAspect->GetAllSet();
+            mExclusionSet = mAspect->GetExclusionSet();
+            mOneSet = mAspect->GetOneSet();
+            mDummy = mAllSet.none() && mOneSet.none(); // This system can't possibly be interested in any entity, so it must be "dummy"
+
 
         }
+        ~EntitySystem(){}
 
+        /**
+         * Called before processing of entities begins. 
+         */
+        void Begin() {}
+    
         void Process() {
-            // if (CheckProcessing()) {
-            //     Begin();
-            //     ProcessEntities(actives);
-            //     End();
-            // }
+            if (CheckProcessing()) {
+                Begin();
+                ProcessEntities(mActives);
+                End();
+            }
         }
+        
+        /**
+         * Called after the processing of entities ends.
+         */
+        void End() {}
+        
+        /**
+         * Any implementing entity system must implement this method and the logic
+         * to process the given entities of the system.
+         * 
+         * @param entities the entities this system contains.
+         */
+        virtual void ProcessEntities(vector<IEntity*> entities) = 0;
+        
+        /**
+         * 
+         * @return true if the system should be processed, false if not.
+         */
+        bool CheckProcessing() {
+            return true;
+        }
+    
+        /**
+         * Override to implement code that gets executed when systems are initialized.
+         */
+        void Initialize() {}
+    
+        /**
+         * Called if the system has received a entity it is interested in, e.g. created or a component was added to it.
+         * @param e the entity that was added to this system.
+         */
+        void Inserted(IEntity* e) {}
+    
+        /**
+         * Called if a entity was removed from this system, e.g. deleted or had one of it's components removed.
+         * @param e the entity that was removed from this system.
+         */
+        void Removed(IEntity* e) {}
+    
+        /**
+         * Will Check if the entity is of interest to this system.
+         * @param e entity to Check
+         */
+        void Check(IEntity* e) {
+            if (mDummy) {
+                return;
+            }
+            auto contains = e->SystemBits[mSystemIndex];
+            auto interested = true; // possibly interested, let's try to prove it wrong.
+            
+            auto componentBits = e->ComponentBits;
+    
+            // Check if the entity possesses ALL of the components defined in the aspect.
+            if (!mAllSet.none()) {
+                for (auto i = 0; i<mAllSet.size(); i++) {
+                // for (auto i = mAllSetNextSetBit(0); i >= 0; i = mAllSetNextSetBit(i+1)) {
+                    if (!componentBits.test(i)) {
+                        interested = false;
+                        break;
+                    }
+                }
+            }
+
+            // Check if the entity possesses ANY of the exclusion components, if it does then the system is not interested.
+            if (!mExclusionSet.none() && interested) {
+                interested = (~( mExclusionSet &= componentBits )).any();
+                // interested = !mExclusionSet.Intersects(componentBits);
+            }
+            
+            // Check if the entity possesses ANY of the components in the mOneSet. If so, the system is interested.
+            if(!mOneSet.none()) {
+                interested = ( mOneSet &= componentBits ).any();
+                // interested = mOneSet.Intersects(componentBits);
+            }
+
+            if (interested && !contains) 
+            {
+                InsertToSystem(e);
+            } 
+            else if (!interested && contains) 
+            {
+                RemoveFromSystem(e);
+            }
+        }
+    
+        void RemoveFromSystem(IEntity* e) {
+            mActives.erase(find(mActives.begin(), mActives.end(), e));
+            e->SystemBits.reset(mSystemIndex);
+            Removed(e);
+        }
+    
+        void InsertToSystem(IEntity* e) {
+            mActives.push_back(e);
+            e->SystemBits.set(mSystemIndex, true);
+            Inserted(e);
+        }
+        
 
 
-        void Added(Entity* e) {
+        void Added(IEntity* e) {
             Check(e);
         }
         
-        void Changed(Entity* e) {
+        void Changed(IEntity* e) {
             Check(e);
         }
         
-        void Deleted(Entity* e) {
-            // if(e.SystemBits[systemIndex]) {
-            //     RemoveFromSystem(e);
-            // }
+        void Deleted(IEntity* e) {
+            if(e->SystemBits.test(mSystemIndex)) {
+                RemoveFromSystem(e);
+            }
         }
         
-        void Disabled(Entity* e) {
-            // if(e.SystemBits[systemIndex]) {
-            //     RemoveFromSystem(e);
-            // }
+        void Disabled(IEntity* e) {
+            if(e->SystemBits.test(mSystemIndex)) {
+                RemoveFromSystem(e);
+            }
         }
 
-        void Enabled(Entity* e) {
+        void Enabled(IEntity* e) {
             Check(e);
         }
 
-        void SetWorld(World* world) {
+        void SetWorld(IWorld* world) {
             mWorld = world;
         }
         
@@ -78,6 +202,9 @@ namespace artemis
             mPassive = passive;
         }
 
+        vector<IEntity*>* GetActive() {
+            return &mActives;
+        }
 
     };
 }

@@ -23,6 +23,7 @@ namespace artemis
 
     class IComponentTypeFactory {
         public:
+        ~IComponentTypeFactory(){}
         virtual IComponentType* GetTypeFor(type_info& c) = 0;
         virtual int GetIndexFor(type_info& c) = 0;
         virtual Taxonomy GetTaxonomy(int index) = 0;

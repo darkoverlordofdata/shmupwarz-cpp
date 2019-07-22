@@ -20,17 +20,35 @@
 namespace artemis 
 {
     class IWorld;
-    
+    class IFactory;
     class IManager {
         public:
-        virtual void Initialize(IFactory* factory) = 0;
-        virtual IWorld* GetWorld() = 0;
-        virtual void SetWorld(IWorld * world) = 0;
-		virtual void Added(IEntity* e) = 0;
-		virtual void Changed(IEntity* e) = 0;
-		virtual void Deleted(IEntity* e) = 0;
-		virtual void Disabled(IEntity* e) = 0;
-		virtual void Enabled(IEntity* e) = 0;
+        IWorld* mWorld;
+        IFactory* mFactory;
+        ~IManager(){}
+        public:
+        void Initialize(IFactory* factory)
+        { 
+            mFactory = factory; 
+        }
+
+        void SetWorld(IWorld * world)
+        { 
+            mWorld = world; 
+        }
+
+        IWorld* GetWorld()
+        { 
+            return mWorld; 
+        }
+        // void Initialize(IFactory* factory){};
+        // IWorld* GetWorld(){};
+        // void SetWorld(IWorld * world){};
+		void Added(IEntity* e){};
+		void Changed(IEntity* e){};
+		void Deleted(IEntity* e){};
+		void Disabled(IEntity* e){};
+		void Enabled(IEntity* e){};
 
     };
 }

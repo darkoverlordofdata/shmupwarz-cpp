@@ -34,6 +34,7 @@ namespace artemis
     class IWorld {
 
         public:
+        ~IWorld(){}
         virtual void Initialize(IFactory* factory) = 0;
         virtual IEntityManager * GetEntityManager() = 0;
         virtual IComponentManager * GetComponentManager() = 0;

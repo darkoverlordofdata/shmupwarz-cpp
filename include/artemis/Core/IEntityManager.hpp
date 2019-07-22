@@ -23,17 +23,18 @@ namespace artemis
 {
     using namespace std;
     class IManager;
-    class IEntity;
+    // class IEntity;
 
-    class IEntityManager : virtual IManager 
+    class IEntityManager : public IManager 
     {
         public:
-        virtual void Initialize(IFactory* factory)  = 0;
+		~IEntityManager(){}
+        // virtual void Initialize(IFactory* factory)  = 0;
 		virtual IEntity* CreateEntityInstance(string name = "") = 0;
-		virtual void Added(IEntity* e) = 0;
-		virtual void Deleted(IEntity* e) = 0;
-		virtual void Disabled(IEntity* e) = 0;
-		virtual void Enabled(IEntity* e) = 0;
+		// virtual void Added(IEntity* e) = 0;
+		// virtual void Deleted(IEntity* e) = 0;
+		// virtual void Disabled(IEntity* e) = 0;
+		// virtual void Enabled(IEntity* e) = 0;
 		virtual bool IsActive(int entityId) = 0;
 		virtual bool IsEnabled(int entityId) = 0;
 		virtual IEntity* GetEntity(int entityId) = 0;

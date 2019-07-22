@@ -28,6 +28,7 @@ namespace artemis
     class IFactory 
     {
         public:
+        ~IFactory(){}
         virtual IEntity* CreateEntity(IWorld* world, int id, string name) = 0;
         virtual IWorld* CreateWorld(IFactory* factory) = 0;
     };

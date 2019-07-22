@@ -22,6 +22,7 @@ namespace artemis
     
     class IEntityObserver {
         public:
+        ~IEntityObserver(){}
         virtual void Added(IEntity* e) = 0;
         virtual void Changed(IEntity* e) = 0;
         virtual void Deleted(IEntity* e) = 0;

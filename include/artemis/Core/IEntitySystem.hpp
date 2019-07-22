@@ -25,6 +25,7 @@ namespace artemis
     class IEntitySystem 
     {
         public:
+        ~IEntitySystem(){}
         virtual void Check(IEntity* e) = 0;
         virtual void Process() = 0;
         virtual void Added(IEntity* e) = 0;

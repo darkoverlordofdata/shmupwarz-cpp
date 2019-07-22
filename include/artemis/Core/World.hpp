@@ -20,6 +20,7 @@
 #include "IComponentManager.hpp"
 #include "IEntityObserver.hpp"
 #include "IFactory.hpp"
+#include "EntityManager.hpp"
 
 namespace artemis 
 {
@@ -27,12 +28,17 @@ namespace artemis
     typedef void (*Performer) (IEntityObserver* observer, IEntity* e);
 
     using namespace std;
-    
-    class World {
+    class EntityManager;
+    class ComponentManager;
+    class IManager;
+    class IEntitySystem;
+    class IEntity;
+
+    class World : public IWorld {
 
         private:
-        IEntityManager mEntityManager;
-        IComponentManager mComponentManager;
+        EntityManager mEntityManager;
+        ComponentManager mComponentManager;
         float mDelta;
         vector<IEntity*> mAdded;
         vector<IEntity*> mChanged;
@@ -128,7 +134,7 @@ namespace artemis
         {
             mManagers.erase(typeid(manager));
             // mManagersBag.erase(find(mManagersBag.begin(), mManagersBag.end(), manager));
-            vector<Manager*>::iterator it = find(mManagersBag.begin(), mManagersBag.end(), manager);
+            vector<IManager*>::iterator it = find(mManagersBag.begin(), mManagersBag.end(), manager);
             if (it != mManagersBag.end()) {
                 mManagersBag.erase(it);
             }
@@ -267,20 +273,20 @@ namespace artemis
         {
             mSystems.erase(typeid(system));
 
-            vector<EntitySystem*>::iterator it = find(mSystemsBag.begin(), mSystemsBag.end(), system);
+            vector<IEntitySystem*>::iterator it = find(mSystemsBag.begin(), mSystemsBag.end(), system);
             if (it != mSystemsBag.end()) {
                 mSystemsBag.erase(it);
             }
         }
 
         private:
-        void NotifySystems(Performer perform, Entity* e) 
+        void NotifySystems(Performer perform, IEntity* e) 
         {
             for (auto system : mSystemsBag)
                 perform((IEntityObserver*)system, e);
         }
     
-        void NotifyManagers(Performer perform, Entity* e) 
+        void NotifyManagers(Performer perform, IEntity* e) 
         {
             for (auto manager : mManagersBag)
                 perform((IEntityObserver*)manager, e);
@@ -323,11 +329,11 @@ namespace artemis
         public:
         void Update() 
         {
-            Check(mAdded,   [](IEntityObserver* o, Entity* e) { o->Added(e); });  
-            Check(mChanged, [](IEntityObserver* o, Entity* e) { o->Changed(e); });  
-            Check(mDisable, [](IEntityObserver* o, Entity* e) { o->Disabled(e); });  
-            Check(mEnable,  [](IEntityObserver* o, Entity* e) { o->Enabled(e); });  
-            Check(mDeleted, [](IEntityObserver* o, Entity* e) { o->Deleted(e); });  
+            Check(mAdded,   [](IEntityObserver* o, IEntity* e) { o->Added(e); });  
+            Check(mChanged, [](IEntityObserver* o, IEntity* e) { o->Changed(e); });  
+            Check(mDisable, [](IEntityObserver* o, IEntity* e) { o->Disabled(e); });  
+            Check(mEnable,  [](IEntityObserver* o, IEntity* e) { o->Enabled(e); });  
+            Check(mDeleted, [](IEntityObserver* o, IEntity* e) { o->Deleted(e); });  
             
             mComponentManager.Clean();
 

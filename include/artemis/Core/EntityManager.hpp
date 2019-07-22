@@ -16,7 +16,7 @@
 #pragma once;
 #include <string>
 #include <bitset>
-#include "Manager.hpp"
+#include "IManager.hpp"
 #include "IEntity.hpp"
 
 namespace artemis 
@@ -25,7 +25,7 @@ namespace artemis
     class Manager;
     class IEntity;
 
-    class EntityManager : public Manager 
+    class EntityManager : public IEntityManager
     {
         private:
         vector<IEntity*> mEntities;
@@ -51,47 +51,104 @@ namespace artemis
 			return e;
 		}
 
-		void Added(IEntity* e) {
+		void Added(IEntity* e)
+		{
 			mActive++;
 			mAdded++;
 			mEntities[e->Id()] = e;
-		}
+		}		
 		
-		
-		void Enabled(IEntity* e) {
+		void Enabled(IEntity* e)
+		{
 			mDisabled.reset(e->Id());
-		}
+		}		
 		
-		
-		void Disabled(IEntity* e) {
+		void Disabled(IEntity* e)
+		{
 			mDisabled.set(e->Id(), true);
 		}
-		
-		
-		void Deleted(IEntity* e) {
+				
+		void Deleted(IEntity* e)
+		{
 			mEntities[e->Id()] = nullptr;
-			
 			mDisabled.reset(e->Id());
-			
 			// identifierPool.CheckIn(e.Id);
-			
 			mActive--;
 			mDeleted++;
 		}
 	
+		/**
+		* Check if this entity is active.
+		* Active means the entity is being actively processed.
+		* 
+		* @param entityId
+		* @return true if active, false if not.
+		*/
+		bool IsActive(int entityId)
+		{
 
+			return mEntities[entityId] != nullptr;
+		}
+		
+		/**
+		* Check if the specified entityId is enabled.
+		* 
+		* @param entityId
+		* @return true if the entity is enabled, false if it is disabled.
+		*/
+		bool IsEnabled(int entityId)
+		{
+			return !mDisabled.test(entityId);
+		}
+		
 		/**
 		* Get a entity with this id.
 		* 
 		* @param entityId
 		* @return the entity
 		*/
-		IEntity* GetEntity(int entityId) 
-        {
+		IEntity* GetEntity(int entityId)
+		{
 			return mEntities[entityId];
 		}
-
-
+		
+		/**
+		* Get how many entities are active in this world.
+		* @return how many entities are currently active.
+		*/
+		int GetActiveEntityCount()
+		{
+			return mActive;
+		}
+		
+		/**
+		* Get how many entities have been created in the world since start.
+		* Note: A created entity may not have been added to the world, thus
+		* created count is always equal or larger than added count.
+		* @return how many entities have been created since start.
+		*/
+		int GetTotalCreated()
+		{
+			return mCreated;
+		}
+		
+		/**
+		* Get how many entities have been added to the world since start.
+		* @return how many entities have been added.
+		*/
+		int GetTotalAdded()
+		{
+			return mAdded;
+		}
+		
+		/**
+		* Get how many entities have been deleted from the world since start.
+		* @return how many entities have been deleted since start.
+		*/
+		int GetTotalDeleted()
+		{
+			return mDeleted;
+		}
 
     };
 }
