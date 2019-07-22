@@ -12,6 +12,9 @@ namespace artemis {
 
     using namespace std;
 
+    class IWorld;
+    class IAspect;
+
     /**
      * An Aspects is used by systems as a matcher against entities, to check if a system is
      * interested in an entity. Aspects define what sort of component types an entity must
@@ -69,16 +72,6 @@ namespace artemis {
         }
 
 
-        template<class ...Types>
-        IAspect* Zest(Types... types)
-        {
-            for (type_index type : { types...})
-            {
-                printf("Class Name Test: %s\n", type.name());
-            }
-
-            return this;
-        }
         /**
          * Returns an aspect where an entity must possess all of the specified component types.
          * @param {Type} type a required component type
@@ -135,6 +128,83 @@ namespace artemis {
 
             return this;
 
+        }
+
+        /**
+         * Creates an aspect where an entity must possess all of the specified component types.
+         *
+         * @param {Type} type the type the entity must possess
+         * @param {Array<Type>} types the type the entity must possess
+         * @return {artemis.Aspect} an aspect that can be matched against entities
+         *
+         * @deprecated
+         * @see getAspectForAll
+         */
+        template<class ... Types>
+        static IAspect* GetAspectFor(Types ... types) 
+        {
+            auto aspect = new Aspect();
+            for (type_index type : { types...})
+            {
+                auto index = Aspect::TypeFactory.GetIndexFor(type);
+                aspect->mAllSet[index] = true;
+            }
+            return aspect;
+        }
+
+        /**
+         * Creates an aspect where an entity must possess all of the specified component types.
+         *
+         * @param {Type} type a required component type
+         * @param {Array<Type>} types a required component type
+         * @return {artemis.Aspect} an aspect that can be matched against entities
+         */
+        template<class ... Types>
+        static IAspect* GetAspectForAll(Types ... types) 
+        {
+            auto aspect = new Aspect();
+            for (type_index type : { types...})
+            {
+                auto index = Aspect::TypeFactory.GetIndexFor(type);
+                aspect->mAllSet[index] = true;
+            }
+            return aspect;
+        }
+        
+        /**
+         * Creates an aspect where an entity must possess one of the specified component types.
+         *
+         * @param {Type} type one of the types the entity must possess
+         * @param {Array<Type>} types one of the types the entity must possess
+         * @return {artemis.Aspect} an aspect that can be matched against entities
+         */
+        template<class ... Types>
+        static IAspect* GetAspectForOne(Types ... types) 
+        {
+            auto aspect = new Aspect();
+            for (type_index type : { types...})
+            {
+                auto index = Aspect::TypeFactory.GetIndexFor(type);
+                aspect->mOneSet[index] = true;
+            }
+            return aspect;
+        }
+    
+        /**
+         * Creates and returns an empty aspect. This can be used if you want a system that processes no entities, but
+         * still gets invoked. Typical usages is when you need to create special purpose systems for debug rendering,
+         * like rendering FPS, how many entities are active in the world, etc.
+         *
+         * You can also use the all, one and exclude methods on this aspect, so if you wanted to create a system that
+         * processes only entities possessing just one of the components A or B or C, then you can do:
+         * Aspect.getEmpty().one(A,B,C);
+         *
+         * @return {artemis.Aspect} an empty Aspect that will reject all entities.
+         */
+        static IAspect* GetEmpty() 
+        {
+            auto aspect = new Aspect();
+            return aspect;
         }
 
     };

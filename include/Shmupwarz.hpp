@@ -67,8 +67,6 @@ public:
         printf("TYPE = %s\n", ti2.name());
 
         auto test = new artemis::Aspect();
-
-        test->Zest(typeof(Shmupwarz), typeof(artemis::Aspect));
     }
 
 

@@ -16,7 +16,6 @@
 #pragma once;
 #include "IEntity.hpp"
 #include "IComponent.hpp"
-#include "IType.hpp"
 #include "IWorld.hpp"
 namespace artemis 
 {

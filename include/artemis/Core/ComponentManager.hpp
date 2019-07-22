@@ -17,7 +17,6 @@
 #include <vector>
 #include "Exceptions.hpp"
 #include "IManager.hpp"
-#include "IType.hpp"
 #include "IEntity.hpp"
 #include "IComponent.hpp"
 #include "IComponentType.hpp"

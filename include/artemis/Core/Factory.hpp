@@ -32,7 +32,7 @@ namespace artemis
     class Factory : public IFactory
     {
         public:
-        Entity* CreateEntity(World* world, int id, string name) override
+        Entity* CreateEntity(World* world, int id, string name) 
         {
             return new Entity(world, id, name);
         }

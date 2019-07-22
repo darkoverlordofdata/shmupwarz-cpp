@@ -65,4 +65,4 @@
 #include "Core/ComponentPool.hpp"
 #include "Core/ComponentMapper.hpp"
 #include "Core/Aspect.hpp"
-// #include "Core/Factory.hpp"
+#include "Core/Factory.hpp"

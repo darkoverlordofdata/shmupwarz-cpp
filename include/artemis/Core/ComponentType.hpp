@@ -16,7 +16,6 @@
 #pragma once;
 #include "IManager.hpp"
 #include "IComponentManager.hpp"
-#include "IType.hpp"
 #include "IComponentType.hpp"
 #include <string>
 

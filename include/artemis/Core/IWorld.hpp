@@ -21,7 +21,6 @@
 #include "IComponentManager.hpp"
 #include "IComponentMapper.hpp"
 #include "IEntityObserver.hpp"
-#include "IType.hpp"
 #include "IFactory.hpp"
 
 namespace artemis 

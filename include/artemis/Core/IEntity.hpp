@@ -18,7 +18,7 @@
 #include <bitset>
 #include <vector>
 #include "IComponent.hpp"
-#include "IType.hpp"
+// #include "IType.hpp"
 #include "IComponentType.hpp"
 #include "IWorld.hpp"
 
@@ -29,7 +29,7 @@ namespace artemis
 
     class IWorld;
     class IComponent;
-    class IType;
+    // class IType;
     class IComponentType;
 
     class IEntity {
@@ -38,10 +38,9 @@ namespace artemis
         std::bitset<BITSIZE> ComponentBits;
         std::bitset<BITSIZE> SystemBits;
 
-
         virtual int Id() = 0;
         // virtual IComponent* CreateComponent(IType* type) = 0;
-        virtual IEntity* AddComponent(IComponent* component) = 0;
+        virtual IEntity* AddComponent(IComponent* component, ...) = 0;
         virtual IEntity* RemoveComponentInstance(IComponent* component) = 0;
         virtual IEntity* RemoveComponent(IComponentType* type) = 0;
         // virtual IEntity* RemoveComponentByType(IType* type) = 0;

@@ -15,7 +15,6 @@
  ******************************************************************************/
 #pragma once;
 #include "vector"
-#include "IType.hpp"
 #include "IWorld.hpp"
 #include "IEntity.hpp"
 #include "IComponentMapper.hpp"
