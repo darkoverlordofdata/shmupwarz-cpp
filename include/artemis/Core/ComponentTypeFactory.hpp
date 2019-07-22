@@ -52,7 +52,7 @@ namespace artemis
          * @param c the component's class to get the type for
          * @return the component's {@link ComponentType}
          */
-        ComponentType* GetTypeFor(type_info& c) 
+        ComponentType* GetTypeFor(const type_info& c) 
         {
             auto entry = mComponentTypes.find(c.name());
             if (entry == mComponentTypes.end()) 

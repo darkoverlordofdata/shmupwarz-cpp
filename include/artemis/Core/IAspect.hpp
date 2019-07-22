@@ -1,7 +1,10 @@
 #pragma once
-#include "IType.hpp"
-#include "IWorld.hpp"
+#include <vector>
 #include <bitset>
+#include <typeinfo>
+#include <cstdarg>
+#include "IAspect.hpp"
+#include "IWorld.hpp"
 
 namespace artemis {
     using namespace std;
@@ -14,9 +17,9 @@ namespace artemis {
         virtual bitset<BITSIZE> GetAllSet() = 0;
         virtual bitset<BITSIZE> GetExclusionSet() = 0;
         virtual bitset<BITSIZE> GetOneSet() = 0;
-        virtual IAspect* All(IType** types) = 0;
-        virtual IAspect* Exclude(IType** types) = 0;
-        virtual IAspect* One(IType** types) = 0;
+        virtual IAspect* All(type_info& type, ...) = 0;
+        virtual IAspect* Exclude(type_info& type, ...) = 0;
+        virtual IAspect* One(type_info& type, ...) = 0;
 
 
     };

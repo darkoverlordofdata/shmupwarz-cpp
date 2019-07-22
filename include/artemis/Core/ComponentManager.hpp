@@ -32,11 +32,11 @@ namespace artemis
     class ComponentManager : public IComponentManager
     {
         vector<vector<IComponent*>> mComponentsByType;
-        IComponentPool mPooledComponents;
+        IComponentPool* mPooledComponents;
         vector<IEntity*> mDeleted;
 
         public:
-        ComponentTypeFactory TypeFactory;
+        // ComponentTypeFactory TypeFactory;
 
         public:
         ComponentManager(){}
@@ -127,9 +127,9 @@ namespace artemis
          *			the type of components to get
         * @return a bag containing all components of the given type
         */
-        vector<IComponent*> GetComponentsByType(IComponentType *type) 
+        vector<IComponent*>* GetComponentsByType(IComponentType *type) 
         {
-            vector<IComponent*> components = mComponentsByType[type->GetIndex()];
+            vector<IComponent*>* components = &mComponentsByType[type->GetIndex()];
             // if(components == nullptr) {
             //     components = new vector<IComponent*>();
             //     mComponentsByType[type->GetIndex()] = components;

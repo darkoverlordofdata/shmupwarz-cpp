@@ -17,6 +17,7 @@
 namespace artemis 
 {
     class IPooledComponent {
+        public:
         ~IPooledComponent(){}
 
     };

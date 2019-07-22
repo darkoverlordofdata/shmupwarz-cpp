@@ -19,6 +19,7 @@
 #include "IComponent.hpp"
 #include "IComponentType.hpp"
 #include "IManager.hpp"
+#include "ComponentTypeFactory.hpp"
 
 namespace artemis 
 {
@@ -28,13 +29,15 @@ namespace artemis
     class IComponent;
     class IComponentType;
     class IManager;
+    class ComponentTypeFactory;
     class IComponentManager : public IManager 
     {
         public:
+        ComponentTypeFactory TypeFactory;
         ~IComponentManager(){}
         void AddComponent(IEntity* e, IComponentType* type, IComponent* component){};
         void RemoveComponent(IEntity* e, IComponentType* type){};
-        vector<IComponent> GetComponentsByType(IComponentType* type){};
+        vector<IComponent*>* GetComponentsByType(IComponentType* type){};
         IComponent* GetComponent(IEntity* e, IComponentType* type){};
         vector<IComponent> GetComponentsFor(IEntity* e,  vector<IComponent*>* fillBag){};
         void Clean(){};

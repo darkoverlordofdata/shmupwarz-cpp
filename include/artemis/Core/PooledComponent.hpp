@@ -14,9 +14,11 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
+#include "IPooledComponent.hpp"
+
 namespace artemis 
 {
-    class PooledComponent {
+    class PooledComponent : public IPooledComponent {
 
     };
 }

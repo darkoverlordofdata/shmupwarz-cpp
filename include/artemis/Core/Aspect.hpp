@@ -1,16 +1,10 @@
 #pragma once
-#include <list>
 #include <vector>
-#include <cstdio>
-#include <map>
-#include <string>
-#include <iostream>
-#include <ctime>
-#include <chrono>
-#include <list>
-#include <algorithm>
-#include <random>
-#include <chrono>
+#include <bitset>
+#include <typeinfo>
+#include <cstdarg>
+#include "IAspect.hpp"
+#include "IWorld.hpp"
 
 // #include "ComponentTypeFactory.hpp"
 
@@ -40,14 +34,98 @@ namespace artemis {
      * @author Arni Arent
      *
      */
-    class Aspect {
+    class Aspect : public IAspect {
         private:
-        // bitset<BITSIZE> allSet;
-        // bitset<BITSIZE> exclusionSet;
-        // bitset<BITSIZE> oneSet;
-        // World* world;
+        bitset<BITSIZE> mAllSet;
+        bitset<BITSIZE> mExclusionSet;
+        bitset<BITSIZE> mOneSet;
+        IWorld* mWorld;
         
-        // static ComponentTypeFactory mTypeFactory;
+        static ComponentTypeFactory TypeFactory;
+
+        public:
+        /**
+         *
+         * @param {artemis.World} world
+         */
+        void SetWorld(IWorld* world) 
+        {
+            mWorld = world;
+        }
+
+        bitset<BITSIZE> GetAllSet() 
+        {
+            return mAllSet;
+        }
+
+        bitset<BITSIZE> GetExclusionSet() 
+        {
+            return mExclusionSet;
+        }
+
+        bitset<BITSIZE> GetOneSet() 
+        {
+            return mOneSet;
+        }
+
+        /**
+         * Returns an aspect where an entity must possess all of the specified component types.
+         * @param {Type} type a required component type
+         * @param {Array<Type>} types a required component type
+         * @return {artemis.Aspect} an aspect that can be matched against entities
+         */
+        template<class ... Types>
+        IAspect* All(Types... types) 
+        {
+            for (type_info& type : { types...})
+            {
+                auto index = Aspect::TypeFactory.GetIndexFor(type);
+                mAllSet[index] = true;
+            }
+
+            return this;
+        }
+
+        /**
+         * Excludes all of the specified component types from the aspect. A system will not be
+         * interested in an entity that possesses one of the specified exclusion component types.
+         *
+         * @param {Type} type component type to exclude
+         * @param {Array<Type>} types component type to exclude
+         * @return {artemis.Aspect} an aspect that can be matched against entities
+         */
+        template<class ... Types>
+        IAspect* Exclude(type_info& type, ...)
+        {
+            for (type_info& type : { types...})
+            {
+                auto index = Aspect::TypeFactory.GetIndexFor(type);
+                mExclusionSet[index] = true;
+            }
+
+            return this;
+
+        }
+
+        /**
+         * Returns an aspect where an entity must possess one of the specified component types.
+         * @param {Type} type one of the types the entity must possess
+         * @param {Array<Type>} types one of the types the entity must possess
+         * @return {artemis.Aspect} an aspect that can be matched against entities
+         */
+        template<class ... Types>
+        IAspect* One(type_info& type, ...)
+        {
+            for (type_info& type : { types...})
+            {
+                auto index = Aspect::TypeFactory.GetIndexFor(type);
+                mOneSet[index] = true;
+            }
+
+            return this;
+
+        }
+
     };
 }
 
