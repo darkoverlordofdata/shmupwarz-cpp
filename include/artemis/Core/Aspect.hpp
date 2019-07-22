@@ -2,11 +2,11 @@
 #include <vector>
 #include <bitset>
 #include <typeinfo>
+#include <typeindex>
+#include <string>
 #include <cstdarg>
 #include "IAspect.hpp"
 #include "IWorld.hpp"
-
-// #include "ComponentTypeFactory.hpp"
 
 namespace artemis {
 
@@ -48,26 +48,37 @@ namespace artemis {
          *
          * @param {artemis.World} world
          */
-        void SetWorld(IWorld* world) 
+        void SetWorld(IWorld* world) override
         {
             mWorld = world;
         }
 
-        bitset<BITSIZE> GetAllSet() 
+        bitset<BITSIZE> GetAllSet() override
         {
             return mAllSet;
         }
 
-        bitset<BITSIZE> GetExclusionSet() 
+        bitset<BITSIZE> GetExclusionSet() override
         {
             return mExclusionSet;
         }
 
-        bitset<BITSIZE> GetOneSet() 
+        bitset<BITSIZE> GetOneSet() override
         {
             return mOneSet;
         }
 
+
+        template<class ...Types>
+        IAspect* Zest(Types... types)
+        {
+            for (type_index type : { types...})
+            {
+                printf("Class Name Test: %s\n", type.name());
+            }
+
+            return this;
+        }
         /**
          * Returns an aspect where an entity must possess all of the specified component types.
          * @param {Type} type a required component type
@@ -75,9 +86,9 @@ namespace artemis {
          * @return {artemis.Aspect} an aspect that can be matched against entities
          */
         template<class ... Types>
-        IAspect* All(Types... types) 
+        IAspect* All(Types ... types)
         {
-            for (type_info& type : { types...})
+            for (type_index type : { types...})
             {
                 auto index = Aspect::TypeFactory.GetIndexFor(type);
                 mAllSet[index] = true;
@@ -95,9 +106,9 @@ namespace artemis {
          * @return {artemis.Aspect} an aspect that can be matched against entities
          */
         template<class ... Types>
-        IAspect* Exclude(type_info& type, ...)
+        IAspect* Exclude(Types ... types)
         {
-            for (type_info& type : { types...})
+            for (type_index type : { types...})
             {
                 auto index = Aspect::TypeFactory.GetIndexFor(type);
                 mExclusionSet[index] = true;
@@ -114,9 +125,9 @@ namespace artemis {
          * @return {artemis.Aspect} an aspect that can be matched against entities
          */
         template<class ... Types>
-        IAspect* One(type_info& type, ...)
+        IAspect* One(Types ... types)
         {
-            for (type_info& type : { types...})
+            for (type_index type : { types...})
             {
                 auto index = Aspect::TypeFactory.GetIndexFor(type);
                 mOneSet[index] = true;

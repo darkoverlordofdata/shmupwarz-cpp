@@ -26,8 +26,10 @@
 #include "xna/Graphics/SpriteRenderer.hpp"
 #include "xna/Game.hpp"
 #include "artemis/artemis.hpp"
+#include <typeinfo>
 
 using namespace std::chrono;
+
 
 enum {
     DISPLAY_WIDTH  = 480,
@@ -63,6 +65,10 @@ public:
 
         printf("TYPE = %s\n", ti1.name());
         printf("TYPE = %s\n", ti2.name());
+
+        auto test = new artemis::Aspect();
+
+        test->Zest(typeof(Shmupwarz), typeof(artemis::Aspect));
     }
 
 

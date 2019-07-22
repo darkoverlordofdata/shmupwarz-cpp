@@ -13,13 +13,13 @@ namespace artemis {
     class IAspect {
         public:
         ~IAspect(){}
-        virtual void SetWorld(IWorld world) = 0;
+        virtual void SetWorld(IWorld* world) = 0;
         virtual bitset<BITSIZE> GetAllSet() = 0;
         virtual bitset<BITSIZE> GetExclusionSet() = 0;
         virtual bitset<BITSIZE> GetOneSet() = 0;
-        virtual IAspect* All(type_info& type, ...) = 0;
-        virtual IAspect* Exclude(type_info& type, ...) = 0;
-        virtual IAspect* One(type_info& type, ...) = 0;
+        // virtual IAspect* All(type_index type, ...) = 0;
+        // virtual IAspect* Exclude(type_index type, ...) = 0;
+        // virtual IAspect* One(type_index type, ...) = 0;
 
 
     };

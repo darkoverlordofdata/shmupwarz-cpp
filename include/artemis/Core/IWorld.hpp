@@ -39,7 +39,7 @@ namespace artemis
         virtual IEntityManager * GetEntityManager() = 0;
         virtual IComponentManager * GetComponentManager() = 0;
         virtual IManager* SetManager(IManager * manager) = 0; 
-        virtual IManager* GetManager(type_info& managerType) = 0;
+        virtual IManager* GetManager(type_index managerType) = 0;
         virtual void DeleteManager(IManager* manager) = 0;
         virtual float GetDelta() = 0;
         virtual void SetDelta(float delta) = 0;
@@ -53,9 +53,9 @@ namespace artemis
         virtual vector<IEntitySystem*>* GetSystems() = 0;
         virtual IEntitySystem* SetSystem(IEntitySystem* system, bool passive=false) = 0;
         virtual void DeleteSystem(IEntitySystem* system) = 0;
-        virtual IEntitySystem* GetSystem(type_info& type) = 0;
+        virtual IEntitySystem* GetSystem(type_index type) = 0;
         virtual void Update() = 0;
         virtual void Draw() = 0;
-        virtual IComponentMapper* GetMapper(type_info& type) = 0;
+        virtual IComponentMapper* GetMapper(type_index type) = 0;
     };
 }

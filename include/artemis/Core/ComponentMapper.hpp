@@ -41,12 +41,12 @@ namespace artemis
      */
     class ComponentMapper : public IComponentMapper {
         IComponentType* mType;
-        const type_info& mClassType;
+        type_index mClassType;
         vector<IComponent*>* mComponents;
 
         public:
 
-        explicit ComponentMapper(type_info& type, IWorld* world) : mClassType(type)
+        explicit ComponentMapper(type_index type, IWorld* world) : mClassType(type)
         {
               mType = world->GetComponentManager()->TypeFactory.GetTypeFor(type);
               mComponents = world->GetComponentManager()->GetComponentsByType(mType);
@@ -95,7 +95,7 @@ namespace artemis
          * @param world the world that this component mapper should use.
          * @return a new mapper.
          */
-        IComponentMapper* GetFor(type_info& type, IWorld* world)
+        IComponentMapper* GetFor(type_index type, IWorld* world)
         {
             return new ComponentMapper(type, world);
         }

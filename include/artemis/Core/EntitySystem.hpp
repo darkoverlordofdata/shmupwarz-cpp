@@ -45,7 +45,7 @@ namespace artemis
         public:
         EntitySystem(IAspect* aspect) : mAspect(aspect)
         {
-            // mSystemIndex = SystemIndexManager.GetIndexFor(typeid(this));
+            // mSystemIndex = SystemIndexManager.GetIndexFor(typeof(this));
             mAllSet = mAspect->GetAllSet();
             mExclusionSet = mAspect->GetExclusionSet();
             mOneSet = mAspect->GetOneSet();

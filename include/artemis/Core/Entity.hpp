@@ -78,14 +78,14 @@ namespace artemis
         {
 
             auto tf = mWorld->GetComponentManager()->TypeFactory;
-            auto componentType = tf.GetTypeFor(typeid(component));
+            auto componentType = tf.GetTypeFor(typeof(component));
             ComponentBits.set(componentType->GetIndex(), true);
             mComponentManager.AddComponent(this, componentType, component);
             return this;
         }
 
         private:
-        ComponentType* GetTypeFor(const type_info& c) 
+        ComponentType* GetTypeFor(type_index c) 
         {
             return mWorld->GetComponentManager()->TypeFactory.GetTypeFor(c);
         }
@@ -99,7 +99,7 @@ namespace artemis
          */
         IEntity* RemoveComponentInstance(IComponent* component) 
         {
-            RemoveComponent(GetTypeFor(typeid(component)));
+            RemoveComponent(GetTypeFor(typeof(component)));
             return this;
         }
 
@@ -121,7 +121,7 @@ namespace artemis
          * 
          * @return this entity for chaining.
          */
-        IEntity* RemoveComponentByType(const type_info& type) 
+        IEntity* RemoveComponentByType(type_index type) 
         {
             RemoveComponent(GetTypeFor(type));
             return this;
@@ -177,7 +177,7 @@ namespace artemis
          *            the expected return component type.
          * @return component that matches, or null if none is found.
          */
-        IComponent* GetComponentByType(const type_info& type) 
+        IComponent* GetComponentByType(type_index type) 
         {
             return mComponentManager.GetComponent(this, GetTypeFor(type));
         }

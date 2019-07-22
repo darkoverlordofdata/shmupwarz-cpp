@@ -22,34 +22,17 @@
 
 namespace artemis 
 {
-    // using namespace utils;
-    
-    using TypeInfoRef = std::reference_wrapper<const std::type_info>;
-    
-    struct Hasher {
-        std::size_t operator()(TypeInfoRef code) const
-        {
-            return code.get().hash_code();
-        }
-    };
-    
-    struct EqualTo {
-        bool operator()(TypeInfoRef lhs, TypeInfoRef rhs) const
-        {
-            return lhs.get() == rhs.get();
-        }
-    };
     
     class Type : public IType
     {
         private:
         string mName;
         size_t mHashCode;
-        const type_info& mType;
+        type_index mType;
         static unordered_map<string, Type*> mTypes;
 
         public:
-        explicit Type(const type_info& type) : mType(type) 
+        explicit Type(type_index type) : mType(type) 
         {
             mName = type.name();
             mHashCode = type.hash_code();

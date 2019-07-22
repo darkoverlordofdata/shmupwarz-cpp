@@ -52,7 +52,7 @@ namespace artemis
          * @param c the component's class to get the type for
          * @return the component's {@link ComponentType}
          */
-        ComponentType* GetTypeFor(const type_info& c) 
+        ComponentType* GetTypeFor(type_index c) 
         {
             auto entry = mComponentTypes.find(c.name());
             if (entry == mComponentTypes.end()) 
@@ -72,7 +72,7 @@ namespace artemis
          * @param c the component class to get the type index for
          * @return the component type's index
          */
-        int GetIndexFor(type_info& c) 
+        int GetIndexFor(type_index c) 
         {
             return GetTypeFor(c)->GetIndex();
         }

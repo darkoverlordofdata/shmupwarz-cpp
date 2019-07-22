@@ -31,12 +31,12 @@ namespace artemis
         private:
         inline static int INDEX = 0;
         int mIndex = 0;
-        const type_info& mType;
+        type_index mType;
         Taxonomy mTaxonomy;
 
         public:
         // static IComponentManager mComponentManager;
-        explicit ComponentType(const type_info& type) : mType(type) 
+        explicit ComponentType(type_index type) : mType(type) 
         {   
             mIndex = INDEX++;
             mTaxonomy = Taxonomy::BASIC;

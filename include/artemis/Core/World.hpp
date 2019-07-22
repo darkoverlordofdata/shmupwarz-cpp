@@ -46,10 +46,12 @@ namespace artemis
         vector<IEntity*> mEnable;
         vector<IEntity*> mDisable;
 
-        unordered_map<TypeInfoRef, IManager*, Hasher, EqualTo> mManagers;
+        // unordered_map<type_index, IManager*, Hasher, EqualTo> mManagers;
+        unordered_map<type_index, IManager*> mManagers;
         vector<IManager*> mManagersBag;
          
-        unordered_map<TypeInfoRef, IEntitySystem*, Hasher, EqualTo> mSystems;
+        // unordered_map<type_index, IEntitySystem*, Hasher, EqualTo> mSystems;
+        unordered_map<type_index, IEntitySystem*> mSystems;
         vector<IEntitySystem*> mSystemsBag;
 
         IFactory* mFactory;
@@ -106,7 +108,7 @@ namespace artemis
          */
         IManager* SetManager(IManager * manager) 
         {
-            mManagers[typeid(manager)] = manager;
+            mManagers[typeof(manager)] = manager;
             mManagersBag.push_back(manager);
             manager->SetWorld(this);
             return manager;
@@ -116,12 +118,12 @@ namespace artemis
          * Returns a manager of the specified type.
          * 
          * @param <T>
-         * @param typeid of manager
+         * @param typeof of manager
          * @return the manager
          */
         // template<typename T>
-        // T* GetManager(type_info& managerType)
-        IManager* GetManager(type_info& managerType)
+        // T* GetManager(type_index managerType)
+        IManager* GetManager(type_index managerType)
         {
             return mManagers[managerType];
         }
@@ -132,7 +134,7 @@ namespace artemis
          */
         void DeleteManager(IManager* manager) 
         {
-            mManagers.erase(typeid(manager));
+            mManagers.erase(typeof(manager));
             // mManagersBag.erase(find(mManagersBag.begin(), mManagersBag.end(), manager));
             vector<IManager*>::iterator it = find(mManagersBag.begin(), mManagersBag.end(), manager);
             if (it != mManagersBag.end()) {
@@ -259,7 +261,7 @@ namespace artemis
             system->SetWorld(this);
             system->SetPassive(passive);
             
-            mSystems[typeid(system)] = system;
+            mSystems[typeof(system)] = system;
             mSystemsBag.push_back(system);
             
             return system;
@@ -271,7 +273,7 @@ namespace artemis
         */
         void DeleteSystem(IEntitySystem* system) 
         {
-            mSystems.erase(typeid(system));
+            mSystems.erase(typeof(system));
 
             vector<IEntitySystem*>::iterator it = find(mSystemsBag.begin(), mSystemsBag.end(), system);
             if (it != mSystemsBag.end()) {
@@ -299,7 +301,7 @@ namespace artemis
         * @return instance of the system in this world.
         */
         public:
-        IEntitySystem* GetSystem(type_info& type) 
+        IEntitySystem* GetSystem(type_index type) 
         {
             return mSystems[type];
         }

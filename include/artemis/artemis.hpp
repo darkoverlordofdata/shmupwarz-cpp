@@ -27,6 +27,13 @@
  */
 
 #define BITSIZE 32
+/**
+ * Typeof
+ * 
+ * c++ has no typeof operator, so we'll make our own:
+ */
+#define typeof(x) std::type_index(typeid(x))
+
 
 #include "Core/IType.hpp"
 #include "Core/IComponent.hpp"

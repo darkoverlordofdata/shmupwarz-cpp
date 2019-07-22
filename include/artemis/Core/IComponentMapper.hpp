@@ -26,6 +26,6 @@ namespace artemis
         virtual IComponent* Get(IEntity* e) = 0;
         virtual IComponent* GetSafe(IEntity* e) = 0;
         virtual bool Has(IEntity* e) = 0;
-        virtual IComponentMapper* GetFor(type_info& type, IWorld* world) = 0;
+        virtual IComponentMapper* GetFor(type_index type, IWorld* world) = 0;
     };
 }
