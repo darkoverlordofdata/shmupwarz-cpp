@@ -14,9 +14,51 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
+#include "ITagManager.hpp"
+
 namespace artemis::managers
 {
-    class TagManager {
+    class ITagManager;
+    /**
+     * If you need to tag any entity, use  A typical usage would be to tag
+     * entities such as "PLAYER", "BOSS" or something that is very unique.
+     *
+     * @author Arni Arent
+     *
+     */
+    class TagManager : public ITagManager {
+
+        void Register(string tag, IEntity* e) {
+            mEntitiesByTag[tag] = e;
+            mTagsByEntity[e] = tag;
+        }
+
+        void Unregister(string tag) {
+            mTagsByEntity.erase(mEntitiesByTag[tag]);
+            mEntitiesByTag.erase(tag);
+        }
+
+        bool IsRegistered(string tag) {
+            return mEntitiesByTag.find(tag) != mEntitiesByTag.end();
+        }
+
+        IEntity* GetEntity(string tag) {
+            return mEntitiesByTag[tag];
+        }
+
+        vector<string>* GetRegisteredTags() {
+            // return mTagsByEntity.Values.ToArray();
+            auto values = new vector<string>();
+            for(auto kv : mTagsByEntity) {
+                values->push_back(kv.second);
+            } 
+            return values;            
+        }
+
+        void Deleted(IEntity* e) {
+            mEntitiesByTag.erase(mTagsByEntity[e]);
+            mTagsByEntity.erase(e);
+        }
 
     };
 }

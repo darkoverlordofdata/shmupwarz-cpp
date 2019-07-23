@@ -14,9 +14,11 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
+#include "IVoidEntitySystem.hpp"
+
 namespace artemis::systems 
 {
-    class VoidEntitySystem {
+    class VoidEntitySystem : IVoidEntitySystem {
 
     };
 }

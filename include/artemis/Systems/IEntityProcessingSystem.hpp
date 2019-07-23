@@ -14,17 +14,20 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
-#include "IComponent.hpp"
+#include <string>
+#include "../Core/IEntitySystem.hpp"
 
-namespace artemis 
+namespace artemis::systems
 {
-    /**
-     * A tag class. All components in the system must extend this class.
-     * 
-     * @author Arni Arent
-     */
-    class Component : public IComponent 
+    using namespace std;
+    using namespace artemis;
+    class IEntitySystem;
+    // class IEntity;
+
+    class IEntityProcessingSystem : public artemis::IEntitySystem
     {
+        public:
+		~IEntityProcessingSystem(){}
 
     };
 }

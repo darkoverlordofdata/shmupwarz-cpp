@@ -27,6 +27,14 @@ namespace artemis
     class IWorld;
     class IAspect;
 
+    /**
+     * The most raw entity system. It should not typically be used, but you can create your own
+     * entity system handling by extending  It is recommended that you use the other provided
+     * entity system implementations.
+     * 
+     * @author Arni Arent
+     *
+     */
     class EntitySystem : IEntitySystem
     {
         private:
@@ -43,6 +51,10 @@ namespace artemis
         bool mDummy;
 
         public:
+        /**
+         * Creates an entity system that uses the specified aspect as a matcher against entities.
+         * @param aspect to match against entities
+         */
         EntitySystem(IAspect* aspect) : mAspect(aspect)
         {
             // mSystemIndex = SystemIndexManager.GetIndexFor(typeof(this));

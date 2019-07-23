@@ -14,9 +14,11 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
+#include "IDelayedEntityProcessingSystem.hpp"
+
 namespace artemis::systems 
 {
-    class DelayedEntityProcessingSystem {
+    class DelayedEntityProcessingSystem : public IDelayedEntityProcessingSystem {
 
     };
 }

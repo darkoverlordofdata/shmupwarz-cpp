@@ -21,15 +21,15 @@
  * I'm going with a header only library - I have trouble reasoning about code 
  * when there are header and impl files to deal with - it's what I hate most about c++.
  * 
- * I've gone back to the definitions in the original java version,via mu vala port. 
- * c++17 has lots of cool new features, like bitset and vector and typeid
- * so that some of artemis is really easy, tho still a challenge in c++.
+ * I've gone back to the definitions in the original java version,via my vala port. 
+ * c++17 has lots of new features, so the util folder is deprecated.
  */
 
 #define BITSIZE 32
 /**
- * Typeof
+ * TypeOf
  * 
+ * wrapper around the type_info& object
  * c++ has no typeof operator, so we'll make our own:
  */
 #define typeof(x) std::type_index(typeid(x))
@@ -51,6 +51,15 @@
 #include "Core/IEntityObserver.hpp"
 #include "Core/IEntitySystem.hpp"
 #include "Core/IAspect.hpp"
+#include "Managers/IGroupManager.hpp"
+#include "Managers/IPlayerManager.hpp"
+#include "Managers/ITagManager.hpp"
+#include "Managers/ITeamManager.hpp"
+#include "Systems/IDelayedEntityProcessingSystem.hpp"
+#include "Systems/IEntityProcessingSystem.hpp"
+#include "Systems/IIntervalEntityProcessingSystem.hpp"
+#include "Systems/IIntervalEntitySystem.hpp"
+#include "Systems/IVoidEntitySystem.hpp"
 
 #include "Core/Type.hpp"
 #include "Core/Component.hpp"
@@ -66,3 +75,12 @@
 #include "Core/ComponentMapper.hpp"
 #include "Core/Aspect.hpp"
 #include "Core/Factory.hpp"
+#include "Managers/GroupManager.hpp"
+#include "Managers/PlayerManager.hpp"
+#include "Managers/TagManager.hpp"
+#include "Managers/TeamManager.hpp"
+#include "Systems/DelayedEntityProcessingSystem.hpp"
+#include "Systems/EntityProcessingSystem.hpp"
+#include "Systems/IntervalEntityProcessingSystem.hpp"
+#include "Systems/IntervalEntitySystem.hpp"
+#include "Systems/VoidEntitySystem.hpp"

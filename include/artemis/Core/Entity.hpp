@@ -31,6 +31,13 @@ namespace artemis
     class EntityManager;
     class World;
     
+    /**
+    * The entity class. Cannot be instantiated outside the framework, you must
+    * create new entities using World.
+    * 
+    * @author Arni Arent
+    * 
+    */
     class Entity : public IEntity {
         private:
         string mName;
@@ -74,7 +81,7 @@ namespace artemis
          * @param component to add to this entity
          * @return this entity for chaining.
          */
-        IEntity* AddComponent(IComponent* component, ...) 
+        IEntity* AddComponent(IComponent* component) 
         {
 
             auto tf = mWorld->GetComponentManager()->TypeFactory;
@@ -97,7 +104,7 @@ namespace artemis
          * @param component to remove from this entity.
          * @return this entity for chaining.
          */
-        IEntity* RemoveComponentInstance(IComponent* component) 
+        IEntity* RemoveComponent(IComponent* component) 
         {
             RemoveComponent(GetTypeFor(typeof(component)));
             return this;

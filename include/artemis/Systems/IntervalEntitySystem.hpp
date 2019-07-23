@@ -14,9 +14,11 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
+#include "IIntervalEntityProcessingSystem.hpp"
+
 namespace artemis::systems 
 {
-    class IntervalEntitySystem {
+    class IntervalEntitySystem : public IIntervalEntityProcessingSystem {
 
     };
-}
+} 

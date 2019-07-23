@@ -14,17 +14,32 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
-#include "IComponent.hpp"
+#include <string>
+#include <unordered_map>
+#include <vector>
+#include <algorithm>
+#include "../Core/IManager.hpp"
 
-namespace artemis 
+namespace artemis::managers
 {
-    /**
-     * A tag class. All components in the system must extend this class.
-     * 
-     * @author Arni Arent
-     */
-    class Component : public IComponent 
+    using namespace std;
+    using namespace artemis;
+    class IManager;
+    // class IEntity;
+
+    class IPlayerManager : public artemis::IManager 
     {
+        protected:
+        unordered_map<IEntity*, string> mPlayerByEntity;
+        unordered_map<string, vector<IEntity*>*> mEntitiesByPlayer;
+        public:
+		~IPlayerManager(){}
+        void SetPlayer(IEntity* e, string player){}
+        vector<IEntity*> GetEntitiesOfPlayer(string player){}
+        void RemoveFromPlayer(IEntity* e){}
+        string GetPlayer(IEntity* e){}
+        void Initialize(){}
+        void Deleted(IEntity* e){}
 
     };
 }

@@ -14,9 +14,54 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
+#include "ITeamManager.hpp"
+
 namespace artemis::managers
 {
-    class TeamManager {
+    class ITeamManager;
+    /**
+     * Use this class together with PlayerManager.
+     *
+     * You may sometimes want to create teams in your game, so that
+     * some players are team mates.
+     *
+     * A player can only belong to a single team.
+     *
+     * @author Arni Arent
+     *
+     */
+    class TeamManager : public ITeamManager {
+        string GetTeam(string player) {
+            return mTeamByPlayer[player];
+        }
+
+        void SetTeam(string player, string team) {
+            RemoveFromTeam(player);
+
+            mTeamByPlayer[player] = team;
+
+            auto players = mPlayersByTeam[team];
+            if(players == nullptr) {
+                players = new vector<string>();
+                mPlayersByTeam[team] = players;
+            }
+            players->push_back(player);
+        }
+
+        vector<string>* GetPlayers(string team)  {
+            return mPlayersByTeam[team];
+        }
+
+        void RemoveFromTeam(string player) {
+            auto team = mTeamByPlayer[player];
+            if (mTeamByPlayer.erase(player)) {
+                auto players = mPlayersByTeam[team];
+                if (players != nullptr) {
+                    players->erase(find(players->begin(), players->end(), player));
+                    // players->erase(player);
+                }
+            }
+        }
 
     };
 }

@@ -14,9 +14,11 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
+#include "IEntityProcessingSystem.hpp"
+
 namespace artemis::systems 
 {
-    class EntityProcessingSystem {
+    class EntityProcessingSystem : public IEntityProcessingSystem {
 
     };
 }

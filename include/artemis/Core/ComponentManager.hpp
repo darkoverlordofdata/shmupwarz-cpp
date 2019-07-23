@@ -35,9 +35,6 @@ namespace artemis
         vector<IEntity*> mDeleted;
 
         public:
-        // ComponentTypeFactory TypeFactory;
-
-        public:
         ComponentManager(){}
         ~ComponentManager(){}
         /**

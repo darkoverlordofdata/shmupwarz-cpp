@@ -40,8 +40,8 @@ namespace artemis
 
         virtual int Id() = 0;
         // virtual IComponent* CreateComponent(IType* type) = 0;
-        virtual IEntity* AddComponent(IComponent* component, ...) = 0;
-        virtual IEntity* RemoveComponentInstance(IComponent* component) = 0;
+        virtual IEntity* AddComponent(IComponent* component) = 0;
+        virtual IEntity* RemoveComponent(IComponent* component) = 0;
         virtual IEntity* RemoveComponent(IComponentType* type) = 0;
         // virtual IEntity* RemoveComponentByType(IType* type) = 0;
         virtual bool IsActive() = 0;

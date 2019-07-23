@@ -14,9 +14,62 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
+#include "IPlayerManager.hpp"
+
 namespace artemis::managers
 {
-    class PlayerManager {
+    class IPlayerManager;
+    /**
+     * You may sometimes want to specify to which player an entity belongs to.
+     *
+     * An entity can only belong to a single player at a time.
+     *
+     * @author Arni Arent
+     *
+     */
+    class PlayerManager : public IPlayerManager {
+
+        public:
+        void SetPlayer(IEntity* e, string player) {
+            mPlayerByEntity[e] = player;
+            auto entities = mEntitiesByPlayer[player];
+            if (entities == nullptr) {
+                entities = new vector<IEntity*>();
+                mEntitiesByPlayer[player] = entities;
+            }
+            entities->push_back(e);
+        }
+
+        vector<IEntity*>* GetEntitiesOfPlayer(string player)  {
+            auto entities = mEntitiesByPlayer[player];
+            if (entities == nullptr) {
+                entities = new vector<IEntity*>();
+            }
+            return entities;
+        }
+
+        void RemoveFromPlayer(IEntity* e) {
+            auto player = mPlayerByEntity[e];
+            if (player != "") {
+                auto entities = mEntitiesByPlayer[player];
+                if(entities != nullptr) {
+                    entities->erase(find(entities->begin(), entities->end(), e));
+                }
+            }
+        }
+
+        string GetPlayer(IEntity* e) {
+            return mPlayerByEntity[e];
+        }
+
+
+        void Initialize() {}
+
+
+        void Deleted(IEntity* e) {
+            RemoveFromPlayer(e);
+        }
+
 
     };
 }
