@@ -5,8 +5,8 @@
 #include <typeindex>
 #include <string>
 #include <cstdarg>
-#include "IAspect.hpp"
-#include "IWorld.hpp"
+#include "../IAspect.hpp"
+#include "../IWorld.hpp"
 
 namespace artemis {
 
@@ -69,6 +69,11 @@ namespace artemis {
         bitset<BITSIZE> GetOneSet() override
         {
             return mOneSet;
+        }
+
+        string GetTest()
+        {
+            return "this is a test";
         }
 
 

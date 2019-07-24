@@ -14,7 +14,7 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
-#include "IPooledComponent.hpp"
+#include "../IPooledComponent.hpp"
 
 namespace artemis 
 {

@@ -15,10 +15,11 @@
  ******************************************************************************/
 #pragma once;
 #include <vector>
-#include "IAspect.hpp"
-#include "IWorld.hpp"
-#include "IEntityObserver.hpp"
-#include "IEntitySystem.hpp"
+#include "../IAspect.hpp"
+#include "../IWorld.hpp"
+#include "../IEntityObserver.hpp"
+#include "../IEntitySystem.hpp"
+#include "../Blackboard/Blackboard.hpp"
 
 namespace artemis 
 {
@@ -51,6 +52,39 @@ namespace artemis
         bool mDummy;
 
         public:
+        static inline BlackBoard BlackBoard;
+
+        protected:
+        /**
+         * Used to generate a unique bit for each system.
+         * Only used internally by EntitySystem.
+         */
+        class SystemIndexManager
+        {
+            private:
+            inline static int INDEX = 0;
+            inline static unordered_map<type_index, int> indices;
+
+            public:
+            static int GetIndexFor(type_index es) 
+            {
+
+                auto index = 0;
+                
+                if (indices.find(es) != indices.end()) 
+                {
+                    index = indices[es];
+                } 
+                else 
+                {
+                    index = INDEX++;
+                    indices[es] = index;
+                }
+                return index;
+            }
+        };
+
+        public:
         /**
          * Creates an entity system that uses the specified aspect as a matcher against entities.
          * @param aspect to match against entities
@@ -58,7 +92,7 @@ namespace artemis
         EntitySystem() {}
         EntitySystem(IAspect* aspect) : mAspect(aspect)
         {
-            // mSystemIndex = SystemIndexManager.GetIndexFor(TypeOf(this));
+            mSystemIndex = SystemIndexManager::GetIndexFor(TypeOf(this));
             mAllSet = mAspect->GetAllSet();
             mExclusionSet = mAspect->GetExclusionSet();
             mOneSet = mAspect->GetOneSet();
@@ -220,4 +254,5 @@ namespace artemis
         }
 
     };
+
 }

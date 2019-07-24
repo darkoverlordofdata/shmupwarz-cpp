@@ -14,8 +14,9 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
-#include "../Core/IEntity.hpp"
+#include "../IEntity.hpp"
 #include "../Core/Aspect.hpp"
+#include "../Core/World.hpp"
 #include "../Core/EntitySystem.hpp"
 
 namespace artemis::systems 
@@ -99,7 +100,7 @@ namespace artemis::systems
 
         bool CheckProcessing() {
             if (mRunning) {
-                // mAcc += World.GetDelta();
+                mAcc += World::GetDelta();
                 if (mAcc >= mDelay) {
                     return true;
                 }

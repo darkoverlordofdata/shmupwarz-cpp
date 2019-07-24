@@ -18,7 +18,6 @@
 #include <bitset>
 #include <vector>
 #include "IComponent.hpp"
-// #include "IType.hpp"
 #include "IComponentType.hpp"
 #include "IWorld.hpp"
 

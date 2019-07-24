@@ -19,7 +19,7 @@
 #include "IComponent.hpp"
 #include "IComponentType.hpp"
 #include "IManager.hpp"
-#include "ComponentTypeFactory.hpp"
+#include "Core/ComponentTypeFactory.hpp"
 
 namespace artemis 
 {

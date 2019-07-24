@@ -40,7 +40,7 @@ namespace artemis
         virtual IManager* SetManager(IManager * manager) = 0; 
         virtual IManager* GetManager(type_index managerType) = 0;
         virtual void DeleteManager(IManager* manager) = 0;
-        virtual float GetDelta() = 0;
+        // virtual float GetDelta() = 0;
         virtual void SetDelta(float delta) = 0;
         virtual void AddEntity(IEntity * e) = 0;
         virtual void ChangedEntity(IEntity * e) = 0;

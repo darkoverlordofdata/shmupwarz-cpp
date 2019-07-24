@@ -16,11 +16,11 @@
 #pragma once;
 #include <vector>
 #include "Exceptions.hpp"
-#include "IManager.hpp"
-#include "IEntity.hpp"
-#include "IComponent.hpp"
-#include "IComponentType.hpp"
-#include "IComponentPool.hpp"
+#include "../IManager.hpp"
+#include "../IEntity.hpp"
+#include "../IComponent.hpp"
+#include "../IComponentType.hpp"
+#include "../IComponentPool.hpp"
 #include "ComponentTypeFactory.hpp"
 
 namespace artemis 

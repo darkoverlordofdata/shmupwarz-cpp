@@ -14,9 +14,9 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
-#include "IManager.hpp"
-#include "IComponentManager.hpp"
-#include "IComponentType.hpp"
+#include "../IManager.hpp"
+#include "../IComponentManager.hpp"
+#include "../IComponentType.hpp"
 #include <string>
 
 namespace artemis 

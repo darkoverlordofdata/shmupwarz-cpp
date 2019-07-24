@@ -60,13 +60,26 @@ public:
     void Initialize() {
         Systems = new GameSystems(this);
 
-        const std::type_info& ti1 = typeid(this);
-        const std::type_info& ti2 = typeid(Systems);
+        // const std::type_info& ti1 = typeid(this);
+        // const std::type_info& ti2 = typeid(Systems);
 
-        printf("TYPE = %s\n", ti1.name());
-        printf("TYPE = %s\n", ti2.name());
+        // printf("TYPE = %s\n", ti1.name());
+        // printf("TYPE = %s\n", ti2.name());
 
-        auto test = new artemis::Aspect();
+        // auto test = new artemis::Aspect();
+
+        // printf("1>\n");
+        // auto bb = new artemis::BlackBoard();
+        // printf("2>\n");
+        // bb->SetEntry("number", 1);
+        // printf("3\n");
+        // bb->SetEntry("frodo", test);
+        // printf("4>\n");
+
+        // auto n = bb->GetEntry<int>("number");
+        // printf("Number = %d\n", n);
+        // auto tst1 = bb->GetEntry<artemis::Aspect*>("frodo");
+        // printf("String = %s\n", tst1->GetTest().c_str());
     }
 
 

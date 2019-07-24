@@ -16,8 +16,8 @@
 #pragma once;
 #include <string>
 #include <bitset>
-#include "IManager.hpp"
-#include "IEntity.hpp"
+#include "../IManager.hpp"
+#include "../IEntity.hpp"
 
 namespace artemis 
 {
@@ -27,6 +27,34 @@ namespace artemis
 
     class EntityManager : public IEntityManager
     {
+
+		/*
+		* Used internally by EntityManager to generate distinct ids for entities and reuse them.
+		*/
+		class IdentifierPool {
+			private:
+			vector<int>* ids;
+			int nextAvailableId=0;
+
+			public:
+			IdentifierPool() {
+				ids = new vector<int>();
+			}
+			
+			int CheckOut() {
+				if (ids->size() > 0) {
+					auto result = ids->back();
+					ids->pop_back();
+					return result;
+				}
+				return nextAvailableId++;
+			}
+			
+			void CheckIn(int id) {
+				ids->push_back(id);
+			}
+		};
+
         private:
         vector<IEntity*> mEntities;
 		bitset<BITSIZE> mDisabled;
@@ -35,6 +63,8 @@ namespace artemis
 		int mCreated;
 		int mDeleted;
         int mId;
+		IdentifierPool identifierPool;
+
 
         public:
 		EntityManager() {
@@ -72,7 +102,7 @@ namespace artemis
 		{
 			mEntities[e->Id()] = nullptr;
 			mDisabled.reset(e->Id());
-			// identifierPool.CheckIn(e.Id);
+			identifierPool.CheckIn(e->Id());
 			mActive--;
 			mDeleted++;
 		}

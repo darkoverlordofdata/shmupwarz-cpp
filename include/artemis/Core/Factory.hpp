@@ -14,7 +14,7 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
-#include "IFactory.hpp"
+#include "../IFactory.hpp"
 
 /**
  * IFactory implementation
@@ -36,6 +36,8 @@ namespace artemis
         {
             return new Entity(world, id, name);
         }
+
+
 
     };
 

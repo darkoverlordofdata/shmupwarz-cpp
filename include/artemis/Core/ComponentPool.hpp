@@ -14,7 +14,7 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
-#include "IComponentPool.hpp"
+#include "../IComponentPool.hpp"
 
 namespace artemis 
 {

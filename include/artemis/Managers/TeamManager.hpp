@@ -18,7 +18,7 @@
 #include <unordered_map>
 #include <vector>
 #include <algorithm>
-#include "../Core/IManager.hpp"
+#include "../IManager.hpp"
 
 namespace artemis::managers
 {

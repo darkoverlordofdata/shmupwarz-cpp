@@ -17,11 +17,11 @@
 #include <vector>
 #include <string>
 #include <bitset>
-#include "IEntity.hpp"
+#include "../IEntity.hpp"
 #include "World.hpp"
 #include "EntityManager.hpp"
 #include "ComponentManager.hpp"
-#include "IComponentType.hpp"
+#include "../IComponentType.hpp"
 
 namespace artemis 
 {

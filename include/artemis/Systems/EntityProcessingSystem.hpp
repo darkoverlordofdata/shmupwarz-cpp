@@ -14,7 +14,7 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
-#include "../Core/IEntity.hpp"
+#include "../IEntity.hpp"
 #include "../Core/Aspect.hpp"
 #include "../Core/EntitySystem.hpp"
 

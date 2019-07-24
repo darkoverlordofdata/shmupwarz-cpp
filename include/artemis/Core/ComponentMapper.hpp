@@ -15,11 +15,11 @@
  ******************************************************************************/
 #pragma once;
 #include "vector"
-#include "IWorld.hpp"
-#include "IEntity.hpp"
-#include "IComponentMapper.hpp"
-#include "IComponentType.hpp"
-#include "IComponent.hpp"
+#include "../IWorld.hpp"
+#include "../IEntity.hpp"
+#include "../IComponentMapper.hpp"
+#include "../IComponentType.hpp"
+#include "../IComponent.hpp"
 
 namespace artemis 
 {

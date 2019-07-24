@@ -14,12 +14,12 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
-#include "IManager.hpp"
-#include "IEntitySystem.hpp"
-#include "IEntityManager.hpp"
-#include "IComponentManager.hpp"
-#include "IEntityObserver.hpp"
-#include "IFactory.hpp"
+#include "../IManager.hpp"
+#include "../IEntitySystem.hpp"
+#include "../IEntityManager.hpp"
+#include "../IComponentManager.hpp"
+#include "../IEntityObserver.hpp"
+#include "../IFactory.hpp"
 #include "EntityManager.hpp"
 
 namespace artemis 
@@ -65,16 +65,24 @@ namespace artemis
         vector<IEntitySystem*> mSystemsBag;
 
         IFactory* mFactory;
-        
+
+        static World* Instance;
 
         public:
+
         World() 
         {
+            Instance = this;
             SetManager(&mComponentManager);
             SetManager(&mEntityManager);
         }
 
         ~World() {}
+
+        static float GetDelta()
+        {
+            return Instance->mDelta;
+        }
 
         /**
          * Links in the IFactory instance.
@@ -158,10 +166,10 @@ namespace artemis
          * 
          * @return delta time since last game loop.
          */
-        float GetDelta() 
-        {
-            return mDelta;
-        }
+        // float GetDelta() 
+        // {
+        //     return mDelta;
+        // }
 
         /**
          * You must specify the delta for the game here.

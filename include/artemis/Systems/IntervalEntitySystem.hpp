@@ -14,8 +14,9 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
-#include "../Core/IAspect.hpp"
+#include "../IAspect.hpp"
 #include "../Core/EntitySystem.hpp"
+#include "../Core/World.hpp"
 
 
 namespace artemis::systems 
@@ -49,10 +50,10 @@ namespace artemis::systems
         protected:
         bool CheckProcessing() {
 
-            // if ((mAcc += World.GetDelta()) >= mInterval) {
-            //     mAcc -= mInterval;
-            //     return true;
-            // }
+            if ((mAcc += World::GetDelta()) >= mInterval) {
+                mAcc -= mInterval;
+                return true;
+            }
             return false;
         }
 
