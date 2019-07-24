@@ -14,10 +14,15 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
+#include <typeinfo>
+#include <typeindex>
+#include <unordered_map>
 #include <string>
 
 namespace artemis 
 {
+    using namespace std;
+
     enum class Taxonomy 
     {
         BASIC, POOLED 

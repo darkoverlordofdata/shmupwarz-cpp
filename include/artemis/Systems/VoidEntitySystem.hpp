@@ -14,11 +14,44 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
-#include "IVoidEntitySystem.hpp"
+#include "../Core/IEntity.hpp"
+#include "../Core/Aspect.hpp"
+#include "../Core/EntitySystem.hpp"
 
 namespace artemis::systems 
 {
-    class VoidEntitySystem : IVoidEntitySystem {
+    using namespace std;
+    using namespace artemis;
+
+    class EntitySystem;
+    class Aspect;
+
+    /**
+     * This system has an empty aspect so it processes no entities, but it still gets invoked.
+     * You can use this system if you need to execute some game logic and not have to concern
+     * yourself about aspects or entities.
+     *
+     * @author Arni Arent
+     *
+     */
+    class VoidEntitySystem : public artemis::EntitySystem {
+
+        public:
+        VoidEntitySystem() : EntitySystem(artemis::Aspect::GetEmpty())
+        {}
+
+
+        protected :
+        void ProcessEntities(vector<IEntity*>* entities) {
+            ProcessSystem();
+        }
+
+        virtual void ProcessSystem() = 0;
+
+
+        bool CheckProcessing() {
+            return true;
+        }
 
     };
 }

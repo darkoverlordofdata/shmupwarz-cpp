@@ -14,11 +14,17 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
-#include "IPlayerManager.hpp"
+#include <string>
+#include <unordered_map>
+#include <vector>
+#include <algorithm>
+#include "../Core/IManager.hpp"
 
 namespace artemis::managers
 {
-    class IPlayerManager;
+    using namespace std;
+    using namespace artemis;
+    class IManager;
     /**
      * You may sometimes want to specify to which player an entity belongs to.
      *
@@ -27,7 +33,10 @@ namespace artemis::managers
      * @author Arni Arent
      *
      */
-    class PlayerManager : public IPlayerManager {
+    class PlayerManager : public artemis::IManager {
+        protected:
+        unordered_map<IEntity*, string> mPlayerByEntity;
+        unordered_map<string, vector<IEntity*>*> mEntitiesByPlayer;
 
         public:
         void SetPlayer(IEntity* e, string player) {

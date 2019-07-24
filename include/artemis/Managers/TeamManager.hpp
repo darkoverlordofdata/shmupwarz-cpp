@@ -14,11 +14,17 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
-#include "ITeamManager.hpp"
+#include <string>
+#include <unordered_map>
+#include <vector>
+#include <algorithm>
+#include "../Core/IManager.hpp"
 
 namespace artemis::managers
 {
-    class ITeamManager;
+    using namespace std;
+    using namespace artemis;
+    class IManager;
     /**
      * Use this class together with PlayerManager.
      *
@@ -30,7 +36,12 @@ namespace artemis::managers
      * @author Arni Arent
      *
      */
-    class TeamManager : public ITeamManager {
+    class TeamManager : public artemis::IManager {
+        protected:
+        unordered_map<string, vector<string>*> mPlayersByTeam;
+        unordered_map<string, string> mTeamByPlayer;
+
+        public:
         string GetTeam(string player) {
             return mTeamByPlayer[player];
         }
@@ -58,7 +69,6 @@ namespace artemis::managers
                 auto players = mPlayersByTeam[team];
                 if (players != nullptr) {
                     players->erase(find(players->begin(), players->end(), player));
-                    // players->erase(player);
                 }
             }
         }

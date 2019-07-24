@@ -85,7 +85,7 @@ namespace artemis
         {
 
             auto tf = mWorld->GetComponentManager()->TypeFactory;
-            auto componentType = tf.GetTypeFor(typeof(component));
+            auto componentType = tf.GetTypeFor(TypeOf(component));
             ComponentBits.set(componentType->GetIndex(), true);
             mComponentManager.AddComponent(this, componentType, component);
             return this;
@@ -106,7 +106,7 @@ namespace artemis
          */
         IEntity* RemoveComponent(IComponent* component) 
         {
-            RemoveComponent(GetTypeFor(typeof(component)));
+            RemoveComponent(GetTypeFor(TypeOf(component)));
             return this;
         }
 

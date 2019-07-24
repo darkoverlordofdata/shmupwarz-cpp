@@ -14,11 +14,48 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
-#include "IIntervalEntityProcessingSystem.hpp"
+#include "../Core/IAspect.hpp"
+#include "../Core/EntitySystem.hpp"
+
 
 namespace artemis::systems 
 {
-    class IntervalEntitySystem : public IIntervalEntityProcessingSystem {
+    using namespace std;
+    using namespace artemis;
+
+    class EntitySystem;
+    class IAspect;
+
+    /**
+     * A system that processes entities at a interval in milliseconds.
+     * A typical usage would be a collision system or physics system.
+     *
+     * @author Arni Arent
+     *
+     */
+    class IntervalEntitySystem : public artemis::EntitySystem {
+        private:
+        float mAcc = 0;
+        float mInterval = 0;
+
+        public:
+        IntervalEntitySystem() {}
+        IntervalEntitySystem(artemis::IAspect* aspect, float interval) 
+            : EntitySystem(aspect) { 
+            mInterval = interval;
+        }
+
+
+        protected:
+        bool CheckProcessing() {
+
+            // if ((mAcc += World.GetDelta()) >= mInterval) {
+            //     mAcc -= mInterval;
+            //     return true;
+            // }
+            return false;
+        }
+
 
     };
 } 

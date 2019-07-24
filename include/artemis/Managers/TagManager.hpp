@@ -14,11 +14,17 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
-#include "ITagManager.hpp"
+#include <string>
+#include <unordered_map>
+#include <vector>
+#include <algorithm>
+#include "../Core/IManager.hpp"
 
 namespace artemis::managers
 {
-    class ITagManager;
+    using namespace std;
+    using namespace artemis;
+    class IManager;
     /**
      * If you need to tag any entity, use  A typical usage would be to tag
      * entities such as "PLAYER", "BOSS" or something that is very unique.
@@ -26,7 +32,10 @@ namespace artemis::managers
      * @author Arni Arent
      *
      */
-    class TagManager : public ITagManager {
+    class TagManager : public artemis::IManager {
+        protected:
+        unordered_map<string, IEntity*> mEntitiesByTag;
+        unordered_map<IEntity*, string> mTagsByEntity;
 
         void Register(string tag, IEntity* e) {
             mEntitiesByTag[tag] = e;

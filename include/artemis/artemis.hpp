@@ -30,15 +30,16 @@
  * TypeOf
  * 
  * wrapper around the type_info& object
- * c++ has no typeof operator, so we'll make our own:
+ * c++ has no TypeOf operator, so we'll make our own:
  */
-#define typeof(x) std::type_index(typeid(x))
+#define TypeOf(x) std::type_index(typeid(x))
 
 
-#include "Core/IType.hpp"
+// #include "Core/IType.hpp"
 #include "Core/IComponent.hpp"
 #include "Core/IEntity.hpp"
 #include "Core/IWorld.hpp"
+#include "Core/IAspect.hpp"
 #include "Core/IFactory.hpp"
 #include "Core/IManager.hpp"
 #include "Core/IPooledComponent.hpp"
@@ -50,18 +51,8 @@
 #include "Core/IEntityManager.hpp"
 #include "Core/IEntityObserver.hpp"
 #include "Core/IEntitySystem.hpp"
-#include "Core/IAspect.hpp"
-#include "Managers/IGroupManager.hpp"
-#include "Managers/IPlayerManager.hpp"
-#include "Managers/ITagManager.hpp"
-#include "Managers/ITeamManager.hpp"
-#include "Systems/IDelayedEntityProcessingSystem.hpp"
-#include "Systems/IEntityProcessingSystem.hpp"
-#include "Systems/IIntervalEntityProcessingSystem.hpp"
-#include "Systems/IIntervalEntitySystem.hpp"
-#include "Systems/IVoidEntitySystem.hpp"
 
-#include "Core/Type.hpp"
+// #include "Core/Type.hpp"
 #include "Core/Component.hpp"
 #include "Core/ComponentType.hpp"
 #include "Core/ComponentTypeFactory.hpp"
@@ -69,11 +60,11 @@
 #include "Core/ComponentManager.hpp"
 #include "Core/EntitySystem.hpp"
 #include "Core/World.hpp"
+#include "Core/Aspect.hpp"
 #include "Core/Entity.hpp"
 #include "Core/PooledComponent.hpp"
 #include "Core/ComponentPool.hpp"
 #include "Core/ComponentMapper.hpp"
-#include "Core/Aspect.hpp"
 #include "Core/Factory.hpp"
 #include "Managers/GroupManager.hpp"
 #include "Managers/PlayerManager.hpp"

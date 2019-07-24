@@ -37,7 +37,7 @@ namespace artemis
      */
     class EntitySystem : IEntitySystem
     {
-        private:
+        protected:
 
         int mSystemIndex;
         IWorld* mWorld;
@@ -55,9 +55,10 @@ namespace artemis
          * Creates an entity system that uses the specified aspect as a matcher against entities.
          * @param aspect to match against entities
          */
+        EntitySystem() {}
         EntitySystem(IAspect* aspect) : mAspect(aspect)
         {
-            // mSystemIndex = SystemIndexManager.GetIndexFor(typeof(this));
+            // mSystemIndex = SystemIndexManager.GetIndexFor(TypeOf(this));
             mAllSet = mAspect->GetAllSet();
             mExclusionSet = mAspect->GetExclusionSet();
             mOneSet = mAspect->GetOneSet();

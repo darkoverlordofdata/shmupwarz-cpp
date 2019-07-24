@@ -118,7 +118,7 @@ namespace artemis
          */
         IManager* SetManager(IManager * manager) 
         {
-            mManagers[typeof(manager)] = manager;
+            mManagers[TypeOf(manager)] = manager;
             mManagersBag.push_back(manager);
             manager->SetWorld(this);
             return manager;
@@ -128,7 +128,7 @@ namespace artemis
          * Returns a manager of the specified type.
          * 
          * @param <T>
-         * @param typeof of manager
+         * @param TypeOf of manager
          * @return the manager
          */
         // template<typename T>
@@ -144,7 +144,7 @@ namespace artemis
          */
         void DeleteManager(IManager* manager) 
         {
-            mManagers.erase(typeof(manager));
+            mManagers.erase(TypeOf(manager));
             // mManagersBag.erase(find(mManagersBag.begin(), mManagersBag.end(), manager));
             vector<IManager*>::iterator it = find(mManagersBag.begin(), mManagersBag.end(), manager);
             if (it != mManagersBag.end()) {
@@ -271,7 +271,7 @@ namespace artemis
             system->SetWorld(this);
             system->SetPassive(passive);
             
-            mSystems[typeof(system)] = system;
+            mSystems[TypeOf(system)] = system;
             mSystemsBag.push_back(system);
             
             return system;
@@ -283,7 +283,7 @@ namespace artemis
         */
         void DeleteSystem(IEntitySystem* system) 
         {
-            mSystems.erase(typeof(system));
+            mSystems.erase(TypeOf(system));
 
             vector<IEntitySystem*>::iterator it = find(mSystemsBag.begin(), mSystemsBag.end(), system);
             if (it != mSystemsBag.end()) {

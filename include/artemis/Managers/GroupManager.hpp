@@ -14,13 +14,18 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
-#include "IGroupManager.hpp"
+#include <string>
+#include <unordered_map>
+#include <vector>
+#include <algorithm>
+#include "../Core/IEntity.hpp"
+#include "../Core/IManager.hpp"
 
 namespace artemis::managers
 {
     using namespace std;
 
-    class IGroupManager;
+    class IManager;
     
     /**
      * If you need to group your entities together, e.g. tanks going into "units" group or explosions into "effects",
@@ -31,8 +36,11 @@ namespace artemis::managers
      * @author Arni Arent
      *
      */
-    class GroupManager : public IGroupManager {
+    class GroupManager : public artemis::IManager {
 
+        protected:
+        unordered_map<string, vector<IEntity*>*> mEntitiesByGroup;
+        unordered_map<IEntity*, vector<string>*> mGroupsByEntity;
         /**
          * Set the group of the entity.
         *

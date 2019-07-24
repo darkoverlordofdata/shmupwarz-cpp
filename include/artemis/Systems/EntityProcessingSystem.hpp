@@ -14,11 +14,50 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
-#include "IEntityProcessingSystem.hpp"
+#include "../Core/IEntity.hpp"
+#include "../Core/Aspect.hpp"
+#include "../Core/EntitySystem.hpp"
 
 namespace artemis::systems 
 {
-    class EntityProcessingSystem : public IEntityProcessingSystem {
+    using namespace std;
+    using namespace artemis;
+
+    class EntitySystem;
+    class Aspect;
+
+    /**
+     * A typical entity system. Use this when you need to process entities possessing the
+     * provided component types.
+     *
+     * @author Arni Arent
+     *
+     */
+    class EntityProcessingSystem : public artemis::EntitySystem {
+
+        public:
+        EntityProcessingSystem(artemis::IAspect* aspect) 
+        : artemis::EntitySystem(aspect) { }
+
+        /**
+         * Process a entity this system is interested in.
+        * @param e the entity to process.
+        */
+        protected:
+        virtual void ProcessEach(IEntity* e);
+
+
+        void ProcessEntities(vector<IEntity*>* entities) 
+        {   
+            for (auto entity : *entities)
+                ProcessEach(entity);
+        }
+
+
+        bool CheckProcessing() 
+        {
+            return true;
+        }
 
     };
 }
