@@ -34,6 +34,12 @@
  */
 #define TypeOf(x) std::type_index(typeid(x))
 
+/**
+ * RegisterType
+ * 
+ * Register a component, and create it later using string name
+ */
+#define RegisterType(T) template<> artemis::ComponentFactory::Factory* artemis::ComponentFactory::Register<T>::Creator = artemis::ComponentFactory::Register<T>::Initialize(#T)
 
 #include "IComponent.hpp"
 #include "IEntity.hpp"
@@ -53,6 +59,7 @@
 
 #include "Blackboard/Blackboard.hpp"
 #include "Core/Component.hpp"
+#include "Core/ComponentFactory.hpp"
 #include "Core/ComponentType.hpp"
 #include "Core/ComponentTypeFactory.hpp"
 #include "Core/EntityManager.hpp"

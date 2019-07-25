@@ -18,10 +18,10 @@
 #include <string>
 #include <bitset>
 #include "../IEntity.hpp"
+#include "../IComponentType.hpp"
 #include "World.hpp"
 #include "EntityManager.hpp"
 #include "ComponentManager.hpp"
-#include "../IComponentType.hpp"
 
 namespace artemis 
 {
@@ -98,6 +98,7 @@ namespace artemis
         }
 
         public:
+
         /**
          * Removes the component from this entity.
          * 
@@ -128,7 +129,7 @@ namespace artemis
          * 
          * @return this entity for chaining.
          */
-        IEntity* RemoveComponentByType(type_index type) 
+        IEntity* RemoveComponent(type_index type) 
         {
             RemoveComponent(GetTypeFor(type));
             return this;
@@ -184,7 +185,7 @@ namespace artemis
          *            the expected return component type.
          * @return component that matches, or null if none is found.
          */
-        IComponent* GetComponentByType(type_index type) 
+        IComponent* GetComponent(type_index type) 
         {
             return mComponentManager.GetComponent(this, GetTypeFor(type));
         }

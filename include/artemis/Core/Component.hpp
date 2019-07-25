@@ -18,6 +18,8 @@
 
 namespace artemis 
 {
+
+
     /**
      * A tag class. All components in the system must extend this class.
      * 
@@ -25,6 +27,7 @@ namespace artemis
      */
     class Component : public IComponent 
     {
-
+        public: 
+        virtual ~Component() {}
     };
 }

@@ -19,7 +19,7 @@
 #include <chrono>
 #include "Components.hpp"
 #include "Entities.hpp"
-#include "GameSystems.hpp"
+#include "IGameSystems.hpp"
 #include "xna/Content/ResourceManager.hpp"
 #include "xna/Graphics/Texture2D.hpp"
 #include "xna/Graphics/Shader.hpp"
@@ -38,11 +38,24 @@ enum {
     HERO_SPEED = 2
 };
 
-class GameSystems;
+class IGameSystems;
     
 class Shmupwarz : public xna::Game {
-friend class GameSystems;
+friend class IGameSystems;
 public:
+
+    std::list<Point2d> Bullets;
+    std::list<Point2d> Enemies1;
+    std::list<Point2d> Enemies2;
+    std::list<Point2d> Enemies3;
+    std::list<Point2d> Explosions;
+    std::list<Point2d> Bangs;
+    std::list<Point2d> Particles;
+    std::vector<Entity> Entities;
+    
+    Entity* Player;
+    IGameSystems* Systems;
+    xna::graphics::SpriteRenderer* Renderer;
 
     Shmupwarz(std::string t, int width, int height, SDL_Window* w)
         : Game(t, width, height, w) {
@@ -57,9 +70,13 @@ public:
     /**
      * Initialize the game
      */
-    void Initialize() {
-        Systems = new GameSystems(this);
-
+    void SetSystem(IGameSystems* systems) {
+        Systems = systems;
+        
+        delete artemis::ComponentFactory::Create("A::DerivedA");
+        delete artemis::ComponentFactory::Create("B::DerivedB");
+        delete artemis::ComponentFactory::Create("C::DerivedC");
+        delete artemis::ComponentFactory::Create("D::DerivedD");
         // const std::type_info& ti1 = typeid(this);
         // const std::type_info& ti2 = typeid(Systems);
 
@@ -173,20 +190,5 @@ public:
         Renderer = new xna::SpriteRenderer(xna::ResourceManager::GetShader("sprite"));
 
     }
-
-
-
-    std::list<Point2d> Bullets;
-    std::list<Point2d> Enemies1;
-    std::list<Point2d> Enemies2;
-    std::list<Point2d> Enemies3;
-    std::list<Point2d> Explosions;
-    std::list<Point2d> Bangs;
-    std::list<Point2d> Particles;
-    std::vector<Entity> Entities;
-    
-    Entity* Player;
-    GameSystems* Systems;
-    xna::graphics::SpriteRenderer* Renderer;
 };
 

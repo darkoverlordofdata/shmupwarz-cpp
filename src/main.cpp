@@ -3,6 +3,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <chrono>
+#include <iostream>
 #ifdef __EMSCRIPTEN__
 #include <functional>
 #include <emscripten.h>
@@ -12,9 +13,29 @@ void main_loop() { loop(); }
 #define GLEW_STATIC
 #include <GL/glew.h>
 #endif
+#include "IGameSystems.hpp"
 #include "Shmupwarz.hpp"
+#include "GameSystems.hpp"
 using namespace std::chrono;
 
+namespace A {
+    class DerivedA : public artemis::Component { 
+      public:
+        DerivedA() {
+            std::cout << "A::DerivedA constructor\n"; 
+        } 
+    }; 
+}
+RegisterType(A::DerivedA);
+
+namespace B { class DerivedB : public artemis::Component { public: DerivedB() { std::cout << "B::DerivedB constructor\n"; } }; }
+RegisterType(B::DerivedB);
+
+namespace C { class DerivedC : public artemis::Component { public: DerivedC() { std::cout << "C::DerivedC constructor\n"; } }; }
+RegisterType(C::DerivedC);
+
+namespace D { class DerivedD : public artemis::Component { public: DerivedD() { std::cout << "D::DerivedD constructor\n"; } }; }
+RegisterType(D::DerivedD);
 
 /**
  */
@@ -102,9 +123,8 @@ int main(int argc, char** argv){
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    // auto game = new Shmupwarz(TITLE, SCREEN_WIDTH, SCREEN_HEIGHT, window, renderer);
     Shmupwarz game(TITLE, SCREEN_WIDTH, SCREEN_HEIGHT, window);
-
+    game.SetSystem(new GameSystems(&game));
     game.Run();
 
     SDL_DestroyWindow(window);

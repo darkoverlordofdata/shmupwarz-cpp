@@ -17,6 +17,7 @@
 #include <string>
 #include <bitset>
 #include <vector>
+#include <typeindex>
 #include "IComponent.hpp"
 #include "IComponentType.hpp"
 #include "IWorld.hpp"
@@ -38,15 +39,15 @@ namespace artemis
         std::bitset<BITSIZE> SystemBits;
 
         virtual int Id() = 0;
-        // virtual IComponent* CreateComponent(IType* type) = 0;
+        // virtual IComponent* CreateComponent(type_index type) = 0;
         virtual IEntity* AddComponent(IComponent* component) = 0;
         virtual IEntity* RemoveComponent(IComponent* component) = 0;
         virtual IEntity* RemoveComponent(IComponentType* type) = 0;
-        // virtual IEntity* RemoveComponentByType(IType* type) = 0;
+        virtual IEntity* RemoveComponent(type_index type) = 0;
         virtual bool IsActive() = 0;
         virtual bool IsEnabled() = 0;
         virtual IComponent* GetComponent(IComponentType* type) = 0;
-        // virtual IComponent* GetComponentByType(IType* type) = 0;
+        virtual IComponent* GetComponent(type_index type) = 0;
         virtual vector<IComponent*>* GetComponents(vector<IComponent*>* fillBag) = 0;
         virtual void AddToWorld() = 0;
         virtual void ChangedInWorld() = 0;
