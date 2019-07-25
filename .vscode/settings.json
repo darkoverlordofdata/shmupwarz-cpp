@@ -47,6 +47,7 @@
         "utility": "cpp",
         "algorithm": "cpp",
         "memory": "cpp",
-        "bitset": "cpp"
+        "bitset": "cpp",
+        "typeindex": "cpp"
     }
 }

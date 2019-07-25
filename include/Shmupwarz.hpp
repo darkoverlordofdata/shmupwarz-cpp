@@ -73,10 +73,10 @@ public:
     void SetSystem(IGameSystems* systems) {
         Systems = systems;
         
-        delete artemis::ComponentFactory::Create("A::DerivedA");
-        delete artemis::ComponentFactory::Create("B::DerivedB");
-        delete artemis::ComponentFactory::Create("C::DerivedC");
-        delete artemis::ComponentFactory::Create("D::DerivedD");
+        delete artemis::ComponentFactory::New("A::DerivedA");
+        delete artemis::ComponentFactory::New("B::DerivedB");
+        delete artemis::ComponentFactory::New("C::DerivedC");
+        delete artemis::ComponentFactory::New("D::DerivedD");
         // const std::type_info& ti1 = typeid(this);
         // const std::type_info& ti2 = typeid(Systems);
 

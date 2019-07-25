@@ -52,17 +52,14 @@ namespace artemis
         template<class T> class Register 
         {
             /**
-             * Creation functor
+             * Create instance by name
              */
             static Component* Create() 
             { 
                 return new T(); 
             };
 
-            /**
-             * Set the creation functor in the types map
-             */
-            static Delegate* Type(const string& name) 
+            static Delegate* Initialize(const string& name) 
             { 
                 return Types()[name] = Create; 
             }
@@ -72,9 +69,9 @@ namespace artemis
 
         public:
         /**
-         * Create instance of component by name
+         * Create instance by name
          */
-        static Component* New(const string& name) 
+        static Component* Create(const string& name) 
         { 
             const Registry::const_iterator iter = Types().find(name);
             return iter == Types().end() ? 0 : (*iter->second)(); 

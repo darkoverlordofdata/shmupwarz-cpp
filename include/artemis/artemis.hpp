@@ -39,7 +39,7 @@
  * 
  * Register a component, and create it later using string name
  */
-#define RegisterType(T) template<> artemis::ComponentFactory::Factory* artemis::ComponentFactory::Register<T>::Creator = artemis::ComponentFactory::Register<T>::Initialize(#T)
+#define RegisterType(T) template<> artemis::ComponentFactory::Delegate* artemis::ComponentFactory::Register<T>::Factory = artemis::ComponentFactory::Register<T>::Type(#T)
 
 #include "IComponent.hpp"
 #include "IEntity.hpp"
