@@ -24,19 +24,19 @@ namespace artemis
     /**
      *  ComponentFactory
      * 
-     *  dynamically create components by name
+     *  dynamically create component by name 
+     * 
      */
     class ComponentFactory 
     {
         /**
-         * Component Creation Delegate
+         * Component creation functor delegate
          */
         typedef Component* Delegate(); 
         /**
          * Registery of delegates by name
          */
         typedef map<string, Delegate*> Registry; 
-
         /**
          * Get the registry singleton
          */

@@ -20,11 +20,7 @@
 #include "Components.hpp"
 #include "Entities.hpp"
 #include "IGameSystems.hpp"
-#include "xna/Content/ResourceManager.hpp"
-#include "xna/Graphics/Texture2D.hpp"
-#include "xna/Graphics/Shader.hpp"
-#include "xna/Graphics/SpriteRenderer.hpp"
-#include "xna/Game.hpp"
+#include "xna/xna.hpp"
 #include "artemis/artemis.hpp"
 #include <typeinfo>
 
@@ -56,9 +52,10 @@ public:
     Entity* Player;
     IGameSystems* Systems;
     xna::graphics::SpriteRenderer* Renderer;
+    xna::SDLFactory platform;
 
     Shmupwarz(std::string t, int width, int height, SDL_Window* w)
-        : Game(t, width, height, w) {
+        : Game(&platform, t, width, height, w) {
         // Systems = new Systems(this);
     }
 

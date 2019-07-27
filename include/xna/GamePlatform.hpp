@@ -1,19 +1,21 @@
 #pragma once
-#include "Game.hpp"
-#include "GameWindow.hpp"
 #include "GameRunBehavior.hpp"
+#include "IGame.hpp"
+#include "IGameWindow.hpp"
+#include "IGamePlatform.hpp"
+#include "IFactory.hpp"
 
 namespace xna {
 
-    class Game;
-    class GameWindow;
-    class SDLGamePlatform;
-    class GamePlatform {
-        
+    class IGame;
+    class IGameWindow;
+    class IFactory;   
+    class GamePlatform : public IGamePlatform {
     public:
         GamePlatform() { }
-        GamePlatform(Game* game) { 
-            mGame = game;
+        GamePlatform(IGame* game): mGame(game)
+        { 
+            // mGame = game;
         }
 
         ~GamePlatform() {
@@ -23,10 +25,11 @@ namespace xna {
             return mInFullScreenMode;
         }
 
-        // static GamePlatform* PlatformCreate(Game* game) {
+        static IGamePlatform* PlatformCreate(IGame* game, IFactory* platform) {
             
-        //     return nullptr; //new SDLGamePlatform(game);
-        // }
+            // return nullptr;
+            return platform->CreateGamePlatform(game);
+        }
 
         GameRunBehavior DefaultRunBehavior() {};
 
@@ -52,11 +55,11 @@ namespace xna {
             }
         }
 
-        GameWindow* Window() {
+        IGameWindow* Window() {
             return mWindow;
         }
 
-        void Window(GameWindow* value) {
+        void Window(IGameWindow* value) {
             if (mWindow != nullptr) {
                 mWindow = value;
             }
@@ -195,11 +198,11 @@ namespace xna {
         void Log(char* Message) {}		
 
     protected:
-        Game* mGame;
+        IGame* mGame;
         bool mInFullScreenMode = false;
         bool mIsActive;
         bool mIsMouseActive;
-        GameWindow* mWindow;
+        IGameWindow* mWindow;
 
     };
 }

@@ -12,8 +12,8 @@ namespace xna {
     public:
 
         SDLGamePlatform() { }
-        SDLGamePlatform(Game* game) :GamePlatform(game) {
-            
+        SDLGamePlatform(Game* game) : GamePlatform(game) {
+            printf("SDLGamePlatform ctor\n");
             mGame = game;
             mKeys = new std::list<Keys>();
             // Keyboard.SetKeys(mKeys);
@@ -21,7 +21,8 @@ namespace xna {
             SDL_version sversion;
             SDL_GetVersion(&sversion);
             int version = 100 * sversion.major + 10 * sversion.minor + sversion.patch;
-            game->SetSdlVersion(version);
+            // game->SetSdlVersion(version);
+            game->SdlVersion(version);
             if (version <= 204) {
                 printf("Please use SDL 2.0.5 or higher.\n");
 
@@ -237,8 +238,8 @@ namespace xna {
         // [System.Diagnostics.Conditional("DEBUG")]
         void Log(char* Message) {}		
 
-    private:
-        void SdlRunLoop();
+    // private:
+    //     void SdlRunLoop();
 
     protected:
         Game* mGame;

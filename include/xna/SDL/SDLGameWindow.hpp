@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../GamePlatform.hpp"
 #include "../GameWindow.hpp"
+#include "../GraphicsDeviceManager.hpp"
 
 namespace xna {
 

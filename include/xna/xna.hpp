@@ -1,5 +1,5 @@
 /* ******************************************************************************
- * Copyright 2018 darkoverlordofdata.
+ * Copyright 2019 darkoverlordofdata.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,25 +14,23 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once;
-namespace xna
-{
-    /// <summary>
-    /// Defines how <see cref="Game"/> should be runned.
-    /// </summary>
-    enum class GameRunBehavior
-    {
-        /// <summary>
-        /// The game loop will be runned asynchronous.
-        /// </summary>
-        Asynchronous,
-        /// <summary>
-        /// The game loop will be runned synchronous.
-        /// </summary>
-        Synchronous,
-        /// <summary>
-        /// The game loop will be externally driven
-        /// </summary>
-        Emscripten
 
-    };
-}
+#include "DisplayOrientation.hpp"
+#include "GameRunBehavior.hpp"
+#include "Input/Keys.hpp"
+
+
+#include "IGame.hpp"
+#include "IGameWindow.hpp"
+#include "IGamePlatform.hpp"
+#include "IFactory.hpp"
+
+#include "Content/ResourceManager.hpp"
+#include "Graphics/Texture2D.hpp"
+#include "Graphics/Shader.hpp"
+#include "Graphics/SpriteRenderer.hpp"
+#include "Game.hpp"
+
+#include "SDL/SDLGamePlatform.hpp"
+#include "SDL/SDLGameWindow.hpp"
+#include "SDL/SDLFactory.hpp"

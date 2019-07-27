@@ -16,6 +16,7 @@ void main_loop() { loop(); }
 #include "IGameSystems.hpp"
 #include "Shmupwarz.hpp"
 #include "GameSystems.hpp"
+
 using namespace std::chrono;
 
 namespace A {
@@ -123,7 +124,11 @@ int main(int argc, char** argv){
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+    /** 
+     * All of the above code should be rolled up into Game
+     */
     Shmupwarz game(TITLE, SCREEN_WIDTH, SCREEN_HEIGHT, window);
+    // Shmupwarz game(Fsctory::SdlPlatform, TITLE, SCREEN_WIDTH, SCREEN_HEIGHT, window);
     game.SetSystem(new GameSystems(&game));
     game.Run();
 
