@@ -1,18 +1,37 @@
 #pragma once
 
+#include "../IGame.hpp"
 #include "../GameWindow.hpp"
 #include "../GraphicsDeviceManager.hpp"
 
 namespace xna {
 
-    class Game;
+    class IGame;
     class SDLGameWindow : public GameWindow {
-    friend class Game;
+        friend class Game;
         
-    public:
+        protected:
+        IGame* mGame;
+        SDL_Window* mHandle;
+        char* mTitle;
+        int mX;
+        int mY;
+        int mWidth;
+        int mHeight;
+        bool mWasMoved;
+        bool mSupressMove;
+        SDL_Surface* mIcon;
+        bool mResizable;
+        bool mBorderless;
+        bool mWillBeFullScreen;
+        bool mMouseVisible;
+        bool mHardwareSwitch;
+        char* mScreenDeviceName;
+        
+        public:
 
         SDLGameWindow() { }
-        SDLGameWindow(Game* game) : GameWindow() {
+        SDLGameWindow(IGame* game) : GameWindow() {
             mGame = game;
             mWidth = GraphicsDeviceManager::DefaultBackBufferWidth;
             mHeight = GraphicsDeviceManager::DefaultBackBufferHeight;
@@ -144,23 +163,23 @@ namespace xna {
     
 
 
-    protected:
-        Game* mGame;
-        SDL_Window* mHandle;
-        char* mTitle;
-        int mX;
-        int mY;
-        int mWidth;
-        int mHeight;
-        bool mWasMoved;
-        bool mSupressMove;
-        SDL_Surface* mIcon;
-        bool mResizable;
-        bool mBorderless;
-        bool mWillBeFullScreen;
-        bool mMouseVisible;
-        bool mHardwareSwitch;
-        char* mScreenDeviceName;
+    // protected:
+    //     Game* mGame;
+    //     SDL_Window* mHandle;
+    //     char* mTitle;
+    //     int mX;
+    //     int mY;
+    //     int mWidth;
+    //     int mHeight;
+    //     bool mWasMoved;
+    //     bool mSupressMove;
+    //     SDL_Surface* mIcon;
+    //     bool mResizable;
+    //     bool mBorderless;
+    //     bool mWillBeFullScreen;
+    //     bool mMouseVisible;
+    //     bool mHardwareSwitch;
+    //     char* mScreenDeviceName;
         
     };
 }

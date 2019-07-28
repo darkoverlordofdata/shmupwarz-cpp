@@ -21,6 +21,7 @@
 #include "Entities.hpp"
 #include "IGameSystems.hpp"
 #include "xna/xna.hpp"
+#include "xna/SDL/SDLFactory.hpp"
 #include "artemis/artemis.hpp"
 #include <typeinfo>
 
@@ -52,10 +53,12 @@ public:
     Entity* Player;
     IGameSystems* Systems;
     xna::graphics::SpriteRenderer* Renderer;
-    xna::SDLFactory platform;
 
     Shmupwarz(std::string t, int width, int height, SDL_Window* w)
-        : Game(&platform, t, width, height, w) {
+        // : platform(new xna::SDLFactory())
+        // , Game(platform, t, width, height, w) {
+
+        : Game(new xna::SDLFactory(), t, width, height, w) {
         // Systems = new Systems(this);
     }
 
@@ -68,12 +71,14 @@ public:
      * Initialize the game
      */
     void SetSystem(IGameSystems* systems) {
+
+        //SetFactory(new xna::SDLFactory());
         Systems = systems;
         
-        delete artemis::ComponentFactory::New("A::DerivedA");
-        delete artemis::ComponentFactory::New("B::DerivedB");
-        delete artemis::ComponentFactory::New("C::DerivedC");
-        delete artemis::ComponentFactory::New("D::DerivedD");
+        // delete artemis::ComponentFactory::New("A::DerivedA");
+        // delete artemis::ComponentFactory::New("B::DerivedB");
+        // delete artemis::ComponentFactory::New("C::DerivedC");
+        // delete artemis::ComponentFactory::New("D::DerivedD");
         // const std::type_info& ti1 = typeid(this);
         // const std::type_info& ti2 = typeid(Systems);
 

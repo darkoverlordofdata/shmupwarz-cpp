@@ -127,8 +127,8 @@ int main(int argc, char** argv){
     /** 
      * All of the above code should be rolled up into Game
      */
+
     Shmupwarz game(TITLE, SCREEN_WIDTH, SCREEN_HEIGHT, window);
-    // Shmupwarz game(Fsctory::SdlPlatform, TITLE, SCREEN_WIDTH, SCREEN_HEIGHT, window);
     game.SetSystem(new GameSystems(&game));
     game.Run();
 

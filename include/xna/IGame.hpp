@@ -9,7 +9,13 @@ namespace xna {
         public:
 
 
-        ~IGame() {}
+        IGame() {
+            printf("In IGame::ctor\n");
+        }
+        // ~IGame() {
+        //     printf("In IGame::dtor\n");
+
+        // }
 
         int GetKey(int key) {}
         int SdlVersion() {}
@@ -30,10 +36,14 @@ namespace xna {
         void RunLoop() {}
         void HandleEvents() {}
         void Tick() {}
-        virtual void Draw() {}
-        virtual void Initialize() {}
-        virtual void LoadContent() {}
-        virtual void Update() {}
+        void Draw() {}
+        void Initialize() {}
+        void LoadContent() {}
+        void Update() {}
+        // virtual void Draw() {}
+        // virtual void Initialize() {}
+        // virtual void LoadContent() {}
+        // virtual void Update() {}
         
     };
 }

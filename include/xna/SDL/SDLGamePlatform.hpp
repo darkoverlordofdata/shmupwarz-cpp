@@ -1,18 +1,25 @@
 #pragma once
+#include "../IGame.hpp"
 #include "../GamePlatform.hpp"
 #include "SDLGameWindow.hpp"
 
 namespace xna {
 
-    class Game;
+    class IGame;
     class SDLGameWindow;
     class SDLGamePlatform : public GamePlatform {
     friend class Game;
         
-    public:
+        protected:
+        IGame* mGame;
+        std::list<Keys>* mKeys;
+        int mIsExiting;
+        SDLGameWindow* mView;
+
+        public:
 
         SDLGamePlatform() { }
-        SDLGamePlatform(Game* game) : GamePlatform(game) {
+        SDLGamePlatform(IGame* game) : GamePlatform(game) {
             printf("SDLGamePlatform ctor\n");
             mGame = game;
             mKeys = new std::list<Keys>();
@@ -25,7 +32,8 @@ namespace xna {
             game->SdlVersion(version);
             if (version <= 204) {
                 printf("Please use SDL 2.0.5 or higher.\n");
-
+            } else {
+                printf("Using SDL Vesion %d.%d.%d\n", sversion.major, sversion.minor, sversion.patch);
             }
             SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS | SDL_INIT_TIMER | SDL_INIT_AUDIO);
             SDL_DisableScreenSaver();
@@ -241,11 +249,11 @@ namespace xna {
     // private:
     //     void SdlRunLoop();
 
-    protected:
-        Game* mGame;
-        std::list<Keys>* mKeys;
-        int mIsExiting;
-        SDLGameWindow* mView;
+    // protected:
+    //     IGame* mGame;
+    //     std::list<Keys>* mKeys;
+    //     int mIsExiting;
+    //     SDLGameWindow* mView;
 
         
     };

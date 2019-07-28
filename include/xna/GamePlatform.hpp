@@ -11,14 +11,17 @@ namespace xna {
     class IGameWindow;
     class IFactory;   
     class GamePlatform : public IGamePlatform {
-    public:
+        protected:
+        IGame* mGame;
+        bool mInFullScreenMode = false;
+        bool mIsActive;
+        bool mIsMouseActive;
+        IGameWindow* mWindow;
+
+        public:
         GamePlatform() { }
         GamePlatform(IGame* game): mGame(game)
         { 
-            // mGame = game;
-        }
-
-        ~GamePlatform() {
         }
 
         bool InFullScreenMode() {
@@ -26,7 +29,10 @@ namespace xna {
         }
 
         static IGamePlatform* PlatformCreate(IGame* game, IFactory* platform) {
+            printf("In GamePlatform::PlatformCreate\n");
             
+            if (game == nullptr) printf("game is null\n");
+            if (platform == nullptr) printf("platform is null\n");
             // return nullptr;
             return platform->CreateGamePlatform(game);
         }
@@ -197,12 +203,6 @@ namespace xna {
         // [System.Diagnostics.Conditional("DEBUG")]
         void Log(char* Message) {}		
 
-    protected:
-        IGame* mGame;
-        bool mInFullScreenMode = false;
-        bool mIsActive;
-        bool mIsMouseActive;
-        IGameWindow* mWindow;
 
     };
 }

@@ -4,11 +4,12 @@
 
 namespace xna {
 
-    class Game;
-    class GamePlatform;
+    class IGame;
+    class IGamePlatform;
 
     class IFactory {
         public:
-        IGamePlatform* CreateGamePlatform(IGame* game) {};
+        ~IFactory() {}
+        virtual IGamePlatform* CreateGamePlatform(IGame* game) = 0;
     };
 }

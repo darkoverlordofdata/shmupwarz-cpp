@@ -41,8 +41,10 @@ namespace xna {
     
     class Game : public IGame {
         friend class IGamePlatform;
-        public:
+        protected:
+        IFactory* PlatformFactory;
         IGamePlatform * Platform;
+        public:
 
         #ifdef __EMSCRIPTEN__
         #include <functional>
@@ -60,13 +62,25 @@ namespace xna {
          * Creates new game
          */
         Game(IFactory* platform, std::string t, int width, int height, SDL_Window* w)
-            : mTitle(t), mWidth(width), mHeight(height), mWindow(w), mFrameSkip(0), mIsRunning(0) {
-                Platform = GamePlatform::PlatformCreate(this, platform);
-            }
+            : mTitle(t), mWidth(width), mHeight(height), mWindow(w), mFrameSkip(0), 
+                mIsRunning(0), IGame() 
+        {
+            PlatformFactory = platform;
+            Platform = GamePlatform::PlatformCreate(this, platform);
+        }
 
         ~Game() {
+            printf("In Game::dtor\n");
             Stop();
         }
+
+        // void SetFactory(IFactory* platform)
+        // {
+        //     auto me = this;
+        //     printf("In SetFactory\n");
+        //     if (me == nullptr) printf("this is null in Game ctor\n");
+        //     Platform = GamePlatform::PlatformCreate(me, platform);
+        // }
 
         int GetKey(int key) {
             if (key > 255) return 0;
