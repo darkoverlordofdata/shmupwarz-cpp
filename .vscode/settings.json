@@ -48,6 +48,7 @@
         "algorithm": "cpp",
         "memory": "cpp",
         "bitset": "cpp",
-        "typeindex": "cpp"
+        "typeindex": "cpp",
+        "any": "cpp"
     }
 }

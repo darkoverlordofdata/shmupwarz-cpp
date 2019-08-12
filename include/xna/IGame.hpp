@@ -8,42 +8,30 @@ namespace xna {
     class IGame {
         public:
 
-
-        IGame() {
-            printf("In IGame::ctor\n");
-        }
-        // ~IGame() {
-        //     printf("In IGame::dtor\n");
-
-        // }
-
-        int GetKey(int key) {}
-        int SdlVersion() {}
-        void SdlVersion(int version) {}
-        SDL_Window* Window() {}
-        int Width() {}
-        int Height() {}
-        int MouseX() {}
-        int MouseY() {}
-        int MouseDown() {}
-        double Delta() {}
-        int IsRunning() {}
-        void Start() {}
-        void Stop() {}
-        void FpsChanged(int fps) {}
-        void Quit() {}
-        void Run() {}
-        void RunLoop() {}
-        void HandleEvents() {}
-        void Tick() {}
-        void Draw() {}
-        void Initialize() {}
-        void LoadContent() {}
-        void Update() {}
-        // virtual void Draw() {}
-        // virtual void Initialize() {}
-        // virtual void LoadContent() {}
-        // virtual void Update() {}
+        ~IGame() {}
+        virtual int GetKey(int key) {}
+        virtual int SdlVersion() {}
+        virtual void SdlVersion(int version) {}
+        virtual SDL_Window* Window() {}
+        virtual int Width() {}
+        virtual int Height() {}
+        virtual int MouseX() {}
+        virtual int MouseY() {}
+        virtual int MouseDown() {}
+        virtual double Delta() {}
+        virtual int IsRunning() {}
+        virtual void Start() {}
+        virtual void Stop() {}
+        virtual void FpsChanged(int fps) {}
+        virtual void Quit() {}
+        virtual void Run() {}
+        virtual void RunLoop() {}
+        virtual void HandleEvents() {}
+        virtual void Tick() {}
+        virtual void Draw() {}
+        virtual void Initialize() {}
+        virtual void LoadContent() {}
+        virtual void Update() {}
         
     };
 }

@@ -16,6 +16,7 @@ void main_loop() { loop(); }
 #include "IGameSystems.hpp"
 #include "Shmupwarz.hpp"
 #include "GameSystems.hpp"
+#include "wren.hpp"
 
 using namespace std::chrono;
 
@@ -65,7 +66,36 @@ const GLuint SCREEN_HEIGHT = 600;
 
 auto TITLE = "Shmupwarz";
 
+static void wren_Write( WrenVM* vm, 
+            const char* text) 
+{
+    // fputs(text, stderr);
+    printf("%s\n", text);
+}
+
+static void wren_Error( WrenErrorType type, 
+            const char* module, 
+            int line,
+            const char* message)
+{
+    switch (type) {
+    case WREN_ERROR_COMPILE:
+        fprintf(stderr, "compile time error: %s:%d:%s\n",
+            module, line, message);
+        break;
+    case WREN_ERROR_RUNTIME:
+        fprintf(stderr, "runtime error: %s\n", message);
+        break;
+    case WREN_ERROR_STACK_TRACE:
+        fprintf(stderr, "stack trace: %s:%d:%s\n", module, line, message);
+        break;
+    }
+}
+
+
 int main(int argc, char** argv){
+
+
     std::srand(std::time(0));    
 
     // artemis::utils::UUID guid;

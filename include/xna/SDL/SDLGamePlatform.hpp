@@ -28,7 +28,6 @@ namespace xna {
             SDL_version sversion;
             SDL_GetVersion(&sversion);
             int version = 100 * sversion.major + 10 * sversion.minor + sversion.patch;
-            // game->SetSdlVersion(version);
             game->SdlVersion(version);
             if (version <= 204) {
                 printf("Please use SDL 2.0.5 or higher.\n");

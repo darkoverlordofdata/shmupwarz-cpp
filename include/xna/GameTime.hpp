@@ -14,17 +14,25 @@
  * limitations under the License.
  ******************************************************************************/
 #pragma once
-#include "IEntity.hpp"
-#include "IComponent.hpp"
-#include "IWorld.hpp"
-namespace artemis 
-{
-    class IComponentMapper {
+#include "../core/Core.hpp"
+
+namespace xna {
+
+    using namespace core;
+
+    class GameTime {
         public:
-        ~IComponentMapper(){}
-        virtual IComponent* Get(IEntity* e) = 0;
-        virtual IComponent* GetSafe(IEntity* e) = 0;
-        virtual bool Has(IEntity* e) = 0;
-        virtual IComponentMapper* GetFor(type_index type, IWorld* world) = 0;
+        GameTime()  {
+            ElapsedGameTime = TimeSpan(0);
+            TotalGameTime = TimeSpan(0);
+            IsRunningSlowly = false;            
+
+        }
+        ~GameTime() {}
+
+        TimeSpan TotalGameTime;
+        TimeSpan ElapsedGameTime;
+        bool IsRunningSlowly;
+
     };
 }

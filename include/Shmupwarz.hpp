@@ -138,7 +138,6 @@ public:
      * Update game logic
      */
     void Update() {
-
         Systems->SpawnSystem(Player);
         for (int i=0; i<Entities.size(); i++) Systems->CollisionSystem(&Entities[i]);
         for (int i=0; i<Entities.size(); i++) Systems->EntitySystem(&Entities[i]);

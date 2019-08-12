@@ -25,9 +25,6 @@
 #include "DisplayOrientation.hpp"
 #include "../core/Core.hpp"
 
-/**
- * Based on Microsoft.Xna.Framework.Game
- */
 namespace xna {
 
     #ifdef __EMSCRIPTEN__
@@ -74,13 +71,15 @@ namespace xna {
         TimeSpan mAccumulatedElapsedTime;// = TimeSpan.Zero;
         TimeSpan mMaxElapsedTime;
         GameTime mGameTime;
+        // GameTime _gameTime = new GameTime();
+        // public GameTime gameTime { get; construct; }
         Stopwatch* mGameTimer;
         long mPreviousTicks;
         int mUpdateFrameLag;
         bool mShouldExit;
         bool mSuppressDraw;
 
-        // float mLerp;
+        float mLerp;
         double mFactor;
         std::map<int,int> mKeys;
         
@@ -94,22 +93,15 @@ namespace xna {
         /**
          * Creates new game
          */
-        Game(IFactory* platform, std::string t, int width, int height, SDL_Window* w) :
-            mTitle(t), 
-            mWidth(width), 
-            mHeight(height), 
-            mWindow(w), 
-            mFrameSkip(0), 
-            mIsRunning(0), 
-            mPreviousTicks(0),
-            mIsFixedTimeStep(true), 
-            mShouldExit(false), 
-            mSuppressDraw(false), 
-            mMaxElapsedTime(TimeSpan::FromMilliseconds(500)), 
-            mTargetElapsedTime(TimeSpan::FromTicks(166667)),
-            mAccumulatedElapsedTime(TimeSpan::FromTicks(0)),
-            mGameTimer(Stopwatch::StartNew()),
-            IGame() 
+        Game(IFactory* platform, std::string t, int width, int height, SDL_Window* w)
+            : mTitle(t), mWidth(width), mHeight(height), mWindow(w), mFrameSkip(0), 
+                mIsRunning(0), mPreviousTicks(0),
+                mIsFixedTimeStep(true), mShouldExit(false), mSuppressDraw(false), 
+                mMaxElapsedTime(TimeSpan::FromMilliseconds(500)), 
+                mTargetElapsedTime(TimeSpan::FromTicks(166667)),
+                mAccumulatedElapsedTime(TimeSpan::FromTicks(0)),
+                mGameTimer(Stopwatch::StartNew()),
+                IGame() 
         {
             
             printf("mTargetElapsedTime - %d\n", mTargetElapsedTime.mTicks);
@@ -122,6 +114,14 @@ namespace xna {
             printf("In Game::dtor\n");
             Stop();
         }
+
+        // void SetFactory(IFactory* platform)
+        // {
+        //     auto me = this;
+        //     printf("In SetFactory\n");
+        //     if (me == nullptr) printf("this is null in Game ctor\n");
+        //     Platform = GamePlatform::PlatformCreate(me, platform);
+        // }
 
         int GetKey(int key) {
             if (key > 255) return 0;
@@ -163,7 +163,8 @@ namespace xna {
         }
         
         double Delta() {
-            return mDelta;
+            return 0.01667;
+            // return mDelta / mLerp;
         }
         
         int IsRunning() {
@@ -257,8 +258,8 @@ namespace xna {
             while (true)
             {
                 // Advance the accumulated elapsed time.
-                auto currentTicks = mGameTimer->Elapsed()->mTicks;
-                mAccumulatedElapsedTime += (TimeSpan::FromTicks(currentTicks - mPreviousTicks));
+                auto currentTicks = mGameTimer->ElapsedTicks();
+                mAccumulatedElapsedTime.Plus(TimeSpan::FromTicks(currentTicks - mPreviousTicks));
                 mPreviousTicks = (long)currentTicks;
 
                 // If we're in the fixed timestep mode and not enough time has elapsed
@@ -272,15 +273,20 @@ namespace xna {
                     // NOTE: While sleep can be inaccurate in general it is 
                     // accurate enough for frame limiting purposes if some
                     // fluctuation is an acceptable result.
+                    // GLib.Thread.usleep(sleepTime*1000);
                     SDL_Delay(sleepTime);
+                    // System.Threading.Thread.Sleep(sleepTime);
                     // goto RetryTick;
+                    break;
                 }
                 else break;
             }
             // Do not allow any update to take longer than our maximum.
-            if (mAccumulatedElapsedTime > mMaxElapsedTime)
-                mAccumulatedElapsedTime = mMaxElapsedTime;
+            // if (mAccumulatedElapsedTime > mMaxElapsedTime)
+            //     mAccumulatedElapsedTime = mMaxElapsedTime;
+            Update();
 
+            // printf("(%d) %d %d\n", mAccumulatedElapsedTime.mTicks - mPreviousTicks, mAccumulatedElapsedTime.mTicks, mPreviousTicks);
             if (mIsFixedTimeStep)
             {
                 mGameTime.ElapsedGameTime = mTargetElapsedTime;
@@ -289,10 +295,17 @@ namespace xna {
                 // Perform as many full fixed length time steps as we can.
                 while (mAccumulatedElapsedTime >= mTargetElapsedTime && !mShouldExit)
                 {
-                    mGameTime.TotalGameTime += mTargetElapsedTime;
-                    mAccumulatedElapsedTime -= mTargetElapsedTime;
+                    // gameTime.TotalGameTime.Plus(_accumulatedElapsedTime);
+                    // _accumulatedElapsedTime.Minus(TargetElapsedTime);
+
+                    // CRITICAL CODE FAILS UNLESS I DO THIS
+                    int elapsed = (int)mAccumulatedElapsedTime.mTicks;
+                    int target = (int)mTargetElapsedTime.mTicks;
+                    mGameTime.TotalGameTime.mTicks += elapsed;
+                    mAccumulatedElapsedTime.mTicks = elapsed - target;
+
                     ++stepCount;
-                    mDelta = (double)mGameTime.ElapsedGameTime.TotalSeconds();
+
                     Update();
                     // DoUpdate(&mGameTime);
                 }
@@ -302,7 +315,6 @@ namespace xna {
                 if (mGameTime.IsRunningSlowly)
                 {
                     if (mUpdateFrameLag == 0)
-                 
                         mGameTime.IsRunningSlowly = false;
                 }
                 else if (mUpdateFrameLag >= 5)
@@ -323,11 +335,11 @@ namespace xna {
             {
                 // Perform a single variable length update.
                 mGameTime.ElapsedGameTime = mAccumulatedElapsedTime;
-                mGameTime.TotalGameTime += mAccumulatedElapsedTime;
-                mAccumulatedElapsedTime = TimeSpan::Zero; 
+                mGameTime.TotalGameTime.Plus(mAccumulatedElapsedTime);
+                mAccumulatedElapsedTime = TimeSpan(0);
 
-                // Update();
-                DoUpdate(&mGameTime);
+                Update();
+                // DoUpdate(&mGameTime);
             }
 
             // Draw unless the update suppressed it.
@@ -335,13 +347,26 @@ namespace xna {
                 mSuppressDraw = false;
             else
             {
-                // Draw();
-                DoDraw(&mGameTime);
+                Draw();
+                // DoDraw(&mGameTime);
             }
 
             if (mShouldExit) mIsRunning = false;
                 // Platform.Exit();
             
+            return;
+
+            // mMark2 = high_resolution_clock::now();
+            // mDelta += ((double) duration_cast<nanoseconds>(mMark2 - mMark1).count()) * mFactor;
+            // mMark1 = mMark2;
+            // mTicks += 1;
+            // while (mDelta >= 0.01667) {
+            //     mDelta -= 0.01667;
+            //     mLerp = mDelta / 0.01667;
+            //     mTicks = 0;
+            //     Update();
+            // }
+            // Draw();
         }
 
         void DoUpdate(GameTime* g) {
