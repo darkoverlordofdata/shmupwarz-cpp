@@ -16,7 +16,7 @@
                 // "src/Systems.cpp",
                 // "src/Texture2D.cpp",
                 "src/main.cpp",
-                "lib/libwren.bc",
+                // "lib/libwren.bc",
                 "-std=c++17",
                 "-I./include",
                 "-O3",

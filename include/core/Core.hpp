@@ -16,6 +16,6 @@
 #pragma once
 #include "Events.hpp"
 #include "Exceptions.hpp"
-#include "TimeSpan.hpp"
-#include "Stopwatch.hpp"
+// #include "TimeSpan.hpp"
+// #include "Stopwatch.hpp"
 #include "CStrng.hpp"

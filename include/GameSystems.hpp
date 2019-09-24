@@ -21,7 +21,7 @@ class GameSystems : public IGameSystems {
     }
     // ~GameSystems(){}
 
-    void InputSystem(Entity* entity){
+    void InputSystem(Entity* entity) override {
         entity->Position.X = mGame->MouseX();
         entity->Position.Y = mGame->MouseY();
         if (mGame->GetKey(122) || mGame->MouseDown()) {
@@ -34,7 +34,7 @@ class GameSystems : public IGameSystems {
         }
     }
 
-    void SoundSystem(Entity* entity){
+    void SoundSystem(Entity* entity) override {
         if (entity->Active && entity->Sound) {
             switch(entity->Sound.value()) {
                 case Effect::PEW: 
@@ -52,7 +52,7 @@ class GameSystems : public IGameSystems {
         }
     }
 
-    void PhysicsSystem(Entity* entity){
+    void PhysicsSystem(Entity* entity) override {
         if (entity->Active)
         {
             // Move entity?
@@ -78,7 +78,7 @@ class GameSystems : public IGameSystems {
         }
     }
 
-    void ExpireSystem(Entity* entity){
+    void ExpireSystem(Entity* entity) override {
         if (entity->Active && entity->Expires) {
             auto exp = entity->Expires.value() - mGame->Delta();
             entity->Expires = exp;
@@ -88,7 +88,7 @@ class GameSystems : public IGameSystems {
         }
     }
 
-    void TweenSystem(Entity* entity){
+    void TweenSystem(Entity* entity) override {
         if (entity->Active && entity->Tween) {
 
             auto x = entity->Scale.X + (entity->Tween.value()->Speed * mGame->Delta());
@@ -114,7 +114,7 @@ class GameSystems : public IGameSystems {
         }
     }
 
-    void RemoveSystem(Entity* entity){
+    void RemoveSystem(Entity* entity) override {
         if (entity->Active) {
             switch(entity->Category) {
                 case CategoryOf::ENEMY:
@@ -133,7 +133,7 @@ class GameSystems : public IGameSystems {
         }
     }
 
-    double SpawnEnemy(double delta, double t, int enemy) {
+    double SpawnEnemy(double delta, double t, int enemy) override {
         auto d1 = t-delta;
         if (d1 < 0.0) {
             switch(enemy) {
@@ -152,14 +152,14 @@ class GameSystems : public IGameSystems {
         } else return d1;    
     }
 
-    void SpawnSystem(Entity* entity){
+    void SpawnSystem(Entity* entity) override {
         EnemyT1 = SpawnEnemy(mGame->Delta(), EnemyT1, 1);
         EnemyT2 = SpawnEnemy(mGame->Delta(), EnemyT2, 2);
         EnemyT3 = SpawnEnemy(mGame->Delta(), EnemyT3, 3);
 
     }
 
-    void EntitySystem(Entity* entity){
+    void EntitySystem(Entity* entity) override {
         if (!entity->Active) {
             switch(entity->Type) {
 
@@ -212,7 +212,7 @@ class GameSystems : public IGameSystems {
 
     }
 
-    void HandleCollision(Entity* a, Entity* b){
+    void HandleCollision(Entity* a, Entity* b) override {
         mGame->Bangs.emplace_back(b->Bounds.x, b->Bounds.y);
         b->Active = false;
         for (int i=0; i<3; i++) mGame->Particles.emplace_back(b->Bounds.x, b->Bounds.y);
@@ -228,7 +228,7 @@ class GameSystems : public IGameSystems {
     }
 
 
-    void CollisionSystem(Entity* entity){
+    void CollisionSystem(Entity* entity) override {
         if (entity->Active && entity->Category == CategoryOf::ENEMY) {
             for (int i=0; i<mGame->Entities.size(); i++) {
                 auto bullet = &mGame->Entities[i];

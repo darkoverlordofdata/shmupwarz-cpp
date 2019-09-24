@@ -54,16 +54,13 @@ public:
     IGameSystems* Systems;
     xna::graphics::SpriteRenderer* Renderer;
 
-    Shmupwarz(std::string t, int width, int height, SDL_Window* w)
-        // : platform(new xna::SDLFactory())
-        // , Game(platform, t, width, height, w) {
+    Shmupwarz(std::string t, int width, int height)
+        : Game(new xna::SDLFactory(), t, width, height) {
+        std::srand(std::time(0));    
 
-        : Game(new xna::SDLFactory(), t, width, height, w) {
-        // Systems = new Systems(this);
     }
 
     ~Shmupwarz() {
-        // Systems->dispose();
         Game::Stop();
     }
 
@@ -72,32 +69,32 @@ public:
      */
     void SetSystem(IGameSystems* systems) {
 
-        //SetFactory(new xna::SDLFactory());
         Systems = systems;
         
         // delete artemis::ComponentFactory::New("A::DerivedA");
         // delete artemis::ComponentFactory::New("B::DerivedB");
         // delete artemis::ComponentFactory::New("C::DerivedC");
         // delete artemis::ComponentFactory::New("D::DerivedD");
-        // const std::type_info& ti1 = typeid(this);
-        // const std::type_info& ti2 = typeid(Systems);
 
-        // printf("TYPE = %s\n", ti1.name());
-        // printf("TYPE = %s\n", ti2.name());
+        const std::type_info& ti1 = typeid(this);
+        const std::type_info& ti2 = typeid(Systems);
 
-        // auto test = new artemis::Aspect();
+        printf("TYPE = %s\n", ti1.name());
+        printf("TYPE = %s\n", ti2.name());
 
-        // printf("1>\n");
-        // auto bb = new artemis::BlackBoard();
-        // printf("2>\n");
-        // bb->SetEntry("number", 1);
-        // printf("3\n");
-        // bb->SetEntry("frodo", test);
-        // printf("4>\n");
+        auto test = new artemis::Aspect();
 
-        // auto n = bb->GetEntry<int>("number");
-        // printf("Number = %d\n", n);
-        // auto tst1 = bb->GetEntry<artemis::Aspect*>("frodo");
+        printf("1\n");
+        auto bb = new artemis::BlackBoard();
+        printf("2\n");
+        bb->SetEntry("number", 1);
+        printf("3\n");
+        bb->SetEntry("frodo", test);
+        printf("4>\n");
+
+        auto n = bb->GetEntry<int>("number");
+        printf("Number = %d\n", n);
+        auto tst1 = bb->GetEntry<artemis::Aspect*>("frodo");
         // printf("String = %s\n", tst1->GetTest().c_str());
     }
 
@@ -137,7 +134,8 @@ public:
     /**
      * Update game logic
      */
-    void Update() {
+    void Update() 
+    {
         Systems->SpawnSystem(Player);
         for (int i=0; i<Entities.size(); i++) Systems->CollisionSystem(&Entities[i]);
         for (int i=0; i<Entities.size(); i++) Systems->EntitySystem(&Entities[i]);

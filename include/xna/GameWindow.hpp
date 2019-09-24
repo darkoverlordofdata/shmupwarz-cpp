@@ -28,15 +28,15 @@ namespace xna {
         Event ScreenDeviceNameChanged = Event();
         Event TextInput = Event();
 
-        virtual void SupportedOrientation(DisplayOrientation) = 0;
-        virtual void BeginScreenDeviceChange(bool) = 0;
-        virtual void EndScreenDeviceChange(char*, int, int, int, int) = 0;
-        virtual bool AllowUserResizing() { }
-        virtual bool AllowUserResizing(bool) { }
-        virtual Rectangle* ClientBounds() { }
-        virtual Point* Position() { }
-        virtual void Position(Point*) { }
-        virtual Point* Size() { }
+        // virtual void SupportedOrientation(DisplayOrientation) = 0;
+        // virtual void BeginScreenDeviceChange(bool) = 0;
+        // virtual void EndScreenDeviceChange(char*, int, int, int, int) = 0;
+        // virtual bool AllowUserResizing() { }
+        // virtual bool AllowUserResizing(bool) { }
+        // virtual Rectangle* ClientBounds() { }
+        // virtual Point* Position() { }
+        // virtual void Position(Point*) { }
+        // virtual Point* Size() { }
 
         virtual bool AllowAltF4() { 
             return mAllowAltF4;
@@ -45,16 +45,16 @@ namespace xna {
             mAllowAltF4 = allowAltF4;
         }
 
-        virtual DisplayOrientation CurentOrientation() { }
-        virtual SDL_Window* Handle()  { }
-        virtual char* ScreenDeviceName()  { }
+        // virtual DisplayOrientation CurentOrientation() { }
+        // virtual SDL_Window* Handle()  { }
+        // virtual char* ScreenDeviceName()  { }
 
-        char* Title() {
+        char* Title() override {
             return mTitle;
 
         }
 
-        void Title(char* title) {
+        void Title(char* title) override {
             mTitle = strdup(title);
         }
 
@@ -65,19 +65,19 @@ namespace xna {
             printf("GameWindow.IsBorderless");
         }
 
-        void OnClientSizeChanged() {
+        void OnClientSizeChanged() override {
             ClientSizeChanged (this, nullptr);
         }
 
-        void OnOrientationChanged() {
+        void OnOrientationChanged() override {
             OrientationChanged(this, nullptr);
         }
 
-        void OnScreenDeviceNameChanged() {
+        void OnScreenDeviceNameChanged() override {
             ScreenDeviceNameChanged(this, nullptr);
         }
 
-        void OnTextInput(char c, Keys key) {
+        void OnTextInput(char c, Keys key) override {
             TextInputArgs args = {c, key};
             TextInput(this, &args);
         }

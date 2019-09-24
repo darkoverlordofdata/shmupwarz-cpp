@@ -20,27 +20,6 @@
  * based on .NET Framework: System.TimeSpan
  */
 namespace core {
-        #define TICKSPERMILLISECOND  10000
-        #define TICKSPERSECOND TICKSPERMILLISECOND * 1000   // 10,000,000
-        #define TICKSPERMINUTE TICKSPERSECOND * 60         // 600,000,000
-        #define TICKSPERHOUR TICKSPERMINUTE * 60        // 36,000,000,000
-        #define TICKSPERDAY TICKSPERHOUR * 24          // 864,000,000,000
-
-        #define MILLISECONDSPERTICK 1.0 / TICKSPERMILLISECOND
-        #define SECONDSPERTICK  1.0 / TICKSPERSECOND        // 0.0001
-        #define MINUTESPERTICK 1.0 / TICKSPERMINUTE // 1.6666666666667E-9
-        #define HOURSPERTICK 1.0 / TICKSPERHOUR // 2.77777777777777778E-11
-        #define DAYSPERTICK 1.0 / TICKSPERDAY // 1.1574074074074074074E-12
-        #define MILLISPERSECOND 1000.0
-        #define MILLISPERMINUTE MILLISPERSECOND * 60.0 //     60,000
-        #define MILLISPERHOUR MILLISPERMINUTE * 60.0   //  3,600,000
-        #define MILLISPERDAY MILLISPERHOUR * 24.0      // 86,400,000
-
-        #define MAXSECONDS INT64_MAX / TICKSPERSECOND
-        #define MINSECONDS INT64_MIN / TICKSPERSECOND
-        #define MAXMILLISECONDS INT64_MAX / TICKSPERMILLISECOND
-        #define MINMILLISECONDS INT64_MIN / TICKSPERMILLISECOND
-        #define TICKSPERTENTHSECOND TICKSPERMILLISECOND * 100
 
         #define TicksPerMillisecond  10000.0
         #define TicksPerSecond TicksPerMillisecond * 1000.0   // 10,000,000
@@ -187,9 +166,6 @@ namespace core {
         }
 
         static TimeSpan Interval(double value, int scale) {
-            // if (Math.isnan(value) != 0)
-            //     throw new System.Exception.ArgumentException(System.Environment.GetResourceString("Arg_CannotBeNaN"));
-            // Contract.EndContractBlock();
             double tmp = value * scale;
             double millis = tmp + (value >= 0? 0.5: -0.5);
             if ((millis > INT64_MAX / TicksPerMillisecond) || (millis < INT64_MIN / TicksPerMillisecond))

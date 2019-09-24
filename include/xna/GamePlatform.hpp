@@ -24,48 +24,47 @@ namespace xna {
         { 
         }
 
-        bool InFullScreenMode() {
+        bool InFullScreenMode() override {
             return mInFullScreenMode;
         }
 
         static IGamePlatform* PlatformCreate(IGame* game, IFactory* platform) {
             printf("In GamePlatform::PlatformCreate\n");
             
-            if (game == nullptr) printf("game is null\n");
-            if (platform == nullptr) printf("platform is null\n");
-            // return nullptr;
+            assert(game);
+            assert(platform);
             return platform->CreateGamePlatform(game);
         }
 
-        GameRunBehavior DefaultRunBehavior() {};
+        // GameRunBehavior DefaultRunBehavior() override {};
 
-        bool IsActive() {
+        bool IsActive() override {
             return mIsActive;
         }
 
-        void IsActive(bool value) {
+        void IsActive(bool value) override {
             if (mIsActive != value) {
                 mIsActive = value;
                 // EventHelpers.Raise()
             }
         }
 
-        bool IsMouseActive() {
+        bool IsMouseActive() override {
             return mIsMouseActive;
         }
 
-        void IsMouseActive(bool value) {
+        void IsMouseActive(bool value) override {
             if (mIsMouseActive != value) {
                 mIsMouseActive = value;
                 // OnIsMouseVisibleChanged();
             }
         }
 
-        IGameWindow* Window() {
+        IGameWindow* Window() override {
             return mWindow;
         }
 
-        void Window(IGameWindow* value) {
+        void Window(IGameWindow* value) override {
             if (mWindow != nullptr) {
                 mWindow = value;
             }
@@ -76,7 +75,7 @@ namespace xna {
         /// derived classes when the asynchronous run loop they start has
         /// stopped running.
         /// </summary>
-        void RaiseAsyncRunLoopEnded() {
+        void RaiseAsyncRunLoopEnded() override {
             // EventHelpers.Raise();
         }
 
@@ -86,7 +85,7 @@ namespace xna {
         /// IsActive to true, so derived classes should either call the base
         /// implementation or set IsActive to true by their own means.
         /// </summary>
-        void BeforeInitialize() {
+        void BeforeInitialize() override {
             mIsActive = true;
         }
 
@@ -96,32 +95,32 @@ namespace xna {
         /// the run loop from starting.
         /// </summary>
         /// <returns></returns>
-        bool BeforeRun() {
+        bool BeforeRun() override {
             return true;
         }
 
         /// <summary>
         /// When implemented in a derived, ends the active run loop.
         /// </summary>
-        void Exit() {}
+        void Exit() override {}
 
         /// <summary>
         /// When implemented in a derived, starts the run loop and blocks
         /// until it has ended.
         /// </summary>
-        void RunLoop() {}
+        void RunLoop() override {}
 
         /// <summary>
         /// When implemented in a derived, runs the loop one time
         /// until it has ended.
         /// </summary>
-        void RunOnce() {}
+        void RunOnce() override {}
 
         /// <summary>
         /// When implemented in a derived, starts the run loop and returns
         /// immediately.
         /// </summary>
-        void StartRunLoop() {}
+        void StartRunLoop() override {}
 
         /// <summary>
         /// Gives derived classes an opportunity to do work just before Update
@@ -130,7 +129,7 @@ namespace xna {
         /// </summary>
         /// <param name="gameTime"></param>
         /// <returns></returns>
-        bool BeforeUpdate() {}
+        bool BeforeUpdate() override {}
 
         /// <summary>
         /// Gives derived classes an opportunity to do work just before Draw
@@ -139,19 +138,19 @@ namespace xna {
         /// </summary>
         /// <param name="gameTime"></param>
         /// <returns></returns>
-        bool BeforeDraw() {}
+        bool BeforeDraw() override {}
 
         /// <summary>
         /// When implemented in a derived class, causes the game to enter
         /// full-screen mode.
         /// </summary>
-        void EnterFullScreen() {}
+        void EnterFullScreen() override {}
 
         /// <summary>
         /// When implemented in a derived class, causes the game to exit
         /// full-screen mode.
         /// </summary>
-        void ExitFullScreen() {}
+        void ExitFullScreen() override {}
 
         /// <summary>
         /// Starts a device transition (windowed to full screen or vice versa).
@@ -159,9 +158,9 @@ namespace xna {
         /// <param name='willBeFullScreen'>
         /// Specifies whether the device will be in full-screen mode upon completion of the change.
         /// </param>
-        void BeginScreenDeviceChange (
+        void BeginScreenDeviceChange  (
                     bool willBeFullScreen
-        ) {}
+        ) override {}
 
         /// <summary>
         /// Completes a device transition.
@@ -181,18 +180,18 @@ namespace xna {
                     int clientY,
                     int clientWidth,
                     int clientHeight
-        ) {}
+        ) override {}
 
-        void Present() { }
+        void Present() override { }
 
-        void OnIsMouseVisibleChanged() {}
+        void OnIsMouseVisibleChanged() override {}
 
         /// <summary>
         /// Called by the GraphicsDeviceManager to notify the platform
         /// that the presentation parameters have changed.
         /// </summary>
         /// <param name="pp">The new presentation parameters.</param>
-        void OnPresentationChanged() {}
+        void OnPresentationChanged() override {}
 
         // /// <summary>
         // /// Log the specified Message.
@@ -201,8 +200,9 @@ namespace xna {
         // /// 
         // /// </param>
         // [System.Diagnostics.Conditional("DEBUG")]
-        void Log(char* Message) {}		
+        void Log(char* Message) override {}		
 
 
+        void Dispose() override {}
     };
 }

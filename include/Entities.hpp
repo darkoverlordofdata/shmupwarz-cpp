@@ -281,11 +281,14 @@ static inline void RefreshParticle(Entity* entity, int x, int y){
     // auto magnitude = std::rand() % 100 + 50;
     // auto velocityX = magnitude * cos(radians);
     // auto velocityY = magnitude * sin(radians);
-    auto radians = ((double)std::rand()/(double)1.0) * (double)Tau;
-    auto magnitude = std::rand() % 100 + 50;
-    auto velocityX = magnitude * cos(radians);
-    auto velocityY = magnitude * sin(radians);
-    auto scale = (double)(std::rand() % 10) / 10.0;
+    double r1 = ((double)std::rand()/(double)1.0);
+    double radians = r1 * (double)Tau;
+    double magnitude = std::rand() % 100 + 50;
+    double velocityX = magnitude * cos(radians);
+    double velocityY = magnitude * sin(radians);
+    double scale = (double)(std::rand() % 10) / 10.0;
+    // printf("%f %f %f %d %f %f\n", r1, radians, magnitude, velocityX, velocityY, scale);
+
     // std::cout << velocityX << ", " << velocityY << "\n" << std::flush;
     entity->Position.X = x;
     entity->Position.Y = y;

@@ -29,9 +29,11 @@
 #include "Graphics/Texture2D.hpp"
 #include "Graphics/Shader.hpp"
 #include "Graphics/SpriteRenderer.hpp"
-#include "GameTime.hpp"
-#include "Game.hpp"
+// #include "GameTime.hpp"
+// #include "Game.hpp"
 
 #include "SDL/SDLGamePlatform.hpp"
 #include "SDL/SDLGameWindow.hpp"
 #include "SDL/SDLFactory.hpp"
+
+#include "Game.hpp"

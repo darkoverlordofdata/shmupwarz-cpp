@@ -5,6 +5,24 @@
 
 namespace xna {
 
+    inline void logSDLError(std::ostream &os, const std::string &msg){
+        os << msg << " error: " << SDL_GetError() << std::endl;
+    }
+
+    static inline void checkSDLError(int line = -1)
+    {
+    #ifndef NDEBUG
+        const char *error = SDL_GetError();
+        if (*error != '\0')
+        {
+            printf("SDL Error: %s\n", error);
+            if (line != -1)
+                printf(" + line: %i\n", line);
+            SDL_ClearError();
+        }
+    #endif
+    }
+
     class IGame;
     class SDLGameWindow;
     class SDLGamePlatform : public GamePlatform {
@@ -15,6 +33,9 @@ namespace xna {
         std::list<Keys>* mKeys;
         int mIsExiting;
         SDLGameWindow* mView;
+
+        private:
+        bool mDisposed = false;
 
         public:
 
@@ -39,11 +60,70 @@ namespace xna {
 
             mWindow = new SDLGameWindow(game);
             mView = (SDLGameWindow*)mWindow;
+
+            /* Request opengl 3.3 context.
+            * SDL doesn't have the ability to choose which profile at this time of writing,
+            * but it should default to the core profile */
+            SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+            #ifdef __EMSCRIPTEN__
+            SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+            #else
+            SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+            #endif
+
+            /* Turn on double buffering with a 24bit Z buffer.
+            * You may need to change this to 16 or 32 for your system */
+            SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+            SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+
+            auto window = SDL_CreateWindow(game->Title(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 
+                game->Width(), game->Height(),
+                SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
+            auto maincontext = SDL_GL_CreateContext(window);
+            checkSDLError(__LINE__);
+
+            #ifdef __EMSCRIPTEN__
+            const auto img_flags = IMG_INIT_PNG;
+            #else
+            const auto img_flags = IMG_INIT_PNG | IMG_INIT_JPG;
+            #endif
+
+            if (IMG_Init(img_flags) != img_flags) {
+                logSDLError(std::cout, "Init image");
+            }
+            TTF_Init();
+            if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 2048) == -1) {
+                logSDLError(std::cout, "Init mixer");
+            }
+
+            #ifndef __EMSCRIPTEN__
+            // Load OpenGL EntryPoints for desktop
+            glewExperimental = GL_TRUE;
+            glewInit();
+            glGetError(); // Call it once to catch glewInit() bug, all other errors are now from our application.
+            #endif
             
+            // OpenGL configuration
+            glViewport(0, 0, game->Width(), game->Height());
+            glEnable(GL_CULL_FACE);
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            game->SetWindow(window);
 
         }
 
         ~SDLGamePlatform() {
+            Dispose();
+        }
+
+        void Dispose() override {
+            if (!mDisposed)
+            {
+                mDisposed = true;
+                SDL_DestroyWindow(mGame->Window());
+                IMG_Quit();
+                SDL_Quit();
+            } 
         }
 
         GameRunBehavior DefaultRunBehavior() {

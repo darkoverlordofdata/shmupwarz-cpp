@@ -71,10 +71,6 @@ namespace artemis {
             return mOneSet;
         }
 
-        string GetTest()
-        {
-            return "this is a test";
-        }
 
 
         /**
