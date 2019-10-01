@@ -1,10 +1,18 @@
 # startingover -- shmupwarz-cpp
 
-A sort of a port of a port of a sort.
+    A sort of a port of a port of a sort.
+    A port is a port of a sort of a sort.
+    And of course the name of the port is...
+    The famous GL Ewe.
 
-Why? Because after reinstalling windows10 and MSys2, my opengl projects no longer cmpile due to an unresolved symbol 'typedef ptrddif_t' in glew. I'm running out of inspriation. Then retire, move, and hard drive fail. 6 months later.
+Hmm - instead of talking horses, we got colorful sheep?
 
-"It'll be just like starting over" -- John Lennon
+### does not work on Raspbian Buster 
+
+    too bad, but glew.h is not compatible with gl.h - due to redefinition using ptrdiff_t.
+    So, no sheep.
+
+### "It'll be just like starting over" -- John Lennon
  
     use doran (cmake) to build desktop version
     use ctrl-b to build emscripten version
@@ -17,10 +25,10 @@ goals & vision - put the lime in the coconut
     mix of opengl & sdl2 similar to monogame
     run on desktop and emscripten
 
+    replace vala and zerog with c++17. As much as I like vala, valagame must die. 
+    I learned about impelementing a monogame style engine using c/cpp.
 
-
-    replace vala and zerog with c++17. As much as I like vala, valagame must die. I learned about impelemting a monogame style engine using c/cpp.
-
+    
 ### coding convention
 
     Follows the MSDN convention - all public clases and members are PascalCase, parameters and locals are camelCase, member fields may be private mPascalCase
