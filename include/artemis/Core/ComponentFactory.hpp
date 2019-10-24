@@ -80,6 +80,7 @@ namespace artemis
             return iter == Types().end() ? 0 : (*iter->second)(); 
         }
 
+
     };
 
 }

@@ -34,6 +34,16 @@ namespace xna::graphics {
             glGenTextures(1, &Id);
         }
 
+        Texture2D(char* path, bool alpha)
+            : Width(0), Height(0), 
+                Internal_Format(alpha ? GL_RGBA : GL_RGB), 
+                Image_Format(alpha ? GL_RGBA : GL_RGB), 
+                mWrap_S(GL_REPEAT), mWrap_T(GL_REPEAT), mFilter_Min(GL_LINEAR), mFilter_Max(GL_LINEAR)
+        {
+            mPath = strdup(path);
+            glGenTextures(1, &Id);
+        }
+
         void Generate(GLuint width, GLuint height, unsigned char* data)
         {
             Width = width;

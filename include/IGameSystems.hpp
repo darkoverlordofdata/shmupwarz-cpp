@@ -1,11 +1,13 @@
 #pragma once
 #include "Entities.hpp"
+#include "xna/xna.hpp"
 
 
 class IGameSystems {
     public:
     ~IGameSystems(){};
 
+    virtual void DrawSystem(xna::graphics::SpriteRenderer* Renderer, Entity* e) = 0;
     virtual void InputSystem(Entity* entity) = 0;
     virtual void SoundSystem(Entity* entity) = 0;
     virtual void PhysicsSystem(Entity* entity) = 0;

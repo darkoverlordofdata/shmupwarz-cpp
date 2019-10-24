@@ -19,24 +19,7 @@ void main_loop() { loop(); }
 
 using namespace std::chrono;
 
-namespace A {
-    class DerivedA : public artemis::Component { 
-      public:
-        DerivedA() {
-            std::cout << "A::DerivedA constructor\n"; 
-        } 
-    }; 
-}
-RegisterType(A::DerivedA);
-
-namespace B { class DerivedB : public artemis::Component { public: DerivedB() { std::cout << "B::DerivedB constructor\n"; } }; }
-RegisterType(B::DerivedB);
-
-namespace C { class DerivedC : public artemis::Component { public: DerivedC() { std::cout << "C::DerivedC constructor\n"; } }; }
-RegisterType(C::DerivedC);
-
-namespace D { class DerivedD : public artemis::Component { public: DerivedD() { std::cout << "D::DerivedD constructor\n"; } }; }
-RegisterType(D::DerivedD);
+// void test();
 
 int main(int argc, char** argv){
 

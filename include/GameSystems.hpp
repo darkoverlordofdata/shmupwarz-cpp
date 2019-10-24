@@ -9,26 +9,45 @@ class GameSystems : public IGameSystems {
     double EnemyT1 = 1.0;
     double EnemyT2 = 4.0;
     double EnemyT3 = 6.0;
-    Mix_Chunk* Pew;
-    Mix_Chunk* Asplode;
-    Mix_Chunk* Smallasplode;
+    // xna::graphics::SpriteRenderer* Renderer;
 
 
     GameSystems(Shmupwarz* g): mGame(g) {
-        Pew = Mix_LoadWAV("assets/Sounds/pew.wav");
-        Asplode = Mix_LoadWAV("assets/Sounds/asplode.wav");
-        Smallasplode = Mix_LoadWAV("assets/Sounds/smallasplode.wav");
+        // Renderer = new xna::SpriteRenderer(xna::ResourceManager::GetShader("sprite"));
+
     }
     // ~GameSystems(){}
 
+    void DrawSystem(xna::graphics::SpriteRenderer* Renderer, Entity* e) override {
+        if (!e->Active) return;
+
+        glm::vec3 color(1, 1, 1);
+
+        auto texture = e->Transform.value()->Texture;
+        if (e->Tint) {
+            color[0] = (float)e->Tint.value()->R/255.0;
+            color[1] = (float)e->Tint.value()->G/255.0;
+            color[2] = (float)e->Tint.value()->B/255.0;
+        }
+
+        Renderer->DrawSprite(texture, 
+            {   e->Transform.value()->Bounds.x, 
+                e->Transform.value()->Bounds.y },
+            {   e->Transform.value()->Bounds.w, 
+                e->Transform.value()->Bounds.h }, 
+            0.0f, color);
+
+
+    }
+
     void InputSystem(Entity* entity) override {
-        entity->Position.X = mGame->MouseX();
-        entity->Position.Y = mGame->MouseY();
+        entity->Transform.value()->Pos.X = mGame->MouseX();
+        entity->Transform.value()->Pos.Y = mGame->MouseY();
         if (mGame->GetKey(122) || mGame->MouseDown()) {
             TimeToFire -= mGame->Delta();
             if (TimeToFire < 0.0) {
-                mGame->Bullets.emplace_back(entity->Position.X - 27, entity->Position.Y + 2);
-                mGame->Bullets.emplace_back(entity->Position.X + 27, entity->Position.Y + 2);
+                mGame->Bullets.emplace_back(entity->Transform.value()->Pos.X - 27, entity->Transform.value()->Pos.Y + 2);
+                mGame->Bullets.emplace_back(entity->Transform.value()->Pos.X + 27, entity->Transform.value()->Pos.Y + 2);
                 TimeToFire = FireRate;
             }
         }
@@ -36,19 +55,7 @@ class GameSystems : public IGameSystems {
 
     void SoundSystem(Entity* entity) override {
         if (entity->Active && entity->Sound) {
-            switch(entity->Sound.value()) {
-                case Effect::PEW: 
-                    Mix_PlayChannelTimed(-1, Pew, 0, 0);
-                    break;
-
-                case Effect::ASPLODE: 
-                    Mix_PlayChannelTimed(-1, Asplode, 0, 0);
-                    break;
-
-                case Effect::SMALLASPLODE: 
-                    Mix_PlayChannelTimed(-1, Smallasplode, 0, 0);
-                    break;
-            }
+            Mix_PlayChannelTimed(1, entity->Sound.value()->Chunk, 0, 0);
         }
     }
 
@@ -57,32 +64,30 @@ class GameSystems : public IGameSystems {
         {
             // Move entity?
             if (entity->Velocity) {
-                entity->Position.X += entity->Velocity.value()->X * mGame->Delta();
-                entity->Position.Y += entity->Velocity.value()->Y * mGame->Delta();
+                entity->Transform.value()->Pos.X += entity->Velocity.value()->X * mGame->Delta();
+                entity->Transform.value()->Pos.Y += entity->Velocity.value()->Y * mGame->Delta();
             }
             // Set new bounding box
-            if (entity->Category == CategoryOf::BACKGROUND) 
+            if (entity->Identity.value()->Category == CategoryOf::BACKGROUND) 
             {
-                // entity->Bounds.w = entity->Sprite.width * entity->Scale.X;
-                // entity->Bounds.h = entity->Sprite.height * entity->Scale.Y;
-                entity->Bounds.w = mGame->Width();
-                entity->Bounds.h = mGame->Height();
-                entity->Bounds.x = 0; 
-                entity->Bounds.y = 0; 
+                entity->Transform.value()->Bounds.w = mGame->Width();
+                entity->Transform.value()->Bounds.h = mGame->Height();
+                entity->Transform.value()->Bounds.x = 0; 
+                entity->Transform.value()->Bounds.y = 0; 
             } else {
-                entity->Bounds.w = entity->Sprite.Width * entity->Scale.X;
-                entity->Bounds.h = entity->Sprite.Height * entity->Scale.Y;
-                entity->Bounds.x = entity->Position.X - entity->Bounds.w / 2;
-                entity->Bounds.y = entity->Position.Y - entity->Bounds.h / 2;
+                entity->Transform.value()->Bounds.w = entity->Transform.value()->Texture->Width * entity->Transform.value()->Scale.X;
+                entity->Transform.value()->Bounds.h = entity->Transform.value()->Texture->Height * entity->Transform.value()->Scale.Y;
+                entity->Transform.value()->Bounds.x = entity->Transform.value()->Pos.X - entity->Transform.value()->Bounds.w / 2;
+                entity->Transform.value()->Bounds.y = entity->Transform.value()->Pos.Y - entity->Transform.value()->Bounds.h / 2;
             }
         }
     }
 
     void ExpireSystem(Entity* entity) override {
         if (entity->Active && entity->Expires) {
-            auto exp = entity->Expires.value() - mGame->Delta();
-            entity->Expires = exp;
-            if (entity->Expires.value() < 0) {
+            auto exp = entity->Expires.value()->Milli - mGame->Delta();
+            entity->Expires.value()->Milli = exp;
+            if (entity->Expires.value()->Milli < 0) {
                 entity->Active = false;
             }
         }
@@ -91,8 +96,8 @@ class GameSystems : public IGameSystems {
     void TweenSystem(Entity* entity) override {
         if (entity->Active && entity->Tween) {
 
-            auto x = entity->Scale.X + (entity->Tween.value()->Speed * mGame->Delta());
-            auto y = entity->Scale.Y + (entity->Tween.value()->Speed * mGame->Delta());
+            auto x = entity->Transform.value()->Scale.X + (entity->Tween.value()->Speed * mGame->Delta());
+            auto y = entity->Transform.value()->Scale.Y + (entity->Tween.value()->Speed * mGame->Delta());
             auto Active = entity->Tween.value()->Active;
 
 
@@ -105,8 +110,8 @@ class GameSystems : public IGameSystems {
                 y = entity->Tween.value()->Min;
                 Active = false;
             }
-            entity->Scale.X = x; 
-            entity->Scale.Y = y; 
+            entity->Transform.value()->Scale.X = x; 
+            entity->Transform.value()->Scale.Y = y; 
             entity->Tween = new Tween(entity->Tween.value()->Min, 
                                         entity->Tween.value()->Max, 
                                         entity->Tween.value()->Speed, 
@@ -116,14 +121,14 @@ class GameSystems : public IGameSystems {
 
     void RemoveSystem(Entity* entity) override {
         if (entity->Active) {
-            switch(entity->Category) {
+            switch(entity->Identity.value()->Category) {
                 case CategoryOf::ENEMY:
-                    if (entity->Position.Y > mGame->Height()) {
+                    if (entity->Transform.value()->Pos.Y > mGame->Height()) {
                         entity->Active = false;
                     }
                     break;
                 case CategoryOf::BULLET:
-                    if (entity->Position.Y < 0) {
+                    if (entity->Transform.value()->Pos.Y < 0) {
                         entity->Active = false;
                     }
                     break;
@@ -161,7 +166,7 @@ class GameSystems : public IGameSystems {
 
     void EntitySystem(Entity* entity) override {
         if (!entity->Active) {
-            switch(entity->Type) {
+            switch(entity->Identity.value()->Type) {
 
                 case TypeOf::BULLET: 
                     if (mGame->Bullets.empty()) break;
@@ -213,13 +218,13 @@ class GameSystems : public IGameSystems {
     }
 
     void HandleCollision(Entity* a, Entity* b) override {
-        mGame->Bangs.emplace_back(b->Bounds.x, b->Bounds.y);
+        mGame->Bangs.emplace_back(b->Transform.value()->Bounds.x, b->Transform.value()->Bounds.y);
         b->Active = false;
-        for (int i=0; i<3; i++) mGame->Particles.emplace_back(b->Bounds.x, b->Bounds.y);
+        for (int i=0; i<3; i++) mGame->Particles.emplace_back(b->Transform.value()->Bounds.x, b->Transform.value()->Bounds.y);
         if (a->Health) {
             auto h = a->Health.value()->Current - 2;
             if (h < 0) {
-                mGame->Explosions.emplace_back(a->Position.X, a->Position.Y);
+                mGame->Explosions.emplace_back(a->Transform.value()->Pos.X, a->Transform.value()->Pos.Y);
                 a->Active = false;
             } else {
                 a->Health = new Health(h, a->Health.value()->Maximum);
@@ -229,11 +234,11 @@ class GameSystems : public IGameSystems {
 
 
     void CollisionSystem(Entity* entity) override {
-        if (entity->Active && entity->Category == CategoryOf::ENEMY) {
+        if (entity->Active && entity->Identity.value()->Category == CategoryOf::ENEMY) {
             for (int i=0; i<mGame->Entities.size(); i++) {
                 auto bullet = &mGame->Entities[i];
-                if (bullet->Active && bullet->Category == CategoryOf::BULLET) {
-                    if (SDL_HasIntersection(&entity->Bounds, &bullet->Bounds)) {
+                if (bullet->Active && bullet->Identity.value()->Category == CategoryOf::BULLET) {
+                    if (SDL_HasIntersection(&entity->Transform.value()->Bounds, &bullet->Transform.value()->Bounds)) {
                         if (entity->Active && bullet->Active) HandleCollision(entity, bullet);
                         return;
                     }

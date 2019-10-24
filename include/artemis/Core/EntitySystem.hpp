@@ -15,6 +15,7 @@
  ******************************************************************************/
 #pragma once
 #include <vector>
+#include <algorithm>
 #include "../IAspect.hpp"
 #include "../IWorld.hpp"
 #include "../IEntityObserver.hpp"

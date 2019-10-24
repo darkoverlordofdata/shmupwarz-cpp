@@ -124,15 +124,7 @@ namespace xna {
         static Texture2D LoadTextureFromFile(const GLchar *file, GLboolean alpha)
         {
             // Create Texture object
-            Texture2D texture((char*)file);
-            if (alpha)
-            {
-                texture.Internal_Format = GL_RGBA;
-                texture.Image_Format = GL_RGBA;
-            }
-            // Load image
-            int width, height;
-            
+            Texture2D texture((char*)file, alpha);
             SDL_Surface * surface = IMG_Load(file);
             if (SDL_MUSTLOCK(surface)) 
                 SDL_LockSurface(surface);

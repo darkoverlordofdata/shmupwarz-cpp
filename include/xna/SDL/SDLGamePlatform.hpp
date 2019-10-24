@@ -1,4 +1,5 @@
 #pragma once
+#include <list>
 #include "../IGame.hpp"
 #include "../GamePlatform.hpp"
 #include "SDLGameWindow.hpp"

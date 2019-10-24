@@ -26,7 +26,6 @@ endif ()
 #
 #   application source
 #
-# list ( APPEND C_SOURCES src/test.cpp )
 list ( APPEND C_SOURCES src/main.cpp )
 #
 #   application includes
@@ -49,7 +48,7 @@ set ( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -lGL" )
 
 
 set ( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -w -std=c11 -O3" )
-set ( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w -std=c++2a -O3" )
+set ( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w -std=c++2a -O3 -fmodules-ts" )
 
 
 # definitions 

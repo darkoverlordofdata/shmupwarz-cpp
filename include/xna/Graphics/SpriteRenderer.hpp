@@ -38,7 +38,7 @@ namespace xna::graphics {
             glDeleteVertexArrays(1, &mQuadVAO);
         }
 
-        void DrawSprite(Texture2D &texture, glm::vec2 position, glm::vec2 size, GLfloat rotate, glm::vec3 color)
+        void DrawSprite(Texture2D* texture, glm::vec2 position, glm::vec2 size, GLfloat rotate, glm::vec3 color)
         {
             // printf("%s (%d,%d)\n", texture.Path, texture.Width, texture.Height);
             // Prepare transformations
@@ -63,7 +63,7 @@ namespace xna::graphics {
             mShader.SetVector3f("spriteColor", color);
 
             glActiveTexture(GL_TEXTURE0);
-            texture.Bind();
+            texture->Bind();
 
             glBindVertexArray(mQuadVAO);
             glDrawArrays(GL_TRIANGLES, 0, 6);

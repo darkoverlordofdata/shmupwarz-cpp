@@ -29,5 +29,39 @@ namespace artemis
     {
         public: 
         virtual ~Component() {}
+
+        static Component* Create(const std::string& id) 
+        { 
+            const Creators_t::const_iterator iter = static_creators().find(id);
+            return iter == static_creators().end() ? 0 : (*iter->second)(); 
+        }
+
+        private:
+        typedef Component* Creator_t(); 
+        typedef std::map<std::string, Creator_t*> Creators_t; 
+
+        static Creators_t& static_creators() 
+        {
+            static Creators_t s_creators; 
+            return s_creators; 
+        } 
+
+        template<class T = int> class Register 
+        {
+            static Component* Create() 
+            { 
+                return new T(); 
+            };
+            static Creator_t* Init_creator(const std::string& id) 
+            { 
+                return static_creators()[id] = Create; 
+            }
+            static Creator_t* Creator;
+        };
+
+
+
     };
+
+
 }
